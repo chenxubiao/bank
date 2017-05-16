@@ -75,7 +75,8 @@ public class UserSettingController extends CommonController {
 
             super.setUserSession(request, userInfo);
         }
-        return ResponseEntity.success();
+        UserInfoBean userInfoBean = new UserInfoBean(userInfo);
+        return ResponseEntity.success().set(BankConsts.DATA, userInfoBean);
     }
 
     @RequestMapping(value = "/user/info/data", method = RequestMethod.GET)
