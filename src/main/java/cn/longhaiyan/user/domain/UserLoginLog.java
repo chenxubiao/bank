@@ -19,6 +19,19 @@ public class UserLoginLog implements Serializable{
     @Column(name = "modifyTime")
     private Date modifyTime;
 
+    private int loginTime;
+    private int userId;
+    private String ip;
+    private Date logoutTime;
+
+    public int getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(int loginTime) {
+        this.loginTime = loginTime;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -43,9 +56,6 @@ public class UserLoginLog implements Serializable{
         this.modifyTime = modifyTime;
     }
 
-    private int userId;
-    private String ip;
-    private Date logoutTime;
 
     public int getUserId() {
         return userId;

@@ -7,4 +7,8 @@ import cn.longhaiyan.user.domain.Teacher;
  */
 public interface TeacherService {
     Teacher findByUserId(int userId);
+
+    boolean isExist(int no);
+
+    void save(Teacher teacher);
 }

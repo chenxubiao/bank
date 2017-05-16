@@ -21,4 +21,30 @@ public class StudentServiceImpl implements StudentService {
         }
         return studentRepository.findByUserId(userId);
     }
+
+    @Override
+    public Student findByNoAndUserId(int no, int userId) {
+
+        if (no <= 0 || userId <= 0) {
+            return null;
+        }
+        return studentRepository.findBySnoAndUserId(no, userId);
+    }
+
+    @Override
+    public boolean isExist(int no) {
+        if (no <= 0) {
+            return false;
+        }
+        return studentRepository.countBySno(no) > 0;
+    }
+
+    @Override
+    public void save(Student student) {
+        if (student == null) {
+            return;
+        }
+        studentRepository.save(student);
+    }
+
 }

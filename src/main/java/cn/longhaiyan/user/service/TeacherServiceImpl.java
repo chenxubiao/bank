@@ -20,4 +20,20 @@ public class TeacherServiceImpl implements TeacherService {
         }
         return teacherRepositoy.findByUserId(userId);
     }
+
+    @Override
+    public boolean isExist(int no) {
+        if (no <= 0) {
+            return false;
+        }
+        return teacherRepositoy.countByTno(no) > 0;
+    }
+
+    @Override
+    public void save(Teacher teacher) {
+        if (teacher == null) {
+            return;
+        }
+        teacherRepositoy.save(teacher);
+    }
 }

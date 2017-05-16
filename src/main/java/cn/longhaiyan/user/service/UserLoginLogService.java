@@ -10,4 +10,8 @@ public interface UserLoginLogService {
     void save(UserLoginLog userLoginLog);
 
     void logout(int userId);
+
+    UserLoginLog findTodayLoginLog(int userId);
+
+    UserLoginLog findYesterdayLoginLog(int userId);
 }

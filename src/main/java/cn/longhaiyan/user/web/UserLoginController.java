@@ -1,5 +1,10 @@
 package cn.longhaiyan.user.web;
 
+import cn.longhaiyan.account.domain.Account;
+import cn.longhaiyan.account.domain.AccountLog;
+import cn.longhaiyan.account.enums.AccountLogTypeEnum;
+import cn.longhaiyan.account.service.AccountLogService;
+import cn.longhaiyan.account.service.AccountService;
 import cn.longhaiyan.common.bean.ResponseEntity;
 import cn.longhaiyan.common.bean.UserSession;
 import cn.longhaiyan.common.utils.HashUtil;
@@ -7,6 +12,9 @@ import cn.longhaiyan.common.utils.StringUtil;
 import cn.longhaiyan.common.utils.consts.BankConsts;
 import cn.longhaiyan.common.utils.consts.Errors;
 import cn.longhaiyan.common.web.GuestBaseController;
+import cn.longhaiyan.message.domain.Message;
+import cn.longhaiyan.message.enums.MessageTypeEnum;
+import cn.longhaiyan.message.service.MessageService;
 import cn.longhaiyan.user.bean.LoginBean;
 import cn.longhaiyan.user.bean.UserInfoBean;
 import cn.longhaiyan.user.domain.UserInfo;
@@ -34,6 +42,12 @@ public class UserLoginController extends GuestBaseController {
     private UserInfoService userInfoService;
     @Autowired
     private UserLoginLogService userLoginLogService;
+    @Autowired
+    private AccountLogService accountLogService;
+    @Autowired
+    private MessageService messageService;
+    @Autowired
+    private AccountService accountService;
 
     /**
      * 用户登录接口
@@ -98,6 +112,43 @@ public class UserLoginController extends GuestBaseController {
         UserLoginLog userLoginLog = new UserLoginLog();
         String ip = request.getHeader("X-Real-IP") == null ? "" : request.getHeader("X-Real-IP");
         userLoginLog.setIp(ip);
+
+
+        int loginTime = 1;
+        UserLoginLog todayLog = userLoginLogService.findTodayLoginLog(userInfo.getId());
+        if (todayLog != null) {
+            userLoginLog.setLoginTime(todayLog.getLoginTime());
+        } else {
+            UserLoginLog yesterdayLoginLog = userLoginLogService.findYesterdayLoginLog(userInfo.getId());
+            if (yesterdayLoginLog == null) {
+                userLoginLog.setLoginTime(loginTime);
+            } else {
+                loginTime = yesterdayLoginLog.getLoginTime() + loginTime;
+                Message message = new Message
+                        (MessageTypeEnum.LOGIN.getCode(), userInfo.getId(), 0, "连续登录第+" + loginTime + "天");
+
+                message.setSender(1);
+                message.setModifyTime(message.getCreateTime());
+                messageService.save(message);
+                Account account = accountService.findByUserId(userInfo.getId());
+                AccountLog accountLog = new AccountLog();
+                account.setTotalMoney(account.getTotalMoney() + loginTime * 5);
+                account.setModifyTime(new Date());
+                accountService.save(account);
+
+                accountLog.setAccount(account);
+                accountLog.setCreateTime(new Date());
+                accountLog.setModifyTime(accountLog.getCreateTime());
+                accountLog.setRemark("登录奖励，次数" + loginTime);
+                accountLog.setType(AccountLogTypeEnum.ADD_LOGIN.getCode());
+
+                accountLog.setUserId(userInfo.getId());
+                accountLogService.save(accountLog);
+
+                userLoginLog.setLoginTime(loginTime);
+            }
+        }
+
         userLoginLog.setUserId(userInfo.getId());
         userLoginLog.setCreateTime(new Date());
         userLoginLog.setModifyTime(userLoginLog.getCreateTime());

@@ -1,5 +1,6 @@
 package cn.longhaiyan.user.service;
 
+import cn.longhaiyan.common.utils.TimeUtil;
 import cn.longhaiyan.user.domain.UserLoginLog;
 import cn.longhaiyan.user.repository.UserLoginLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,26 @@ public class UserLoginLogServiceImpl implements UserLoginLogService {
         userLoginLog.setLogoutTime(new Date());
         userLoginLog.setModifyTime(userLoginLog.getLogoutTime());
         userLoginLogRepository.save(userLoginLog);
+    }
+
+    @Override
+    public UserLoginLog findTodayLoginLog(int userId) {
+        if (userId <= 0) {
+            return null;
+        }
+        Date todayBegin = TimeUtil.getTodayBegin();
+        Date todayEnd = TimeUtil.disposeDate(todayBegin, 1, TimeUtil.DATE_TYPE_AFTER);
+        return userLoginLogRepository.findFirstByUserIdAndAndCreateTimeBetweenOrderByIdAsc
+                (userId, todayBegin, todayEnd);
+    }
+
+    @Override
+    public UserLoginLog findYesterdayLoginLog(int userId) {
+        if (userId <= 0) {
+            return null;
+        }
+        Date todayBegin = TimeUtil.getTodayBegin();
+        Date yesterdayBegin = TimeUtil.disposeDate(todayBegin, 1, TimeUtil.DATE_TYPE_BEFORE);
+        return userLoginLogRepository.findFirstByUserIdAndAndCreateTimeBetweenOrderByIdAsc(userId, yesterdayBegin, todayBegin);
     }
 }

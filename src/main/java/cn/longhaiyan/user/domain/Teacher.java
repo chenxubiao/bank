@@ -13,7 +13,7 @@ public class Teacher implements Serializable {
 
     private static final long serialVersionUID = -2555244797090177997L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column(name = "createTime", updatable = false)
     private Date createTime;
@@ -23,8 +23,19 @@ public class Teacher implements Serializable {
     private int userId;
     private String name;
     private String dept;
-    private String remark;
-    private int status;
+    private String remark = "";
+
+    public Teacher() {
+
+    }
+
+    public Teacher(int tno, int userId, String name, String dept) {
+        this.tno = tno;
+        this.userId = userId;
+        this.name = name;
+        this.dept = dept;
+        this.createTime = new Date();
+    }
 
     public int getUserId() {
         return userId;
@@ -88,13 +99,5 @@ public class Teacher implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 }

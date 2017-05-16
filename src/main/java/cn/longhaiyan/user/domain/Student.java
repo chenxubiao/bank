@@ -1,5 +1,7 @@
 package cn.longhaiyan.user.domain;
 
+import cn.longhaiyan.common.utils.StringUtil;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -24,8 +26,20 @@ public class Student implements Serializable{
     private String name;
     private String dept;
     private String major;
-    private String remark;
-    private int status;
+    private String remark = "";
+
+    public Student() {
+
+    }
+
+    public Student(int sno, int userId, String name, String dept, String major) {
+        this.sno = sno;
+        this.userId = userId;
+        this.name = name;
+        this.dept = dept;
+        this.major = major;
+        this.createTime = new Date();
+    }
 
     public int getUserId() {
         return userId;
@@ -97,13 +111,5 @@ public class Student implements Serializable{
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 }

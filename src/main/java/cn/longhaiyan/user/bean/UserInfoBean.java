@@ -33,6 +33,7 @@ public class UserInfoBean {
         this.avatarId = userInfo.getAvatarId();
         this.birthday = userInfo.getBirthday();
         this.cellphone = userInfo.getCellphone();
+        this.sex = userInfo.getSex();
         this.description = userInfo.getDescription();
         this.email = userInfo.getEmail();
         this.teacher = userInfo.getTeacher();
@@ -48,6 +49,7 @@ public class UserInfoBean {
         this.description = userInfo.getDescription();
         this.email = userInfo.getEmail();
         this.teacher = userInfo.getTeacher();
+        this.sex = userInfo.getSex();
         this.student = userInfo.getStudent();
     }
 

@@ -38,7 +38,6 @@ CREATE TABLE `tb_user_student` (
   `dept` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '学院',
   `major` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '专业班级',
   `remark` VARCHAR(32) DEFAULT NULL COMMENT '备注',
-  `attchmentId` INT(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '附件id',
   `createTime` DATETIME NOT NULL COMMENT '创建时间',
   `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`),
@@ -53,7 +52,6 @@ CREATE TABLE `tb_user_teacher` (
   `name` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '姓名',
   `dept` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '学院或部门',
   `remark` VARCHAR(32) DEFAULT NULL COMMENT '备注',
-  `attchmentId` INT(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '附件id',
   `createTime` DATETIME NOT NULL COMMENT '创建时间',
   `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`),
@@ -196,6 +194,21 @@ CREATE TABLE `tb_task_info`(
   `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务信息表';
+
+
+DROP TABLE IF EXISTS `tb_message`;
+CREATE TABLE `tb_message`(
+  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `sender` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '发送者id,0: 系统',
+  `receiver` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '接收id',
+  `message` VARCHAR(1000) NOT NULL DEFAULT '' COMMENT '消息内容',
+  `type` TINYINT(3) NOT NULL DEFAULT 0 COMMENT '类型，1：点赞，2：关注',
+  `projectId` INT(11) NOT NULL DEFAULT 0 COMMENT '当为点赞时，点赞的projectId',
+  `status` TINYINT(3) NOT NULL DEFAULT 0 COMMENT '消息状态，0：草稿，1：已发送，待查看，2：已查看',
+  `createTime` DATETIME NOT NULL COMMENT '创建时间',
+  `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='消息信息表';
 
 
 SET FOREIGN_KEY_CHECKS = 1;

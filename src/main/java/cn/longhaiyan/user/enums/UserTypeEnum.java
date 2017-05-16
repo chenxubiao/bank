@@ -4,11 +4,12 @@ package cn.longhaiyan.user.enums;
  * Created by chenxb on 17-5-16.
  */
 public enum UserTypeEnum {
-    USER_TYPE_UNKWN(0,"未实名认证"),USER_TYPE_STUDENT(1,"学生"), USER_TYPE_TEACHER(2, "教师");
+    UNKNOWN(0,"未实名认证"), STUDENT(1,"学生"), TEACHER(2, "教师"), AUTHINT_STUDENT(3,"学生认证中"), AUTHINT_TEACHER(4, "教师认证中"),;
+
     private int code;
     private String value;
 
-    private UserTypeEnum(int code, String value) {
+    UserTypeEnum(int code, String value) {
         this.code = code;
         this.value = value;
     }

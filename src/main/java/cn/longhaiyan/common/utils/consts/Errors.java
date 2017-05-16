@@ -17,7 +17,7 @@ public class Errors {
     public static final String KAPTCHA_ERROR = "验证码错误";
 
     public static final String UPLOAD_ERROR = "上传时发生错误";
-    public static final String PICTURE_NOT_FOUND = "图片不存在";
+    public static final String PICTURE_NOT_FOUND = "附件不存在";
     public static final String PICTURE_SIZE_ERROR = "图片质量过低";
 
     public static final String LOGIN_ERROR = "账号或密码错误";
@@ -47,7 +47,8 @@ public class Errors {
     public static final String LOGIN_FIRST = "请先登录";
     public static final String EMAIL_NOT_FOUNT = "未找到注册邮箱";
 
-    public static final String FOLLOWING_NOT_UPLOAD_PROJECT = "您关注的用户暂未分享图片";
+    public static final String AUTH_ALREADY_EXISTS = "该账户已被认证";
+
     public static final String PROJECT_NOT_FOUND = "图片项目信息未找到";
 
     public static final String TAG_CATEGORY_NOT_FOUND = "分类不存在";

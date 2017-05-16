@@ -5,17 +5,23 @@ import cn.longhaiyan.account.domain.AccountLog;
 import cn.longhaiyan.account.service.AccountLogService;
 import cn.longhaiyan.account.service.AccountService;
 import cn.longhaiyan.common.bean.ResponseEntity;
-import cn.longhaiyan.common.bean.UserSession;
 import cn.longhaiyan.common.utils.HashUtil;
 import cn.longhaiyan.common.utils.StringUtil;
 import cn.longhaiyan.common.utils.consts.BankConsts;
 import cn.longhaiyan.common.utils.consts.Errors;
 import cn.longhaiyan.common.web.GuestBaseController;
+import cn.longhaiyan.message.domain.Message;
+import cn.longhaiyan.message.enums.MessageStatusEnum;
+import cn.longhaiyan.message.enums.MessageTypeEnum;
+import cn.longhaiyan.message.service.MessageService;
 import cn.longhaiyan.user.bean.RegisterBean;
 import cn.longhaiyan.user.bean.UserInfoBean;
 import cn.longhaiyan.user.domain.UserInfo;
 import cn.longhaiyan.user.domain.UserLoginLog;
 import cn.longhaiyan.user.domain.UserRole;
+import cn.longhaiyan.user.enums.UserRoleEnum;
+import cn.longhaiyan.user.enums.UserSexEnum;
+import cn.longhaiyan.user.enums.UserStatusEnum;
 import cn.longhaiyan.user.service.UserInfoService;
 import cn.longhaiyan.user.service.UserLoginLogService;
 import cn.longhaiyan.user.service.UserRoleService;
@@ -46,6 +52,8 @@ public class UserRegisterController extends GuestBaseController {
     private AccountService accountService;
     @Autowired
     private AccountLogService accountLogService;
+    @Autowired
+    private MessageService messageService;
 
 
     /**
@@ -91,8 +99,8 @@ public class UserRegisterController extends GuestBaseController {
         userInfo.setCellphone("");
         userInfo.setPassword(passwdHash);
         userInfo.setBirthday(new Date(0L));
-        userInfo.setSex(BankConsts.UserSex.SEX_UNKNOWN);
-        userInfo.setStatus(BankConsts.UserStatus.USER_IS_NORMAL);
+        userInfo.setSex(UserSexEnum.UNKNOWN.getCode());
+        userInfo.setStatus(UserStatusEnum.NORMAL.getCode());
         userInfo.setCreateTime(new Date());
         userInfo.setModifyTime(userInfo.getCreateTime());
         userInfo.setUserRole(BankConsts.CRM_NORMAL);
@@ -101,11 +109,11 @@ public class UserRegisterController extends GuestBaseController {
         userRole.setUserInfo(userInfo);
         userRole.setCreateTime(new Date());
         userRole.setModifyTime(userRole.getCreateTime());
-        userRole.setRoleId(BankConsts.UserRole.USER_IS_COMMON);
+        userRole.setRoleId(UserRoleEnum.COMMON.getCode());
         userRoleService.save(userRole);
 
         //Account
-        int totalMoney = 100;
+        int totalMoney = 120;
         Account account = new Account();
         account.setUserId(userInfo.getId());
         account.setTotalMoney(totalMoney);
@@ -123,15 +131,37 @@ public class UserRegisterController extends GuestBaseController {
         accountLog.setRemark("注册奖励：" + totalMoney);
         accountLogService.save(accountLog);
 
+
+
+        Message message = new Message();
+        message.setReceiver(userInfo.getId());
+        message.setStatus(MessageStatusEnum.SEND.getCode());
+        message.setType(MessageTypeEnum.REGEISTER.getCode());
+        message.setCreateTime(new Date());
+        message.setModifyTime(message.getCreateTime());
+        message.setSender(1);
+        message.setMessage("hi～" + userInfo.getUserName()
+                + ",欢迎来到...(还没想好0.0)，请吃饭请联系：hfutchenxb@163.com，提交bug请联系本人私人助理：haiyan@bbs.cn");
+        Message messageAccount = new Message
+                (MessageTypeEnum.ACCOUNT_CHANGE.getCode(), userInfo.getId(), 0, "注册奖励：" + totalMoney);
+        messageAccount.setCreateTime(new Date());
+        messageAccount.setSender(1);
+        messageAccount.setModifyTime(messageAccount.getCreateTime());
+        messageService.save(message);
+        messageService.save(messageAccount);
+
+
         List<UserRole> userRoleList = new ArrayList<>();
         userRoleList.add(userRole);
         userInfo.setUserRoleList(userRoleList);
-        UserSession userSession = super.buildUserSession(userInfo);
-        super.setUserSession(request, userSession);
+
+        super.setUserSession(request, userInfo);
+
         UserLoginLog userLoginLog = new UserLoginLog();
         userLoginLog.setUserId(userInfo.getId());
         userLoginLog.setIp(request.getRemoteAddr());
         userLoginLog.setCreateTime(new Date());
+        userLoginLog.setLoginTime(1);
         userLoginLog.setModifyTime(userLoginLog.getCreateTime());
         userLoginLogService.save(userLoginLog);
         UserInfoBean userInfoBean = new UserInfoBean(userInfo);

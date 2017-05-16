@@ -57,9 +57,9 @@ public class BankConsts {
         public static final int SEX_FEMALE = 2;
     }
 
-    public static final class UserType {
-        public static final int STUDENT = 1;
-        public static final int TEACHER = 2;
+    public static final class AuthColumn {
+        public static final int DEPT = 1;
+        public static final int MAJOR = 2;
         public static final int UNKNOWN = 0;
     }
 

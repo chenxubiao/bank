@@ -2,6 +2,7 @@ package cn.longhaiyan.common.utils.consts;
 
 
 import cn.longhaiyan.common.utils.ConstStrings;
+import cn.longhaiyan.user.enums.UserTypeEnum;
 
 import java.util.*;
 
@@ -9,6 +10,14 @@ import java.util.*;
  * Created by chenxb on 17-3-5.
  */
 public class BankMapping {
+
+    public static final Map<Integer, String> USER_AUTHED_TYPE_MAPPINT = new HashMap<>();
+    static {
+        USER_AUTHED_TYPE_MAPPINT.put(UserTypeEnum.STUDENT.getCode(), UserTypeEnum.STUDENT.getValue());
+        USER_AUTHED_TYPE_MAPPINT.put(UserTypeEnum.AUTHINT_STUDENT.getCode(), UserTypeEnum.AUTHINT_STUDENT.getValue());
+        USER_AUTHED_TYPE_MAPPINT.put(UserTypeEnum.TEACHER.getCode(), UserTypeEnum.TEACHER.getValue());
+        USER_AUTHED_TYPE_MAPPINT.put(UserTypeEnum.AUTHINT_TEACHER.getCode(), UserTypeEnum.AUTHINT_TEACHER.getValue());
+    }
 
     public static final Map<Integer, String> USER_ROLE_MAPPING = new HashMap<>();
 
