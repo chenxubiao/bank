@@ -1,30 +1,10 @@
-DROP DATABASE IF EXISTS `bank`;
-CREATE DATABASE `bank` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-GRANT ALL PRIVILEGES ON bank.* to bank@'%' IDENTIFIED BY 'bank_password';
 
 use bank;
 
-DROP TABLE IF EXISTS `tb_user_info`;
-CREATE TABLE `tb_user_info` (
-  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增数据库主键',
-  `avatarId` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户头像',
-  `userName` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '用户昵称',
-  `email` VARCHAR(60) NOT NULL DEFAULT '' COMMENT '邮箱',
-  `cellphone` VARCHAR(16) NOT NULL DEFAULT '' COMMENT '手机号',
-  `password` VARCHAR(128) NOT NULL DEFAULT '' COMMENT '密码',
-  `sex` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '0：未知，1：男，2：女',
-  `description` VARCHAR(400) DEFAULT NULL COMMENT '关于我',
-  `birthday` DATE DEFAULT NULL COMMENT '出生日期',
-  `userType` TINYINT(3) NOT NULL DEFAULT 0 COMMENT '用户类型，0：未知，1：学生，2：老师',
-  `status` TINYINT(10) UNSIGNED NOT NULL DEFAULT '1' COMMENT '用户状态,0：无效，1：有效',
-  `roleId` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '用户角色，0普通用户，1超级管理员',
-  `createTime` DATETIME NOT NULL COMMENT '创建时间',
-  `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_email` (`email`),
-  UNIQUE KEY `uk_userName` (`userName`),
-  KEY `idx_password` (`password`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户信息表';
+# SELECT concat('DROP TABLE IF EXISTS ', table_name, ';')
+# FROM information_schema.tables
+# WHERE table_schema = 'bank';
+SET FOREIGN_KEY_CHECKS = 0;
 
 DROP TABLE IF EXISTS `tb_user_login_log`;
 CREATE TABLE `tb_user_login_log`(
@@ -80,6 +60,29 @@ CREATE TABLE `tb_user_teacher` (
   UNIQUE KEY `uk_tno` (`tno`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='教师信息表';
 
+
+DROP TABLE IF EXISTS `tb_user_info`;
+CREATE TABLE `tb_user_info` (
+  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增数据库主键',
+  `avatarId` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户头像',
+  `userName` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '用户昵称',
+  `email` VARCHAR(60) NOT NULL DEFAULT '' COMMENT '邮箱',
+  `cellphone` VARCHAR(16) NOT NULL DEFAULT '' COMMENT '手机号',
+  `password` VARCHAR(128) NOT NULL DEFAULT '' COMMENT '密码',
+  `sex` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '0：未知，1：男，2：女',
+  `description` VARCHAR(400) DEFAULT NULL COMMENT '关于我',
+  `birthday` DATE DEFAULT NULL COMMENT '出生日期',
+  `userType` TINYINT(3) NOT NULL DEFAULT 0 COMMENT '用户类型，0：未知，1：学生，2：老师',
+  `status` TINYINT(10) UNSIGNED NOT NULL DEFAULT '1' COMMENT '用户状态,0：无效，1：有效',
+  `roleId` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '用户角色，0普通用户，1超级管理员',
+  `createTime` DATETIME NOT NULL COMMENT '创建时间',
+  `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_email` (`email`),
+  UNIQUE KEY `uk_userName` (`userName`),
+  KEY `idx_password` (`password`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户信息表';
+
 DROP TABLE IF EXISTS `tb_user_auth_attachment`;
 CREATE TABLE `tb_user_auth_attachment` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
@@ -104,18 +107,6 @@ CREATE TABLE `tb_account_log`(
   PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户账户变更记录表';
 
-DROP TABLE IF EXISTS `tb_account`;
-CREATE TABLE `tb_account`(
-  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `userId` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
-  `totalMoney` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '总积分',
-  `createTime` DATETIME NOT NULL COMMENT '创建时间',
-  `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `userId` (`userId`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户账户表';
-
-
 DROP TABLE IF EXISTS `tb_account_pay`;
 CREATE TABLE `tb_account_pay`(
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
@@ -128,20 +119,16 @@ CREATE TABLE `tb_account_pay`(
   PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户充值记录表';
 
-
-DROP TABLE IF EXISTS `tb_task_info`;
-CREATE TABLE `tb_task_info`(
+DROP TABLE IF EXISTS `tb_account`;
+CREATE TABLE `tb_account`(
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `sender` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
-  `title` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '主题',
-  `desctiption` VARCHAR(1000) NOT NULL DEFAULT '' COMMENT '描述',
-  `remark` VARCHAR(100) DEFAULT NULL COMMENT '备注',
-  `money` INT(11) NOT NULL DEFAULT 0 COMMENT '变动积分',
-  `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '1:已发送，待接单，2：未接单，已关闭,退款中，3：未接单，已退款，4：已接单，未完成，关闭中，退款中，5：已关闭，已退款，6：已接单，进行中，7：已接单，已完成，8：已接单，未完成',
+  `userId` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
+  `totalMoney` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '总积分',
   `createTime` DATETIME NOT NULL COMMENT '创建时间',
   `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务信息表';
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `userId` (`userId`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户账户表';
 
 DROP TABLE IF EXISTS `tb_task_log`;
 CREATE TABLE `tb_task_log`(
@@ -194,3 +181,21 @@ CREATE TABLE `tb_task_category_log`(
   PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务信息日志表';
 
+
+
+DROP TABLE IF EXISTS `tb_task_info`;
+CREATE TABLE `tb_task_info`(
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `sender` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
+  `title` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '主题',
+  `desctiption` VARCHAR(1000) NOT NULL DEFAULT '' COMMENT '描述',
+  `remark` VARCHAR(100) DEFAULT NULL COMMENT '备注',
+  `money` INT(11) NOT NULL DEFAULT 0 COMMENT '变动积分',
+  `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '1:已发送，待接单，2：未接单，已关闭,退款中，3：未接单，已退款，4：已接单，未完成，关闭中，退款中，5：已关闭，已退款，6：已接单，进行中，7：已接单，已完成，8：已接单，未完成',
+  `createTime` DATETIME NOT NULL COMMENT '创建时间',
+  `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务信息表';
+
+
+SET FOREIGN_KEY_CHECKS = 1;
