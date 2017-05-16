@@ -83,6 +83,13 @@ public class RootController {
         return null;
     }
 
+    public void setUserSession(HttpServletRequest request, UserInfo userInfo) {
+        if (request != null && userInfo != null) {
+            UserSession userSession = buildUserSession(userInfo);
+            request.getSession().setAttribute(BankConsts.USER_SESSION_KEY, userSession);
+        }
+    }
+
     public void setUserSession(HttpServletRequest request, UserSession userSession) {
         if (request != null && userSession != null) {
             request.getSession().setAttribute(BankConsts.USER_SESSION_KEY, userSession);

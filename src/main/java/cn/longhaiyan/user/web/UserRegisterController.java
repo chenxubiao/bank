@@ -26,8 +26,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -75,8 +73,6 @@ public class UserRegisterController extends GuestBaseController {
                 return ResponseEntity.failure(Errors.KAPTCHA_ERROR);
             }
         }
-        String password = registerBean.getPassword().trim();
-        String passwdHash = HashUtil.encrypt(password);
         String email = registerBean.getEmail().trim();
         boolean isEmailExist = userInfoService.isEmailExist(email);
         if (isEmailExist) {
@@ -86,6 +82,9 @@ public class UserRegisterController extends GuestBaseController {
         if (isUserNameExist) {
             return ResponseEntity.failure(Errors.USER_USERNAME_IS_EXISTS);
         }
+
+        String password = registerBean.getPassword().trim();
+        String passwdHash = HashUtil.encrypt(password);
         UserInfo userInfo = new UserInfo();
         userInfo.setEmail(email);
         userInfo.setUserName(userName);

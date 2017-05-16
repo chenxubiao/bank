@@ -29,6 +29,7 @@ public class UserInfoBean {
 
     public UserInfoBean(UserSession userInfo) {
         this.userId = userInfo.getUserId();
+        this.userName = userInfo.getUserName();
         this.avatarId = userInfo.getAvatarId();
         this.birthday = userInfo.getBirthday();
         this.cellphone = userInfo.getCellphone();
@@ -40,6 +41,7 @@ public class UserInfoBean {
 
     public UserInfoBean(UserInfo userInfo) {
         this.userId = userInfo.getId();
+        this.userName = userInfo.getUserName();
         this.avatarId = userInfo.getAvatarId();
         this.birthday = userInfo.getBirthday();
         this.cellphone = userInfo.getCellphone();

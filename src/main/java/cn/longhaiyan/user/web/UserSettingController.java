@@ -11,10 +11,13 @@ import cn.longhaiyan.common.web.CommonController;
 import cn.longhaiyan.user.bean.UserInfoBean;
 import cn.longhaiyan.user.bean.UserProfileBean;
 import cn.longhaiyan.user.domain.UserInfo;
+import cn.longhaiyan.user.enums.UserSexEnum;
+import cn.longhaiyan.user.enums.UserTypeEnum;
 import cn.longhaiyan.user.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,15 +36,15 @@ public class UserSettingController extends CommonController {
     /**
      * 用户信息完善接口
      */
-    @RequestMapping(value = "/user/profile/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/setting/update", method = RequestMethod.POST)
     public ResponseEntity userProfile(HttpServletRequest request, UserProfileBean userProfile) {
 
         if (userProfile == null
-                || !BankMapping.USER_SEX_MAPPING.keySet().contains(userProfile.getSex())) {
+                || UserSexEnum.isNotContain(userProfile.getSex())) {
 
             return ResponseEntity.failure(Errors.PARAMETER_ILLEGAL);
         }
-        UserSession userSession = getUserSession(request);
+        UserSession userSession = super.getUserSession(request);
         UserInfo userInfo = userInfoService.findById(userSession.getUserId());
         boolean isUserInfoModify = false;
         int avatarId = userProfile.getAvatarId();
@@ -70,15 +73,18 @@ public class UserSettingController extends CommonController {
             userInfo.setModifyTime(new Date());
             userInfoService.save(userInfo);
 
-            userSession = super.buildUserSession(userInfo);
-            super.setUserSession(request, userSession);
+            super.setUserSession(request, userInfo);
         }
         return ResponseEntity.success();
     }
 
     @RequestMapping(value = "/user/info/data", method = RequestMethod.GET)
-    public ResponseEntity getUserInfo(HttpServletRequest request) {
+    public ResponseEntity getUserInfo(HttpServletRequest request,
+                                      @RequestParam(value = "userId", defaultValue = "0") int userId) {
+        if (userId <= 0) {
 
+            return ResponseEntity.failure(Errors.USER_INFO_NOT_FOUND);
+        }
         UserSession userSession = super.getUserSession(request);
         UserInfoBean userInfoBean = new UserInfoBean(userSession);
         return ResponseEntity.success().set(BankConsts.DATA, userInfoBean);
