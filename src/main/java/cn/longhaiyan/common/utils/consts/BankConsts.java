@@ -15,8 +15,8 @@ public class BankConsts {
     public static final String FALSE = "false";
     public static final String USER_SESSION_KEY = "thisUser";
     public static final int PICTURE_UPLOAD_NAME_LEN = 128;
-    public static final String PROTECTED_BASE_PATH = "/var/upload/tb/pictures";
-    public static final String PROTECTED_PIC_DISPOSE_PTTH = "/var/upload/tb/pics";
+    public static final String PROTECTED_BASE_PATH = "/var/upload/bank/pictures";
+    public static final String PROTECTED_PIC_DISPOSE_PTTH = "/var/upload/bank/pics";
     public static final long PICTURE_UPLOAD_MAX_SIZE = 3145728L;    //3M
     public static final String BANK_NAME = "时间银行";
     public static final String PAGINATION = "pagination";
