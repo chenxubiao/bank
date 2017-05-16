@@ -23,4 +23,6 @@ public interface UserInfoService {
     UserInfo findById(int id);
 
     UserInfo findByIdAndNormal(int id);
+
+    int countAll();
 }

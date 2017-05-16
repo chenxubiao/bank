@@ -112,6 +112,11 @@ public class UserInfoServiceImpl implements UserInfoService {
         return userInfo;
 //        return setUserProfile(userInfo);
     }
+
+    @Override
+    public int countAll() {
+        return userInfoRepository.countAllByIdGreaterThan(0);
+    }
 //
 //    private UserInfo setUserProfile(UserInfo userInfo) {
 //        if (userInfo == null) {

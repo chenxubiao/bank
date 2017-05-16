@@ -32,4 +32,6 @@ public interface UserInfoRepository extends PagingAndSortingRepository<UserInfo,
     UserInfo findById(int id);
 
     UserInfo findByIdAndStatus(int id, int status);
+
+    int countAllByIdGreaterThan(int id);
 }

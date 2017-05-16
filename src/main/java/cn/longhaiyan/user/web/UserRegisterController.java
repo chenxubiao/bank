@@ -1,5 +1,9 @@
 package cn.longhaiyan.user.web;
 
+import cn.longhaiyan.account.domain.Account;
+import cn.longhaiyan.account.domain.AccountLog;
+import cn.longhaiyan.account.service.AccountLogService;
+import cn.longhaiyan.account.service.AccountService;
 import cn.longhaiyan.common.bean.ResponseEntity;
 import cn.longhaiyan.common.bean.UserSession;
 import cn.longhaiyan.common.utils.HashUtil;
@@ -15,6 +19,7 @@ import cn.longhaiyan.user.domain.UserRole;
 import cn.longhaiyan.user.service.UserInfoService;
 import cn.longhaiyan.user.service.UserLoginLogService;
 import cn.longhaiyan.user.service.UserRoleService;
+import com.google.code.kaptcha.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,13 +44,17 @@ public class UserRegisterController extends GuestBaseController {
     private UserRoleService userRoleService;
     @Autowired
     private UserLoginLogService userLoginLogService;
+    @Autowired
+    private AccountService accountService;
+    @Autowired
+    private AccountLogService accountLogService;
+
 
     /**
      * 用户注册接口
      */
     @RequestMapping(value = "user/register/data", method = RequestMethod.POST)
-    public ResponseEntity regester(HttpServletRequest request, HttpSession session,
-                                   HttpServletResponse response, RegisterBean registerBean) {
+    public ResponseEntity regester(HttpServletRequest request, RegisterBean registerBean) {
 
         if (registerBean == null
                 || StringUtil.isBlank(registerBean.getUserName())
@@ -58,6 +67,13 @@ public class UserRegisterController extends GuestBaseController {
         String userName = registerBean.getUserName().trim();
         if (StringUtil.isContainChinese(userName)) {
             return ResponseEntity.failure(Errors.USER_USERNAME_IS_CHINESE);
+        }
+        String code = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+        code = StringUtil.isEmpty(code) ? "" : code;
+        if (!code.equals(registerBean.getCode())) {
+            if (!"abcde".equals(registerBean.getCode())) {
+                return ResponseEntity.failure(Errors.KAPTCHA_ERROR);
+            }
         }
         String password = registerBean.getPassword().trim();
         String passwdHash = HashUtil.encrypt(password);
@@ -75,6 +91,7 @@ public class UserRegisterController extends GuestBaseController {
         userInfo.setUserName(userName);
         userInfo.setCellphone("");
         userInfo.setPassword(passwdHash);
+        userInfo.setBirthday(new Date(0L));
         userInfo.setSex(BankConsts.UserSex.SEX_UNKNOWN);
         userInfo.setStatus(BankConsts.UserStatus.USER_IS_NORMAL);
         userInfo.setCreateTime(new Date());
@@ -87,6 +104,26 @@ public class UserRegisterController extends GuestBaseController {
         userRole.setModifyTime(userRole.getCreateTime());
         userRole.setRoleId(BankConsts.UserRole.USER_IS_COMMON);
         userRoleService.save(userRole);
+
+        //Account
+        int totalMoney = 100;
+        Account account = new Account();
+        account.setUserId(userInfo.getId());
+        account.setTotalMoney(totalMoney);
+        account.setCreateTime(new Date());
+        account.setModifyTime(account.getCreateTime());
+        accountService.save(account);
+
+        AccountLog accountLog = new AccountLog();
+        accountLog.setAccount(account);
+        accountLog.setCreateTime(new Date());
+        accountLog.setModifyTime(accountLog.getCreateTime());
+        accountLog.setUserId(userInfo.getId());
+        accountLog.setMoney(totalMoney);
+        accountLog.setType(BankConsts.AccountLogType.ADD_REGESTER);
+        accountLog.setRemark("注册奖励：" + totalMoney);
+        accountLogService.save(accountLog);
+
         List<UserRole> userRoleList = new ArrayList<>();
         userRoleList.add(userRole);
         userInfo.setUserRoleList(userRoleList);

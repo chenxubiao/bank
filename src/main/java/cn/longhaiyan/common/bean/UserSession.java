@@ -1,6 +1,8 @@
 package cn.longhaiyan.common.bean;
 
 import cn.longhaiyan.common.utils.consts.BankConsts;
+import cn.longhaiyan.user.domain.Student;
+import cn.longhaiyan.user.domain.Teacher;
 import cn.longhaiyan.user.domain.UserInfo;
 
 import java.util.Date;
@@ -26,6 +28,9 @@ public class UserSession {
     private Date createTime;
     private Date modifyTime;
     private Set<Integer> roleSet;
+    private int userType;
+    private Student student;
+    private Teacher teacher;
 
     public UserSession() {
 
@@ -42,6 +47,9 @@ public class UserSession {
         this.userRole = userInfo.getUserRole();
         this.description = userInfo.getDescription();
         this.userStatus = userInfo.getStatus();
+        this.userType = userInfo.getUserType();
+        this.student = userInfo.getStudent();
+        this.teacher = userInfo.getTeacher();
     }
 
     public Date getBirthday() {
@@ -168,7 +176,32 @@ public class UserSession {
         return this.userStatus == BankConsts.UserStatus.USER_IS_LOCKING;
     }
 
+    public int getUserType() {
+        return userType;
+    }
+
+    public void setUserType(int userType) {
+        this.userType = userType;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
     public boolean isClose() {
+
         return this.userStatus == BankConsts.UserStatus.USER_IS_CLOSE;
     }
 }

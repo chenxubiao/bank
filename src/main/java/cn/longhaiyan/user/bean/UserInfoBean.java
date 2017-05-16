@@ -1,5 +1,6 @@
 package cn.longhaiyan.user.bean;
 
+import cn.longhaiyan.common.bean.UserSession;
 import cn.longhaiyan.user.domain.Student;
 import cn.longhaiyan.user.domain.Teacher;
 import cn.longhaiyan.user.domain.UserInfo;
@@ -24,6 +25,17 @@ public class UserInfoBean {
     private Teacher teacher;
 
     public UserInfoBean() {
+    }
+
+    public UserInfoBean(UserSession userInfo) {
+        this.userId = userInfo.getUserId();
+        this.avatarId = userInfo.getAvatarId();
+        this.birthday = userInfo.getBirthday();
+        this.cellphone = userInfo.getCellphone();
+        this.description = userInfo.getDescription();
+        this.email = userInfo.getEmail();
+        this.teacher = userInfo.getTeacher();
+        this.student = userInfo.getStudent();
     }
 
     public UserInfoBean(UserInfo userInfo) {
