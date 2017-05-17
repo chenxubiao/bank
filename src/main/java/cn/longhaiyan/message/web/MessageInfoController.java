@@ -59,12 +59,15 @@ public class MessageInfoController extends CommonController {
         } else {
             sysViewed = new MsgInfo(new SenderInfo(sys), sysViewedMessageList.size(), sysViewedMessageList);
         }
+
+        int userMsgUnlookCount = 0;
         List<MsgInfo> userUnlookMsgInfoList;
         Set<Integer> userUnlookIdSet;
         if (CollectionUtil.isEmpty(userUnlookMessageList)) {
             userUnlookMsgInfoList = null;
             userUnlookIdSet = null;
         } else {
+            userMsgUnlookCount = userUnlookMessageList.size();
             userUnlookMsgInfoList = new ArrayList<>();
             userUnlookIdSet = new LinkedHashSet<>();
             for (Message message : userUnlookMessageList) {
@@ -105,6 +108,7 @@ public class MessageInfoController extends CommonController {
         }
 
         return ResponseEntity.success()
+                .set("userMsgUnlookCount", userMsgUnlookCount)
                 .set("sysMsgUnlook", sysUnLook)
                 .set("sysMsgViewed", sysViewed)
                 .set("userMsgUnlook", userUnlookMsgInfoList)
