@@ -41,6 +41,9 @@ public class MessageUserChatController extends CommonController {
         }
         UserSession userSession = super.getUserSession(request);
         int selfId = userSession.getUserId();
+        if (userId == selfId) {
+            return ResponseEntity.failure(Errors.MESSAGE_NONE_RECEIVE);
+        }
         List<Message> chatLog = messageService.findUserChatLog(userId, selfId);
         return ResponseEntity.success().set(BankConsts.DATA, chatLog).set("selfId", selfId);
     }
