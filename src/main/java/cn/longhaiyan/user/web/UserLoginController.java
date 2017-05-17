@@ -125,7 +125,7 @@ public class UserLoginController extends GuestBaseController {
             } else {
                 loginTime = yesterdayLoginLog.getLoginTime() + loginTime;
                 Message message = new Message
-                        (MessageTypeEnum.LOGIN.getCode(), userInfo.getId(), 0, "连续登录第+" + loginTime + "天");
+                        (MessageTypeEnum.LOGIN.getCode(), BankConsts.USER_IS_SYSTEM, userInfo.getId(), 0, "连续登录第+" + loginTime + "天");
 
                 message.setSender(1);
                 message.setModifyTime(message.getCreateTime());

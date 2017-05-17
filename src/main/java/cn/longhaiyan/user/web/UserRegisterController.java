@@ -143,7 +143,7 @@ public class UserRegisterController extends GuestBaseController {
         message.setMessage("hi～" + userInfo.getUserName()
                 + ",欢迎来到...(还没想好0.0)，请吃饭请联系：hfutchenxb@163.com，提交bug请联系本人私人助理：haiyan@bbs.cn");
         Message messageAccount = new Message
-                (MessageTypeEnum.ACCOUNT_CHANGE.getCode(), userInfo.getId(), 0, "注册奖励：" + totalMoney);
+                (MessageTypeEnum.ACCOUNT_CHANGE.getCode(), BankConsts.USER_IS_SYSTEM, userInfo.getId(), 0, "注册奖励：" + totalMoney);
         messageAccount.setCreateTime(new Date());
         messageAccount.setSender(1);
         messageAccount.setModifyTime(messageAccount.getCreateTime());

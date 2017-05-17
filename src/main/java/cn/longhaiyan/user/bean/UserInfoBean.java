@@ -34,6 +34,7 @@ public class UserInfoBean {
         this.birthday = userInfo.getBirthday();
         this.cellphone = userInfo.getCellphone();
         this.sex = userInfo.getSex();
+        this.userType = userInfo.getUserType();
         this.description = userInfo.getDescription();
         this.email = userInfo.getEmail();
         this.teacher = userInfo.getTeacher();
@@ -47,6 +48,7 @@ public class UserInfoBean {
         this.birthday = userInfo.getBirthday();
         this.cellphone = userInfo.getCellphone();
         this.description = userInfo.getDescription();
+        this.userType = userInfo.getUserType();
         this.email = userInfo.getEmail();
         this.teacher = userInfo.getTeacher();
         this.sex = userInfo.getSex();

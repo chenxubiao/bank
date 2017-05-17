@@ -4,7 +4,7 @@ package cn.longhaiyan.user.enums;
  * Created by chenxb on 17-5-16.
  */
 public enum UserTypeEnum {
-    UNKNOWN(0,"未实名认证"), STUDENT(1,"学生"), TEACHER(2, "教师"), AUTHINT_STUDENT(3,"学生认证中"), AUTHINT_TEACHER(4, "教师认证中"),;
+    UNKNOWN(0,"未实名认证"), STUDENT(1,"学生"), TEACHER(2, "教师"), AUTHINT_STUDENT(3,"学生认证中"), AUTHINT_TEACHER(4, "教师认证中"), AUTH_FAILD(5, "认证不通过"),;
 
     private int code;
     private String value;
