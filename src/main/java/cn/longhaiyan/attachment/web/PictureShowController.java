@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  * Created by chenxb on 17-4-20.
  */
 @Controller
-public class BankBaseController extends GuestBaseController {
+public class PictureShowController extends GuestBaseController {
 
     @Autowired
     private AttachmentService attachmentService;

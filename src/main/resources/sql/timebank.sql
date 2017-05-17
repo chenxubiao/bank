@@ -132,10 +132,10 @@ DROP TABLE IF EXISTS `tb_task_log`;
 CREATE TABLE `tb_task_log`(
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `sender` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
-  `taskId` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '任务id',
+#   `taskId` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '任务id',
   `theam` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '主题',
   `remark` VARCHAR(100) DEFAULT NULL COMMENT '备注',
-  `projectId` INT(11) NOT NULL DEFAULT 0 COMMENT '相关id',
+#   `completeId` INT(11) NOT NULL DEFAULT 0 COMMENT '完成或其他id',
   `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '1:已发送，待接单，2：未接单，已关闭,退款中，3：未接单，已退款，4：已接单，未完成，关闭中，退款中，5：已关闭，已退款，6：已接单，进行中，7：已接单，对方已关闭（3min内），8：已接单，已完成，9：已接单，未完成',
   `createTime` DATETIME NOT NULL COMMENT '创建时间',
   `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
@@ -148,10 +148,9 @@ CREATE TABLE `tb_task_complete`(
   `sender` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '任务创建者',
   `receiver` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '接单者',
   `taskId` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '任务id',
-  `theam` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '主题',
   `remark` VARCHAR(100) DEFAULT NULL COMMENT '备注',
-  `projectId` INT(11) NOT NULL DEFAULT 0 COMMENT '相关id',
   `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '1:已接单，进行中，2：已接单，对方申请关闭，3：同意对方关闭，4：不同意对方关闭，进行中，5：已关闭，6：申请关闭中，进行中，7：对方同意关闭，已结束，8：对方不同意关闭，进行中，9：完成失败，10完成成功',
+  `completeTime` DATETIME DEFAULT NULL COMMENT '完成时间',
   `createTime` DATETIME NOT NULL COMMENT '创建时间',
   `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`),
@@ -171,14 +170,12 @@ CREATE TABLE `tb_task_category_info`(
 DROP TABLE IF EXISTS `tb_task_category_log`;
 CREATE TABLE `tb_task_category_log`(
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `taskId` INT(11) NOT NULL DEFAULT 0 COMMENT '任务id',
+#   `taskId` INT(11) NOT NULL DEFAULT 0 COMMENT '任务id',
   `categoryId` INT(11) NOT NULL DEFAULT 0 COMMENT '任务id',
-  `remark` VARCHAR(100) DEFAULT NULL COMMENT '备注',
   `createTime` DATETIME NOT NULL COMMENT '创建时间',
   `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务信息日志表';
-
 
 
 DROP TABLE IF EXISTS `tb_task_info`;
@@ -187,9 +184,11 @@ CREATE TABLE `tb_task_info`(
   `sender` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
   `title` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '主题',
   `desctiption` VARCHAR(1000) NOT NULL DEFAULT '' COMMENT '描述',
+  `personal` VARCHAR(500) NOT NULL DEFAULT '' COMMENT '隐藏信息',
   `remark` VARCHAR(100) DEFAULT NULL COMMENT '备注',
   `money` INT(11) NOT NULL DEFAULT 0 COMMENT '变动积分',
   `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '1:已发送，待接单，2：未接单，已关闭,退款中，3：未接单，已退款，4：已接单，未完成，关闭中，退款中，5：已关闭，已退款，6：已接单，进行中，7：已接单，已完成，8：已接单，未完成',
+  `deadTime` DATETIME NOT NULL COMMENT '截止日期',
   `createTime` DATETIME NOT NULL COMMENT '创建时间',
   `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)

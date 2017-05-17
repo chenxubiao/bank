@@ -35,10 +35,8 @@ public class TimeBankIndexController extends GuestBaseController {
             registerBean.setPassword("abcde");
             registerController.regester(request, registerBean);
         }
-        UserInfo userInfo = userInfoService.findByUserName("timebank");
-        UserSession userSession = super.buildUserSession(userInfo);
-        super.setUserSession(request, userSession);
-
+        UserInfo userInfo = userInfoService.findById(1);
+        super.setUserSession(request, userInfo);
 
         map.put("hello", "timebank");
         return "/index";
