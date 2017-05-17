@@ -97,7 +97,8 @@ CREATE TABLE `tb_account_log`(
   `userId` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
   `money` INT(11) NOT NULL DEFAULT 0 COMMENT '变动积分',
   `type` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '积分变动类型,1:注册奖励：2:充值成功，3：充值失败，4：连续登录，5:上传花费积分，6：被别人下载获得，7：下载扣除',
-  `projectId` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '相关id',
+  `projectId` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '相关id,eg:连续登录天数',
+  `balance` INT(11) NOT NULL DEFAULT 0 COMMENT '余额',
   #   `accountId` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '账户id',
   `remark` VARCHAR(32) DEFAULT NULL COMMENT '备注',
   `createTime` DATETIME NOT NULL COMMENT '创建时间',
@@ -131,12 +132,9 @@ CREATE TABLE `tb_account`(
 DROP TABLE IF EXISTS `tb_task_log`;
 CREATE TABLE `tb_task_log`(
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `sender` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
-#   `taskId` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '任务id',
-  `theam` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '主题',
+  `userId` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
   `remark` VARCHAR(100) DEFAULT NULL COMMENT '备注',
-#   `completeId` INT(11) NOT NULL DEFAULT 0 COMMENT '完成或其他id',
-  `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '1:已发送，待接单，2：未接单，已关闭,退款中，3：未接单，已退款，4：已接单，未完成，关闭中，退款中，5：已关闭，已退款，6：已接单，进行中，7：已接单，对方已关闭（3min内），8：已接单，已完成，9：已接单，未完成',
+  `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '同 taskStatus',
   `createTime` DATETIME NOT NULL COMMENT '创建时间',
   `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
@@ -161,17 +159,8 @@ DROP TABLE IF EXISTS `tb_task_category_info`;
 CREATE TABLE `tb_task_category_info`(
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `name` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '名称',
+  `parentId` INT(11) NOT NULL DEFAULT 0 COMMENT '父节点，父分类id',
   `remark` VARCHAR(100) DEFAULT NULL COMMENT '备注',
-  `createTime` DATETIME NOT NULL COMMENT '创建时间',
-  `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务信息日志表';
-
-DROP TABLE IF EXISTS `tb_task_category_log`;
-CREATE TABLE `tb_task_category_log`(
-  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
-#   `taskId` INT(11) NOT NULL DEFAULT 0 COMMENT '任务id',
-  `categoryId` INT(11) NOT NULL DEFAULT 0 COMMENT '任务id',
   `createTime` DATETIME NOT NULL COMMENT '创建时间',
   `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
@@ -183,11 +172,17 @@ CREATE TABLE `tb_task_info`(
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `sender` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
   `title` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '主题',
+  `categoryId` INT(11) NOT NULL DEFAULT 0 COMMENT '任务分类',
   `desctiption` VARCHAR(1000) NOT NULL DEFAULT '' COMMENT '描述',
+  `demand` VARCHAR(128) NOT NULL DEFAULT '' COMMENT '承接要求',
   `personal` VARCHAR(500) NOT NULL DEFAULT '' COMMENT '隐藏信息',
+  `address` VARCHAR(128) NOT NULL DEFAULT '' COMMENT '服务地点',
   `remark` VARCHAR(100) DEFAULT NULL COMMENT '备注',
+  `serviceTime` VARCHAR(128) NOT NULL DEFAULT '' COMMENT '服务时间，例如：周六下午3-5点，预计2小时',
+  `urgent` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否加急，0：否，1，：加急',
+  `urgentMoney` INT(11) NOT NULL DEFAULT 0 COMMENT '加急积分',
   `money` INT(11) NOT NULL DEFAULT 0 COMMENT '变动积分',
-  `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '1:已发送，待接单，2：未接单，已关闭,退款中，3：未接单，已退款，4：已接单，未完成，关闭中，退款中，5：已关闭，已退款，6：已接单，进行中，7：已接单，已完成，8：已接单，未完成',
+  `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '1:已发送，待接单，2：未接单，已关闭,退款中，3：未接单，已退款，4：已接单，5未完成，关闭中，退款中，6：已关闭，已退款，6：已接单，进行中，7：已接单，已完成，8：已接单，未完成',
   `deadTime` DATETIME NOT NULL COMMENT '截止日期',
   `createTime` DATETIME NOT NULL COMMENT '创建时间',
   `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
