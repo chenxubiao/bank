@@ -84,6 +84,8 @@ public class MessageInfoController extends CommonController {
                 userUnlookMsgInfoList.add(msgInfo);
             }
             userViewedMessageList = messageService.findViewedUserMsgNotInUserIds(receiver, new ArrayList<>(userUnlookIdSet));
+        }else {
+            userViewedMessageList = messageService.findViewedUserMsg(receiver);
         }
         List<MsgInfo> userViewedMsgInfoList;
         Set<Integer> userViewedIdSet;
@@ -105,6 +107,8 @@ public class MessageInfoController extends CommonController {
                 MsgInfo msgInfo = new MsgInfo(new SenderInfo(sender), BankConsts.ZERO, null);
                 userViewedMsgInfoList.add(msgInfo);
             }
+        } else {
+
         }
 
         return ResponseEntity.success()
