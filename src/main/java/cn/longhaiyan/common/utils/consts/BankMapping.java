@@ -17,6 +17,7 @@ public class BankMapping {
         USER_AUTHED_TYPE_MAPPINT.put(UserTypeEnum.AUTHINT_STUDENT.getCode(), UserTypeEnum.AUTHINT_STUDENT.getValue());
         USER_AUTHED_TYPE_MAPPINT.put(UserTypeEnum.TEACHER.getCode(), UserTypeEnum.TEACHER.getValue());
         USER_AUTHED_TYPE_MAPPINT.put(UserTypeEnum.AUTHINT_TEACHER.getCode(), UserTypeEnum.AUTHINT_TEACHER.getValue());
+        USER_AUTHED_TYPE_MAPPINT.put(UserTypeEnum.AUTH_FAILD.getCode(), UserTypeEnum.AUTH_FAILD.getValue());
     }
 
     public static final Map<Integer, String> USER_ROLE_MAPPING = new HashMap<>();

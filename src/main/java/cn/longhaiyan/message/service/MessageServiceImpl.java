@@ -1,6 +1,7 @@
 package cn.longhaiyan.message.service;
 
 import cn.longhaiyan.common.utils.CollectionUtil;
+import cn.longhaiyan.common.utils.consts.BankConsts;
 import cn.longhaiyan.message.bean.SenderInfo;
 import cn.longhaiyan.message.domain.Message;
 import cn.longhaiyan.message.enums.MessageStatusEnum;
@@ -42,12 +43,13 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<Message> findUnLookMsg(int userId) {
-        if (userId <= 0) {
+    public List<Message> findUnLookMsg(int senderId, int receiverId) {
+        if (senderId <= 0 || receiverId <= 0) {
             return null;
         }
-        List<Message> messageList = messageRepository.findAllByReceiverAndStatusOrderByIdDesc
-                (userId, MessageStatusEnum.SEND.getCode());
+        List<Message> messageList = messageRepository.findAllBySenderAndReceiverAndStatusOrderByIdDesc
+                (senderId, receiverId, MessageStatusEnum.SEND.getCode());
+
 
         if (CollectionUtil.isNotEmpty(messageList)) {
             for (Message message : messageList) {
@@ -68,13 +70,12 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void updateUnLookMsg(int userId) {
-        if (userId <= 0) {
+    public void updateUnlookMsg(int senderId, int receiverId) {
+        if (receiverId <= 0 || senderId <= 0) {
             return;
         }
-        List<Message> messageSendList = messageRepository.findAllByReceiverAndStatusOrderByIdDesc
-                (userId, MessageStatusEnum.SEND.getCode());
-
+        List<Message> messageSendList = messageRepository.findAllBySenderAndReceiverAndStatusOrderByIdDesc
+                (senderId, receiverId, MessageStatusEnum.SEND.getCode());
         if (CollectionUtil.isNotEmpty(messageSendList)) {
             List<Message> messageViewList = new ArrayList<>();
             for (Message message : messageSendList) {
@@ -84,6 +85,81 @@ public class MessageServiceImpl implements MessageService {
             }
             messageRepository.save(messageViewList);
         }
+    }
+
+    @Override
+    public List<Message> findUnLookSysMsg(int receiver) {
+        if (receiver <= 0) {
+            return null;
+        }
+        return messageRepository.findAllBySenderAndReceiverAndStatusOrderByIdDesc
+                (BankConsts.USER_IS_SYSTEM, receiver, MessageStatusEnum.SEND.getCode());
+    }
+
+    @Override
+    public List<Message> finViewedSysMsg(int receiver) {
+        if (receiver <= 0) {
+            return null;
+        }
+        return messageRepository.findAllBySenderAndReceiverAndStatusOrderByIdDesc
+                (BankConsts.USER_IS_SYSTEM, receiver, MessageStatusEnum.VIEWED.getCode());
+    }
+
+    @Override
+    public List<Message> findUnLookUserMsg(int receiver) {
+        if (receiver <= 0) {
+            return null;
+        }
+        return messageRepository.findAllByTypeAndReceiverAndStatusOrderByIdDesc
+                (MessageTypeEnum.USER_MSG.getCode(), receiver, MessageStatusEnum.SEND.getCode());
+    }
+
+    @Override
+    public List<Message> findViewedUserMsg(int receiver) {
+        if (receiver <= 0) {
+            return null;
+        }
+        return messageRepository.findAllByTypeAndReceiverAndStatusOrderByIdDesc
+                (MessageTypeEnum.USER_MSG.getCode(), receiver, MessageStatusEnum.VIEWED.getCode());
+    }
+
+    @Override
+    public List<Message> findViewedUserMsgNotInUserIds(int receiver, List<Integer> senderIds) {
+        if (CollectionUtil.isEmpty(senderIds) || receiver <= 0) {
+            return null;
+        }
+        return messageRepository.findAllByTypeAndReceiverAndStatusAndSenderNotInOrderByIdDesc
+                (MessageTypeEnum.USER_MSG.getCode(), receiver, MessageStatusEnum.VIEWED.getCode(), senderIds);
+    }
+
+    @Override
+    public int countBySenderAndReceiverUnlookMsg(int sender, int receiver) {
+        return messageRepository.countBySenderAndReceiverAndStatusOrderByCreateTimeDesc(sender, receiver, MessageStatusEnum.SEND.getCode());
+    }
+
+    @Override
+    public int countBySenderAndReceiverViewedMsg(int sender, int receiver) {
+        if (sender <= 0 || receiver <= 0) {
+            return 0;
+        }
+        return messageRepository.countBySenderAndReceiverAndStatusOrderByCreateTimeDesc(sender, receiver, MessageStatusEnum.VIEWED.getCode());
+    }
+
+    @Override
+    public List<Message> findUserChatLog(int userId, int selfId) {
+        if (userId <= 0 || selfId <= 0) {
+            return null;
+        }
+        List<Message> messages = messageRepository.findUserChatLog(MessageTypeEnum.USER_MSG.getCode(), userId, selfId);
+        if (CollectionUtil.isNotEmpty(messages)) {
+            for (Message message : messages) {
+                UserInfo senderInfo = userInfoService.findById(message.getSender());
+                UserInfo receiverInfo = userInfoService.findById(message.getReceiver());
+                message.setSenderInfo(new SenderInfo(senderInfo));
+                message.setReceiverInfo(new SenderInfo(receiverInfo));
+            }
+        }
+        return messages;
     }
 
 }

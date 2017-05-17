@@ -12,7 +12,23 @@ public interface MessageService {
 
     int countUnLookMsg(int userId);
 
-    List<Message> findUnLookMsg(int userId);
+    List<Message> findUnLookMsg(int sender, int receiverId);
 
-    void updateUnLookMsg(int userId);
+    void updateUnlookMsg(int senderId, int receiverId);
+
+    List<Message> findUnLookSysMsg(int receiver);
+
+    List<Message> finViewedSysMsg(int receiver);
+
+    List<Message> findUnLookUserMsg(int receiver);
+
+    List<Message> findViewedUserMsg(int receiver);
+
+    List<Message> findViewedUserMsgNotInUserIds(int receiver, List<Integer> senderIds);
+
+    int countBySenderAndReceiverUnlookMsg(int sender, int receiver);
+
+    int countBySenderAndReceiverViewedMsg(int sender, int receiver);
+
+    List<Message> findUserChatLog(int userId, int selfId);
 }

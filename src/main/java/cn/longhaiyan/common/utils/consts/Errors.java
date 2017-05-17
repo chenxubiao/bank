@@ -59,4 +59,6 @@ public class Errors {
 
     public static final String ACCOUNT_BALANCE = "账户余额不足";
     public static final String PUBLISH_MONEY_ERROR = "设置下载金额不合法";
+
+    public static final String MESSAGE_SEND_MYSELF = "不允许自己给自己发消息";
 }

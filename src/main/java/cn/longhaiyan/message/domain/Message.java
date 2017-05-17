@@ -33,12 +33,15 @@ public class Message implements Serializable {
     private String time;
     @Transient
     private SenderInfo senderInfo;
+    @Transient
+    private SenderInfo receiverInfo;
 
     public Message() {
 
     }
 
-    public Message(int type, int receiver, int projectId, String message) {
+    public Message(int type, int sender, int receiver, int projectId, String message) {
+        this.sender = sender;
         this.status = MessageStatusEnum.SEND.getCode();
         this.type = type;
         this.receiver = receiver;
@@ -130,5 +133,13 @@ public class Message implements Serializable {
 
     public String getTime() {
         return DateStringFormatUtil.format(this.createTime);
+    }
+
+    public SenderInfo getReceiverInfo() {
+        return receiverInfo;
+    }
+
+    public void setReceiverInfo(SenderInfo receiverInfo) {
+        this.receiverInfo = receiverInfo;
     }
 }

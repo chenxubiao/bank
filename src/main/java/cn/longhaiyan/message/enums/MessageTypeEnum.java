@@ -5,7 +5,7 @@ package cn.longhaiyan.message.enums;
  */
 public enum MessageTypeEnum {
 
-    REGEISTER(1, "注册"), LOGIN(2, "连续登录"), ACCOUNT_CHANGE(3, "账户变动"),;
+    REGEISTER(1, "注册"), LOGIN(2, "连续登录"), ACCOUNT_CHANGE(3, "账户变动"), USER_MSG(4, "用户私信"),;
 
     private int code;
     private String value;

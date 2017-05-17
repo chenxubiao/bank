@@ -20,6 +20,9 @@ public class BankConsts {
     public static final long PICTURE_UPLOAD_MAX_SIZE = 3145728L;    //3M
     public static final String BANK_NAME = "时间银行";
     public static final String PAGINATION = "pagination";
+    public static final int USER_IS_SYSTEM = 1;
+    public static final int ZERO = 0;
+
 
     public static final String FOLLOW = "关注了您";
     public static final String UNFOLLOW = "取消关注您";
