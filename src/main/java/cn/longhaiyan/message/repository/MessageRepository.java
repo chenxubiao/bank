@@ -32,7 +32,7 @@ public interface MessageRepository extends PagingAndSortingRepository<Message, L
 
     int countBySenderAndReceiverAndStatusOrderByCreateTimeDesc(int sender, int receiver, int status);
 
-    @Query(value = "select a from Message a where a.type = ?1 and (a.sender = ?2 and a.receiver = ?3) or (a.sender = ?3 and a.receiver = ?2) ORDER BY a.id desc ")
+    @Query(value = "select distinct a from Message a where a.type = ?1 and (a.sender = ?2 and a.receiver = ?3) or (a.sender = ?3 and a.receiver = ?2) ORDER BY a.id desc ")
     List<Message> findUserChatLog(int type, int sender, int receiver);
 
 }
