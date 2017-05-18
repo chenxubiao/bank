@@ -64,4 +64,6 @@ public class Errors {
     public static final String MESSAGE_SEND_MYSELF = "不允许自己给自己发消息";
 
     public static final String TASK_MONEY_URGENT_ERROR = "加急时间币不应大于此需求时间币";
+    public static final String TASK_DEADTIME_ERROR = "需求截止日期不合法";
+    public static final String TASK_PUBLISHING_NONE = "暂无需求信息";
 }
