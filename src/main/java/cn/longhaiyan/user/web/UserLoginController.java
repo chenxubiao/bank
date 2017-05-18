@@ -124,26 +124,29 @@ public class UserLoginController extends GuestBaseController {
                 userLoginLog.setLoginTime(loginTime);
             } else {
                 loginTime = yesterdayLoginLog.getLoginTime() + loginTime;
-                Message message = new Message
-                        (MessageTypeEnum.LOGIN.getCode(), BankConsts.USER_IS_SYSTEM, userInfo.getId(), 0, "连续登录第+" + loginTime + "天");
 
-                message.setSender(1);
-                message.setModifyTime(message.getCreateTime());
-                messageService.save(message);
+                int money = loginTime * 5;
                 Account account = accountService.findByUserId(userInfo.getId());
-                AccountLog accountLog = new AccountLog();
-                account.setTotalMoney(account.getTotalMoney() + loginTime * 5);
+                account.setTotalMoney(account.getTotalMoney() + money);
                 account.setModifyTime(new Date());
                 accountService.save(account);
 
+                AccountLog accountLog = new AccountLog();
                 accountLog.setAccount(account);
+                accountLog.setProjectId(loginTime);
+                accountLog.setType(AccountLogTypeEnum.ADD_LOGIN.getCode());
+                accountLog.setMoney(money);
+                accountLog.setBalance(account.getTotalMoney());
+                accountLog.setUserId(userInfo.getId());
                 accountLog.setCreateTime(new Date());
                 accountLog.setModifyTime(accountLog.getCreateTime());
-                accountLog.setRemark("登录奖励，次数" + loginTime);
-                accountLog.setType(AccountLogTypeEnum.ADD_LOGIN.getCode());
-
-                accountLog.setUserId(userInfo.getId());
                 accountLogService.save(accountLog);
+
+                Message message = new Message(MessageTypeEnum.ACCOUNT_CHANGE.getCode()
+                        , BankConsts.USER_IS_SYSTEM, userInfo.getId(), accountLog.getId(), accountLog.getMessage());
+
+                message.setModifyTime(message.getCreateTime());
+                messageService.save(message);
 
                 userLoginLog.setLoginTime(loginTime);
             }

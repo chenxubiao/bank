@@ -2,6 +2,7 @@ package cn.longhaiyan.user.web;
 
 import cn.longhaiyan.account.domain.Account;
 import cn.longhaiyan.account.domain.AccountLog;
+import cn.longhaiyan.account.enums.AccountLogTypeEnum;
 import cn.longhaiyan.account.service.AccountLogService;
 import cn.longhaiyan.account.service.AccountService;
 import cn.longhaiyan.common.bean.ResponseEntity;
@@ -127,11 +128,10 @@ public class UserRegisterController extends GuestBaseController {
         accountLog.setModifyTime(accountLog.getCreateTime());
         accountLog.setUserId(userInfo.getId());
         accountLog.setMoney(totalMoney);
-        accountLog.setType(BankConsts.AccountLogType.ADD_REGESTER);
-        accountLog.setRemark("注册奖励：" + totalMoney);
+        accountLog.setAccount(account);
+        accountLog.setBalance(account.getTotalMoney());
+        accountLog.setType(AccountLogTypeEnum.ADD_REGESTER.getCode());
         accountLogService.save(accountLog);
-
-
 
         Message message = new Message();
         message.setReceiver(userInfo.getId());
@@ -141,9 +141,10 @@ public class UserRegisterController extends GuestBaseController {
         message.setModifyTime(message.getCreateTime());
         message.setSender(1);
         message.setMessage("hi～" + userInfo.getUserName()
-                + ",欢迎来到...(还没想好0.0)，请吃饭请联系：hfutchenxb@163.com，提交bug请联系本人私人助理：haiyan@bbs.cn");
+                + ",欢迎来到「" + BankConsts.BANK_NAME + "」，使用过程中有任何问题，请联系：haiyan0v0");
         Message messageAccount = new Message
-                (MessageTypeEnum.ACCOUNT_CHANGE.getCode(), BankConsts.USER_IS_SYSTEM, userInfo.getId(), 0, "注册奖励：" + totalMoney);
+                (MessageTypeEnum.ACCOUNT_CHANGE.getCode(), BankConsts.USER_IS_SYSTEM, userInfo.getId(), accountLog.getId(), accountLog.getMessage());
+
         messageAccount.setCreateTime(new Date());
         messageAccount.setSender(1);
         messageAccount.setModifyTime(messageAccount.getCreateTime());

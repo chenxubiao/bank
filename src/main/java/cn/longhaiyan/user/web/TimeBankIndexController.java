@@ -34,6 +34,7 @@ public class TimeBankIndexController extends GuestBaseController {
             registerBean.setUserName("timebank");
             registerBean.setPassword("abcde");
             registerController.regester(request, registerBean);
+            System.out.println("系统账户已创建，name = " + registerBean.getUserName() + " ,psswd = " + registerBean.getPassword());
         }
         UserInfo userInfo = userInfoService.findById(1);
         super.setUserSession(request, userInfo);

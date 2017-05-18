@@ -30,6 +30,7 @@ public class Errors {
     public static final String PASSWOED_OLD_EQUAL_NEW = "原密码与新密码相同";
 
     public static final String USER_INFO_NOT_FOUND = "用户不存在";
+    public static final String USER_NOT_AUTH = "您不是认证用户，请先认证学生或教师";
     public static final String USER_USERNAME_NULL = "用户名不能为空";
     public static final String USER_USERNAME_IS_CHINESE = "不允许出现中文字符、空格且长度位于2～32之间";
     public static final String USER_USERNAME_HAS_SPACE = "用户名不允许出现空格";
@@ -51,7 +52,7 @@ public class Errors {
 
     public static final String PROJECT_NOT_FOUND = "图片项目信息未找到";
 
-    public static final String TAG_CATEGORY_NOT_FOUND = "分类不存在";
+    public static final String CATEGORY_NOT_FOUND = "分类不存在";
     public static final String TAG_NOT_FOUND = "标签不存在";
 
     public static final String MESSAGE_NONE_UNLOOK = "没有未查看的消息";
@@ -61,4 +62,6 @@ public class Errors {
     public static final String PUBLISH_MONEY_ERROR = "设置下载金额不合法";
 
     public static final String MESSAGE_SEND_MYSELF = "不允许自己给自己发消息";
+
+    public static final String TASK_MONEY_URGENT_ERROR = "加急时间币不应大于此需求时间币";
 }

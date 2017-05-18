@@ -14,6 +14,19 @@ public enum UserTypeEnum {
         this.value = value;
     }
 
+    public static boolean isEnjoyTask(int code) {
+        if (code == UserTypeEnum.STUDENT.getCode()
+                || code == UserTypeEnum.TEACHER.getCode()) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isNotEnjoyTask(int code) {
+        return !isEnjoyTask(code);
+    }
+
+
     public static boolean isContain(int code) {
         for (UserTypeEnum typeEnum : UserTypeEnum.values()) {
             if (typeEnum.getCode() == code) {

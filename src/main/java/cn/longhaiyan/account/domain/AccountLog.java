@@ -1,5 +1,8 @@
 package cn.longhaiyan.account.domain;
 
+import cn.longhaiyan.account.enums.AccountLogTypeEnum;
+import cn.longhaiyan.common.utils.TimeUtil;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -31,7 +34,10 @@ public class AccountLog {
     private int type;
     private int money;
     private int projectId;
-    private String remark;
+    @Transient
+    private String message;
+    private int balance;    //余额
+    private String remark = "";
     // optional=true：可选，表示此对象可以没有，可以为null；false表示必须存在
     @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, optional = true)
     @JoinColumn(name = "accountId")
@@ -119,5 +125,55 @@ public class AccountLog {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
+    public String getMessage() {
+        if (AccountLogTypeEnum.ADD_LOGIN.getCode() == this.type) {
+            message = "您的账户"
+                    + TimeUtil.format(this.createTime, TimeUtil.DATE_FORMAT_CHINESE)
+                    + "连续登录" + this.projectId
+                    + "天收入时间币"
+                    + this.money
+                    + "枚，账户余额"
+                    + this.balance
+                    + "枚。「时间银行」";
+
+        } else if (AccountLogTypeEnum.ADD_REGESTER.getCode() == this.type) {
+            message = "恭喜您"
+                    + TimeUtil.format(this.createTime, TimeUtil.DATE_FORMAT_CHINESE)
+                    + "加入「时间银行」，系统已为您自动开通账户，注册收入时间币"
+                    + money
+                    + "枚，账户余额"
+                    + balance
+                    + "枚。「时间银行」";
+
+        } else if (AccountLogTypeEnum.DEL_TASK_PUB.getCode() == this.type) {
+            message = "您的账户"
+                    + TimeUtil.format(this.createTime, TimeUtil.DATE_FORMAT_CHINESE)
+                    + "发布需求" + this.remark
+                    + "，托管时间币"
+                    + this.money
+                    + "枚，账户余额"
+                    + this.balance
+                    + "枚。「时间银行」";
+        } else if (AccountLogTypeEnum.DEL_TASK_URGENT.getCode() == this.type) {
+            message = "您的账户"
+                    + TimeUtil.format(this.createTime, TimeUtil.DATE_FORMAT_CHINESE)
+                    + "发布需求" + this.remark
+                    + "，公益资助时间币"
+                    + this.money
+                    + "枚，账户余额"
+                    + this.balance
+                    + "枚。「时间银行」";
+        }
+        return message;
     }
 }

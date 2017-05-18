@@ -5,7 +5,7 @@ package cn.longhaiyan.account.enums;
  */
 public enum AccountLogTypeEnum {
 
-    ADD_REGESTER(1, "注册奖励"), ADD_LOGIN(2, "登录奖励"),;
+    ADD_REGESTER(1, "注册奖励"), ADD_LOGIN(2, "登录奖励"),DEL_TASK_PUB(3,"需求发布"), DEL_TASK_URGENT(4, "公益资助"),;
 
     private int code;
     private String value;

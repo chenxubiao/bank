@@ -3,6 +3,7 @@ package cn.longhaiyan.message.domain;
 import cn.longhaiyan.common.utils.DateStringFormatUtil;
 import cn.longhaiyan.message.bean.SenderInfo;
 import cn.longhaiyan.message.enums.MessageStatusEnum;
+import cn.longhaiyan.message.enums.MessageTypeEnum;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,7 +21,7 @@ public class Message implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private int type;
-    private int projectId;
+    private int projectId;  //相关id
     private int sender;     //发送者
     private int receiver;   //接收者
     private String message; //信息
@@ -76,6 +77,9 @@ public class Message implements Serializable {
     }
 
     public String getMessage() {
+        if (this.type == MessageTypeEnum.TASK_PUBLISH.getCode()) {
+            this.message = "「" + this.message + "」发布成功，请及时关注任务状态。";
+        }
         return message;
     }
 

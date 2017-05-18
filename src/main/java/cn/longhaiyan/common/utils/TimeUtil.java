@@ -12,6 +12,7 @@ public class TimeUtil {
 
     public static int DATE_TYPE_BEFORE = 0;
     public static int DATE_TYPE_AFTER = 1;
+    public static final String DATE_FORMAT_CHINESE = "MM月dd日HH时mm分";
 
     public static String format(Date date) {
         return format(date, "yyyy-MM-dd HH:mm:ss");
