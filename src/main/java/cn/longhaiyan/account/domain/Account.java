@@ -1,5 +1,7 @@
 package cn.longhaiyan.account.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -33,8 +35,10 @@ public class Account implements Serializable {
     private Date modifyTime;
     private int userId;
     private int totalMoney;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "account")
     Set<AccountLog> logs = new LinkedHashSet<>();
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "account")
     Set<AccountPay> payLogs = new LinkedHashSet<>();
 

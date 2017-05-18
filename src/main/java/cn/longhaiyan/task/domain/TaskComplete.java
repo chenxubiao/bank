@@ -1,5 +1,7 @@
 package cn.longhaiyan.task.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ public class TaskComplete implements Serializable {
     private int status;
     private String remark = "";
     private Date completeTime;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "taskComplete")
     List<TaskLog> taskLogs = new ArrayList<>();
 

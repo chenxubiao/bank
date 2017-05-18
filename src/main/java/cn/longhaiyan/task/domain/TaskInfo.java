@@ -4,6 +4,7 @@ import cn.longhaiyan.tag.domain.TagInfo;
 import cn.longhaiyan.task.bean.TaskInfoBean;
 import cn.longhaiyan.task.enums.TaskStatusEnum;
 import cn.longhaiyan.task.enums.TaskInfoUrgentEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -39,11 +40,13 @@ public class TaskInfo implements Serializable {
     private String serviceTime = "";    //服务时间
     private int money;
     private int status;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "taskInfo")
     List<TaskLog> taskLogs = new ArrayList<>();
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "completeId")
     private TaskComplete taskComplete;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "taskInfo")
     List<TaskTag> taskTags = new ArrayList<>();
 

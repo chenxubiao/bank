@@ -152,6 +152,17 @@ public class TaskPublishController extends CommonController {
                             TagInfo tagInfo = tagInfoService.findById(id);
                             if (tagInfo != null) {
                                 tagIdSet.add(id);
+                            } else {
+                                String tagName = tagId;
+                                if (StringUtil.isBlank(tagName)) {
+                                    continue;
+                                }
+                                TagInfo newTag = new TagInfo();
+                                newTag.setName(tagName);
+                                newTag.setCreateTime(new Date());
+                                newTag.setModifyTime(tagInfo.getCreateTime());
+                                tagInfoService.save(newTag);
+                                tagIdSet.add(newTag.getId());
                             }
                         }
                     } else {
@@ -176,10 +187,8 @@ public class TaskPublishController extends CommonController {
                     taskTags.add(taskTag);
                 }
                 taskTagService.save(taskTags);
-                taskInfo.setTaskTags(taskTags);
             }
         }
-
-        return ResponseEntity.success().set(BankConsts.DATA, taskInfo);
+        return ResponseEntity.success();
     }
 }
