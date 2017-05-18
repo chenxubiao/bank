@@ -1,26 +1,24 @@
-package cn.longhaiyan.task.domain;
+package cn.longhaiyan.tag.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by chenxb on 17-5-16.
+ * Created by chenxb on 17-4-1.
  */
 @Entity
-@Table(name = "tb_task_category_info")
-public class CategoryInfo implements Serializable {
-
-    private static final long serialVersionUID = 5046724044559932277L;
+@Table(name = "tb_tag_meta")
+public class TagInfo implements Serializable {
+    private static final long serialVersionUID = -1903875172360553265L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    private String name;
     @Column(name = "createTime", updatable = false)
     private Date createTime;
     @Column(name = "modifyTime")
     private Date modifyTime;
-    private String name;
-    private String remark = "";
 
     public int getId() {
         return id;
@@ -52,13 +50,5 @@ public class CategoryInfo implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
     }
 }
