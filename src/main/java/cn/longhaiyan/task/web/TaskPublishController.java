@@ -60,7 +60,6 @@ public class TaskPublishController extends CommonController {
     public ResponseEntity publisTask(HttpServletRequest request, TaskInfoBean task) {
         if (StringUtil.isBlank(task.getTitle())
                 || StringUtil.isBlank(task.getDescription())
-                || StringUtil.isBlank(task.getRemark())
                 || StringUtil.isBlank(task.getTagIds())
                 || TaskInfoUrgentEnum.isNotContain(task.getUrgent())
                 || StringUtil.isBlank(task.getAddress())
@@ -73,7 +72,9 @@ public class TaskPublishController extends CommonController {
         if (UserTypeEnum.isNotEnjoyTask(userSession.getUserType())) {
             return ResponseEntity.failure(Errors.USER_NOT_AUTH);
         }
-
+        if (new Date().compareTo(task.getDeadTime()) <= 0) {
+            return ResponseEntity.failure(Errors.TASK_DEADTIME_ERROR);
+        }
         int userId = userSession.getUserId();
         int money = task.getMoney();
         int urgentMoney = task.getUrgentMoney();
