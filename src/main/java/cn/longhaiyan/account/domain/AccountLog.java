@@ -53,6 +53,7 @@ public class AccountLog {
         this.projectId = projectId;
         this.remark = remark;
         this.account = account;
+        this.createTime = new Date();
     }
 
     public int getId() {
