@@ -112,7 +112,7 @@ public class TaskPublishController extends CommonController {
         account.setTotalMoney(account.getTotalMoney() - money);
         AccountLog taskAccountLog = new AccountLog
                 (userId, AccountLogTypeEnum.DEL_TASK_PUB.getCode(), money, taskInfo.getId(), title, account);
-
+        taskAccountLog.setModifyTime(taskAccountLog.getCreateTime());
         taskAccountLog.setBalance(account.getTotalMoney());
         accountLogService.save(taskAccountLog);
         Message pubMsg = new Message
@@ -128,6 +128,7 @@ public class TaskPublishController extends CommonController {
             AccountLog urgentAccountLog = new AccountLog(userId
                     , AccountLogTypeEnum.DEL_TASK_URGENT.getCode()
                     , urgentMoney, taskInfo.getId(), title, account);
+            urgentAccountLog.setModifyTime(urgentAccountLog.getCreateTime());
             urgentAccountLog.setBalance(account.getTotalMoney());
             accountLogService.save(urgentAccountLog);
 
