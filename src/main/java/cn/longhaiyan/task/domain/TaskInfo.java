@@ -1,5 +1,10 @@
 package cn.longhaiyan.task.domain;
 
+import cn.longhaiyan.tag.domain.TagInfo;
+import cn.longhaiyan.task.bean.TaskInfoBean;
+import cn.longhaiyan.task.enums.TaskStatusEnum;
+import cn.longhaiyan.task.enums.TaskInfoUrgentEnum;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,22 +26,59 @@ public class TaskInfo implements Serializable {
     private Date createTime;
     @Column(name = "modifyTime")
     private Date modifyTime;
-    private int sender;
-    private String title = "";
-    private String desctiption = "";
-    private String remark = "";
-    private String personal = "";   //任务隐藏信息
+    private int userId;
+    private String title = "";          //主题
+    private String desctiption = "";    //描述
+    private String demand = "";         //承接要求
+    private String remark = "";         //备注
+    private String personal = "";       //任务隐藏信息
+    private Date deadTime;      //有效期至
+    private String address;     //服务地点
+    private int urgent;         //是否加急
+    private int urgentMoney;    //加急钱数
+    private String serviceTime = "";    //服务时间
     private int money;
     private int status;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "taskInfo")
     List<TaskLog> taskLogs = new ArrayList<>();
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "taskInfo")
-    List<TaskCategory> categories = new ArrayList<>();
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "completeId")
     private TaskComplete taskComplete;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "taskInfo")
+    List<TaskTag> taskTags = new ArrayList<>();
 
 
+    public TaskInfo() {
+
+    }
+
+    public TaskInfo(TaskInfoBean taskInfoBean) {
+        this.title = taskInfoBean.getTitle().trim();
+        this.desctiption = taskInfoBean.getDescription().trim();
+        this.remark = taskInfoBean.getRemark();
+        this.demand = taskInfoBean.getDemand();
+        this.money = taskInfoBean.getMoney();
+        this.urgent = taskInfoBean.getUrgent();
+        this.urgent = taskInfoBean.getUrgent() == TaskInfoUrgentEnum.NO_URGENT.getCode() ? 0 : taskInfoBean.getUrgentMoney();
+        this.personal = taskInfoBean.getPersonal();
+        this.deadTime = taskInfoBean.getDeadTime();
+        this.address = taskInfoBean.getAddress();
+        this.serviceTime = taskInfoBean.getServiceTime();
+        this.status = TaskStatusEnum.PUBLISH.getCode();
+        this.createTime = new Date();
+    }
+
+    public void addTaskLog(TaskLog taskLog) {
+        if (!taskLogs.contains(taskLog)) {
+            taskLogs.add(taskLog);
+        }
+    }
+
+    public void removeTaskLog(TaskLog taskLog) {
+        if (taskLogs.contains(taskLog)) {
+            taskLogs.remove(taskLog);
+        }
+    }
 
     public int getId() {
         return id;
@@ -62,12 +104,12 @@ public class TaskInfo implements Serializable {
         this.modifyTime = modifyTime;
     }
 
-    public int getSender() {
-        return sender;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setSender(int sender) {
-        this.sender = sender;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getTitle() {
@@ -126,19 +168,67 @@ public class TaskInfo implements Serializable {
         this.taskLogs = taskLogs;
     }
 
-    public List<TaskCategory> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<TaskCategory> categories) {
-        this.categories = categories;
-    }
-
     public TaskComplete getTaskComplete() {
         return taskComplete;
     }
 
     public void setTaskComplete(TaskComplete taskComplete) {
         this.taskComplete = taskComplete;
+    }
+
+    public String getDemand() {
+        return demand;
+    }
+
+    public void setDemand(String demand) {
+        this.demand = demand;
+    }
+
+    public Date getDeadTime() {
+        return deadTime;
+    }
+
+    public void setDeadTime(Date deadTime) {
+        this.deadTime = deadTime;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getUrgent() {
+        return urgent;
+    }
+
+    public void setUrgent(int urgent) {
+        this.urgent = urgent;
+    }
+
+    public int getUrgentMoney() {
+        return urgentMoney;
+    }
+
+    public void setUrgentMoney(int urgentMoney) {
+        this.urgentMoney = urgentMoney;
+    }
+
+    public List<TaskTag> getTaskTags() {
+        return taskTags;
+    }
+
+    public void setTaskTags(List<TaskTag> taskTags) {
+        this.taskTags = taskTags;
+    }
+
+    public String getServiceTime() {
+        return serviceTime;
+    }
+
+    public void setServiceTime(String serviceTime) {
+        this.serviceTime = serviceTime;
     }
 }

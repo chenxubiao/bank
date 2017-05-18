@@ -129,6 +129,18 @@ CREATE TABLE `tb_account`(
   UNIQUE KEY `userId` (`userId`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户账户表';
 
+
+DROP TABLE IF EXISTS `tb_tag_meta`;
+CREATE TABLE `tb_tag_meta`(
+  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `name` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '标签名称',
+  `createTime` DATETIME NOT NULL COMMENT '创建时间',
+  `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_name` (`name`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='标签元数据表';
+
+
 DROP TABLE IF EXISTS `tb_task_log`;
 CREATE TABLE `tb_task_log`(
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
@@ -155,22 +167,21 @@ CREATE TABLE `tb_task_complete`(
   UNIQUE KEY `uk_taskId` (`taskId`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务信息接单表';
 
-DROP TABLE IF EXISTS `tb_task_category_info`;
-CREATE TABLE `tb_task_category_info`(
+DROP TABLE IF EXISTS `tb_task_tag`;
+CREATE TABLE `tb_task_tag`(
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `name` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '名称',
-  `parentId` INT(11) NOT NULL DEFAULT 0 COMMENT '父节点，父分类id',
-  `remark` VARCHAR(100) DEFAULT NULL COMMENT '备注',
+  `userId` INT(11) NOT NULL DEFAULT 0 COMMENT '用户id',
+  `tagId` INT(11) NOT NULL DEFAULT 0 COMMENT '标签id',
   `createTime` DATETIME NOT NULL COMMENT '创建时间',
   `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务信息日志表';
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务标签信息表';
 
 
 DROP TABLE IF EXISTS `tb_task_info`;
 CREATE TABLE `tb_task_info`(
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `sender` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
+  `userId` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
   `title` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '主题',
   `categoryId` INT(11) NOT NULL DEFAULT 0 COMMENT '任务分类',
   `desctiption` VARCHAR(1000) NOT NULL DEFAULT '' COMMENT '描述',

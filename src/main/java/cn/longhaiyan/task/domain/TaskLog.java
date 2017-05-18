@@ -10,6 +10,8 @@ import java.util.Date;
 @Entity
 @Table(name = "tb_task_log")
 public class TaskLog implements Serializable {
+
+    private static final long serialVersionUID = 2369851337518014911L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -18,11 +20,8 @@ public class TaskLog implements Serializable {
     @Column(name = "modifyTime")
     private Date modifyTime;
     private int status;
-//    private int taskId;
-    private int sender;
-//    private int completeId;
-    private String theam;
-    private String remark;
+    private int userId;
+    private String remark = "";
     // optional=true：可选，表示此对象可以没有，可以为null；false表示必须存在
     @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, optional = true)
     @JoinColumn(name = "taskId")
@@ -30,6 +29,19 @@ public class TaskLog implements Serializable {
     @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, optional = true)
     @JoinColumn(name = "completeId")
     private TaskComplete taskComplete;
+
+    public TaskLog(int status, int userId, TaskInfo taskInfo) {
+
+        this.status = status;
+        this.userId = userId;
+        this.taskInfo = taskInfo;
+        this.createTime = new Date();
+
+    }
+
+    public TaskLog() {
+
+    }
 
     public int getId() {
         return id;
@@ -63,30 +75,6 @@ public class TaskLog implements Serializable {
         this.status = status;
     }
 
-    public int getSender() {
-        return sender;
-    }
-
-    public void setSender(int sender) {
-        this.sender = sender;
-    }
-
-//    public int getCompleteId() {
-//        return completeId;
-//    }
-//
-//    public void setCompleteId(int completeId) {
-//        this.completeId = completeId;
-//    }
-
-    public String getTheam() {
-        return theam;
-    }
-
-    public void setTheam(String theam) {
-        this.theam = theam;
-    }
-
     public String getRemark() {
         return remark;
     }
@@ -101,6 +89,14 @@ public class TaskLog implements Serializable {
 
     public void setTaskInfo(TaskInfo taskInfo) {
         this.taskInfo = taskInfo;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public TaskComplete getTaskComplete() {

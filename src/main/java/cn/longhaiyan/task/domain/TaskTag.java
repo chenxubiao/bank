@@ -5,13 +5,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by chenxb on 17-5-16.
+ * Created by chenxb on 17-5-18.
  */
 @Entity
-@Table(name = "tb_task_category_log")
-public class TaskCategory implements Serializable {
+@Table(name = "tb_task_tag")
+public class TaskTag implements Serializable {
 
-    private static final long serialVersionUID = -577636118035692212L;
+    private static final long serialVersionUID = 6874876645060603213L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -19,11 +19,22 @@ public class TaskCategory implements Serializable {
     private Date createTime;
     @Column(name = "modifyTime")
     private Date modifyTime;
-//    private int taskId;
-    private int cateogryId;
+    private int userId;
+    private int tagId;
     @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, optional = true)
     @JoinColumn(name = "taskId")
     private TaskInfo taskInfo;
+
+    public TaskTag() {
+
+    }
+
+    public TaskTag(int tagId, int userId, TaskInfo taskInfo) {
+        this.userId = userId;
+        this.tagId = tagId;
+        this.taskInfo = taskInfo;
+        this.createTime = new Date();
+    }
 
     public int getId() {
         return id;
@@ -48,14 +59,14 @@ public class TaskCategory implements Serializable {
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
     }
-//
-//    public int getTaskId() {
-//        return taskId;
-//    }
-//
-//    public void setTaskId(int taskId) {
-//        this.taskId = taskId;
-//    }
+
+    public int getTagId() {
+        return tagId;
+    }
+
+    public void setTagId(int tagId) {
+        this.tagId = tagId;
+    }
 
     public TaskInfo getTaskInfo() {
         return taskInfo;
@@ -65,11 +76,11 @@ public class TaskCategory implements Serializable {
         this.taskInfo = taskInfo;
     }
 
-    public int getCateogryId() {
-        return cateogryId;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setCateogryId(int cateogryId) {
-        this.cateogryId = cateogryId;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

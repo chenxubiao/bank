@@ -7,7 +7,7 @@ import java.util.Date;
  */
 public class TaskInfoBean {
     private String title = "";       //主题    不可空
-    private String desctiption = ""; //描述    不可空
+    private String description = ""; //描述    不可空
     private String remark = "";      //要求
     private String demand = ""; //承接要求
     private int urgent;         //是否加急
@@ -17,7 +17,7 @@ public class TaskInfoBean {
     private String address;     //服务地点
     private String personal;    //任务隐藏信息
     private int money;          //             非空
-    private int categoryId;     //分类id
+    private String tagIds;     //分类id
 
     public String getTitle() {
         return title;
@@ -27,12 +27,12 @@ public class TaskInfoBean {
         this.title = title;
     }
 
-    public String getDesctiption() {
-        return desctiption;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesctiption(String desctiption) {
-        this.desctiption = desctiption;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getRemark() {
@@ -107,11 +107,11 @@ public class TaskInfoBean {
         this.money = money;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public String getTagIds() {
+        return tagIds;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setTagIds(String tagIds) {
+        this.tagIds = tagIds;
     }
 }
