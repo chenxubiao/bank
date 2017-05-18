@@ -160,7 +160,7 @@ public class TaskPublishController extends CommonController {
                                 TagInfo newTag = new TagInfo();
                                 newTag.setName(tagName);
                                 newTag.setCreateTime(new Date());
-                                newTag.setModifyTime(tagInfo.getCreateTime());
+                                newTag.setModifyTime(newTag.getCreateTime());
                                 tagInfoService.save(newTag);
                                 tagIdSet.add(newTag.getId());
                             }

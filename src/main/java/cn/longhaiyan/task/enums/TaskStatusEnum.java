@@ -22,6 +22,19 @@ public enum TaskStatusEnum {
         this.value = value;
     }
 
+    public static boolean isNotContain(int code) {
+        return !isContain(code);
+    }
+
+    public static boolean isContain(int code) {
+        for (TaskStatusEnum statusEnum : TaskStatusEnum.values()) {
+            if (statusEnum.getCode() == code) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public int getCode() {
         return code;
     }

@@ -1,10 +1,15 @@
 package cn.longhaiyan.task.domain;
 
+import cn.longhaiyan.common.bean.CommonBean;
+import cn.longhaiyan.common.utils.CollectionUtil;
+import cn.longhaiyan.common.utils.DateStringFormatUtil;
 import cn.longhaiyan.tag.domain.TagInfo;
+import cn.longhaiyan.tag.service.TagInfoService;
 import cn.longhaiyan.task.bean.TaskInfoBean;
 import cn.longhaiyan.task.enums.TaskStatusEnum;
 import cn.longhaiyan.task.enums.TaskInfoUrgentEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -49,7 +54,9 @@ public class TaskInfo implements Serializable {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "taskInfo")
     List<TaskTag> taskTags = new ArrayList<>();
-
+    private String time;
+    @Transient
+    private List<TagInfo> tags;
 
     public TaskInfo() {
 
@@ -233,5 +240,20 @@ public class TaskInfo implements Serializable {
 
     public void setServiceTime(String serviceTime) {
         this.serviceTime = serviceTime;
+    }
+    public String getTime() {
+        return DateStringFormatUtil.format(this.createTime);
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public List<TagInfo> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<TagInfo> tags) {
+        this.tags = tags;
     }
 }

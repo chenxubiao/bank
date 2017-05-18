@@ -1,6 +1,8 @@
 package cn.longhaiyan.task.bean;
 
+import cn.longhaiyan.common.utils.DateStringFormatUtil;
 import cn.longhaiyan.tag.domain.TagInfo;
+import cn.longhaiyan.task.domain.TaskInfo;
 
 import java.util.Date;
 import java.util.List;
@@ -8,21 +10,37 @@ import java.util.List;
 /**
  * Created by chenxb on 17-5-18.
  */
-public class TaskBean {
+public class TaskIndexBean {
 
 //    private String description; //描述    不可空
 //    private String remark;      //备注
 //    private String demand; //承接要求
 //    private int urgent;         //是否加急
 //    private String serviceTime; //服务时间
-//    private Date deadTime;      //截至日期
 //    private String personal;    //任务隐藏信息
 
+    private int taskId;
+    private Date deadTime;      //截至日期
     private String title;       //主题    不可空
     private String address;     //服务地点
     private int money;          //             非空
     private Date createTime;
     private List<TagInfo> tags;     //分类id
+    private String time;
+
+    public TaskIndexBean() {
+
+    }
+
+    public TaskIndexBean(TaskInfo taskInfo, List<TagInfo> tagInfos) {
+        this.title = taskInfo.getTitle();
+        this.address = taskInfo.getAddress();
+        this.createTime = taskInfo.getCreateTime();
+        this.money = taskInfo.getMoney();
+        this.tags = tagInfos;
+        this.taskId = taskInfo.getId();
+        this.deadTime = taskInfo.getDeadTime();
+    }
 
     public String getTitle() {
         return title;
@@ -62,5 +80,25 @@ public class TaskBean {
 
     public void setTags(List<TagInfo> tags) {
         this.tags = tags;
+    }
+
+    public String getTime() {
+        return DateStringFormatUtil.format(this.createTime);
+    }
+
+    public int getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
+    }
+
+    public Date getDeadTime() {
+        return deadTime;
+    }
+
+    public void setDeadTime(Date deadTime) {
+        this.deadTime = deadTime;
     }
 }
