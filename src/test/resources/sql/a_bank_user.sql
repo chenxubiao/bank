@@ -1,0 +1,1 @@
+GRANT ALL PRIVILEGES ON bank.* to bank@'%' IDENTIFIED BY 'bank_password';

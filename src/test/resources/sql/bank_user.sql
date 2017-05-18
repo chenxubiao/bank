@@ -1,3 +1,0 @@
-DROP DATABASE IF EXISTS `bank`;
-CREATE DATABASE `bank` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-GRANT ALL PRIVILEGES ON bank.* to bank@'%' IDENTIFIED BY 'bank_password';
