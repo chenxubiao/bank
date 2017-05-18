@@ -72,7 +72,7 @@ public class TaskPublishController extends CommonController {
         if (UserTypeEnum.isNotEnjoyTask(userSession.getUserType())) {
             return ResponseEntity.failure(Errors.USER_NOT_AUTH);
         }
-        if (new Date().compareTo(task.getDeadTime()) <= 0) {
+        if (new Date().compareTo(task.getDeadTime()) > 0) {
             return ResponseEntity.failure(Errors.TASK_DEADTIME_ERROR);
         }
         int userId = userSession.getUserId();
