@@ -47,6 +47,7 @@ public class TaskInfoBean {
         this.tags = taskInfo.getTags();
         this.description = taskInfo.getDesctiption();
         this.urgent = taskInfo.getUrgent();
+        this.tags = taskInfo.getTags();
     }
 
     public String getTitle() {

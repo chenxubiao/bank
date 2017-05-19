@@ -152,10 +152,12 @@ public class TaskInfoController extends GuestBaseController {
             name = convertString(name);
             sender = 0;
         }
-        TaskInfoBean taskInfoBean = new TaskInfoBean(taskInfo, name, sender);
         taskInfo.setTaskComplete(null);
         List<TagInfo> tags = getTagInfoList(taskInfo);
         taskInfo.setTags(tags);
+
+        TaskInfoBean taskInfoBean = new TaskInfoBean(taskInfo, name, sender);
+
         return ResponseEntity.success().set(BankConsts.DATA, taskInfoBean);
     }
 
