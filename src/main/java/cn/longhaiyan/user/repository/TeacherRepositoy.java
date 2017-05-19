@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface TeacherRepositoy extends PagingAndSortingRepository<Teacher, Long> {
-    Teacher findByUserId(int userId);
 
     int countByTno(int tno);
 }

@@ -14,14 +14,6 @@ public class TeacherServiceImpl implements TeacherService {
     private TeacherRepositoy teacherRepositoy;
 
     @Override
-    public Teacher findByUserId(int userId) {
-        if (userId <= 0) {
-            return null;
-        }
-        return teacherRepositoy.findByUserId(userId);
-    }
-
-    @Override
     public boolean isExist(int no) {
         if (no <= 0) {
             return false;

@@ -15,23 +15,6 @@ public class StudentServiceImpl implements StudentService {
     private StudentRepository studentRepository;
 
     @Override
-    public Student findByUserId(int userId) {
-        if (userId <= 0) {
-            return null;
-        }
-        return studentRepository.findByUserId(userId);
-    }
-
-    @Override
-    public Student findByNoAndUserId(int no, int userId) {
-
-        if (no <= 0 || userId <= 0) {
-            return null;
-        }
-        return studentRepository.findBySnoAndUserId(no, userId);
-    }
-
-    @Override
     public boolean isExist(int no) {
         if (no <= 0) {
             return false;

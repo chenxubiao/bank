@@ -4,11 +4,9 @@ package cn.longhaiyan.user.web;
 import cn.longhaiyan.common.utils.consts.BankConsts;
 import cn.longhaiyan.common.web.GuestBaseController;
 import cn.longhaiyan.user.bean.RegisterBean;
-import cn.longhaiyan.user.domain.Student;
 import cn.longhaiyan.user.domain.Teacher;
 import cn.longhaiyan.user.domain.UserInfo;
 import cn.longhaiyan.user.enums.UserTypeEnum;
-import cn.longhaiyan.user.service.StudentService;
 import cn.longhaiyan.user.service.TeacherService;
 import cn.longhaiyan.user.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +29,28 @@ public class TimeBankIndexController extends GuestBaseController {
 
 
     @RequestMapping(value = {"index", "/"}, method = RequestMethod.GET)
-    public String getIndexPage(HttpServletRequest request, Map<String, Object> map) {
+    public String getIndexPage(Map<String, Object> map) {
 
-        // TODO: 17-5-16
+        map.put("hello", "timebank");
+        return "/index";
+    }
+
+    @RequestMapping(value = "/sys/init")
+    public String sys(HttpServletRequest request, Map<String, Object> map) {
+
         int count = userInfoService.countAll();
         UserInfo sys;
         if (count == 0) {
+
+            Teacher teacher = new Teacher();
+            teacher.setName("高育良");
+            teacher.setDept("汉东大学政法系主任");
+            teacher.setRemark("名师出高徒");
+            teacher.setCreateTime(new Date());
+            teacher.setModifyTime(teacher.getCreateTime());
+            teacher.setTno(110);
+            teacherService.save(teacher);
+
             RegisterBean registerBean = new RegisterBean();
             registerBean.setCode("abcde");
             registerBean.setEmail("bank@bank.cn");
@@ -47,16 +61,9 @@ public class TimeBankIndexController extends GuestBaseController {
             sys = userInfoService.findById(BankConsts.USER_IS_SYSTEM);
             sys.setUserType(UserTypeEnum.TEACHER.getCode());
             sys.setUserRole(BankConsts.CRM_ADMIN);
+            sys.setTeacher(teacher);
             userInfoService.save(sys);
 
-            Teacher teacher = new Teacher();
-            teacher.setName("高育良");
-            teacher.setDept("汉东大学政法系主任");
-            teacher.setRemark("名师出高徒");
-            teacher.setCreateTime(new Date());
-            teacher.setModifyTime(teacher.getModifyTime());
-            teacher.setTno(110);
-            teacherService.save(teacher);
             System.out.println("已授权用户角色为teacher：" + teacher.getName());
         }
         sys = userInfoService.findById(BankConsts.USER_IS_SYSTEM);

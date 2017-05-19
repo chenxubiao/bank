@@ -7,10 +7,6 @@ import cn.longhaiyan.user.domain.Student;
  */
 public interface StudentService {
 
-    Student findByUserId(int userId);
-
-    Student findByNoAndUserId(int no, int userId);
-
     boolean isExist(int no);
 
     void save(Student student);

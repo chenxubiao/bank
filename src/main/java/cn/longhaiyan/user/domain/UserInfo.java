@@ -37,11 +37,11 @@ public class UserInfo implements Serializable{
     private Date modifyTime;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userInfo")
     List<UserRole> userRoleList = new ArrayList<>();
-    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "studentId")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Student student;
-    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "teacherId")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Teacher teacher;
 
     public int getId() {

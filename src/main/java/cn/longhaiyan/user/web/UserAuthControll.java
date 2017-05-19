@@ -96,18 +96,20 @@ public class UserAuthControll extends CommonController {
 
         boolean isNoExist;
         boolean isAuthed = false;
+        UserInfo userInfo = userInfoService.findById(userId);
         if (authType == UserTypeEnum.STUDENT.getCode()) {
 
             if (StringUtil.isBlank(authBean.getMajor())) {
                 return ResponseEntity.failure(Errors.PARAMETER_ILLEGAL);
             }
-            Student student = studentService.findByUserId(userId);
+
+            Student student = userInfo.getStudent();
             if (student != null) {
                 isAuthed = true;
             }
             isNoExist = studentService.isExist(no);
         } else {
-            Teacher teacher = teacherService.findByUserId(userId);
+            Teacher teacher = userInfo.getTeacher();
             if (teacher != null) {
                 isAuthed = true;
             }
@@ -120,9 +122,8 @@ public class UserAuthControll extends CommonController {
             return ResponseEntity.failure(Errors.AUTH_ALREADY_EXISTS);
         }
 
-        UserInfo userInfo = userInfoService.findById(userId);
         if (authType == UserTypeEnum.STUDENT.getCode()) {
-            Student student = new Student(no, userId, name, dept, authBean.getMajor().trim());
+            Student student = new Student(no, name, dept, authBean.getMajor().trim());
             student.setModifyTime(student.getCreateTime());
             studentService.save(student);
 
@@ -131,7 +132,7 @@ public class UserAuthControll extends CommonController {
             userInfo.setModifyTime(new Date());
             userInfoService.save(userInfo);
         } else {
-            Teacher teacher = new Teacher(no, userId, name, dept);
+            Teacher teacher = new Teacher(no, name, dept);
             teacher.setModifyTime(teacher.getCreateTime());
             teacherService.save(teacher);
 
