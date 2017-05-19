@@ -161,4 +161,12 @@ public class TaskInfoBean {
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
+    public List<TagInfo> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<TagInfo> tags) {
+        this.tags = tags;
+    }
 }
