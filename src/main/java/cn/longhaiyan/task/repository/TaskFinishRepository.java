@@ -1,6 +1,6 @@
 package cn.longhaiyan.task.repository;
 
-import cn.longhaiyan.task.domain.TaskComplete;
+import cn.longhaiyan.task.domain.TaskFinish;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 @Repository
-public interface TaskCompleteRepository extends PagingAndSortingRepository<TaskComplete, Long> {
+public interface TaskFinishRepository extends PagingAndSortingRepository<TaskFinish, Long> {
 
+    TaskFinish findById(int id);
 }

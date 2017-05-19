@@ -18,11 +18,13 @@ import cn.longhaiyan.message.service.MessageService;
 import cn.longhaiyan.tag.domain.TagInfo;
 import cn.longhaiyan.tag.service.TagInfoService;
 import cn.longhaiyan.task.bean.TaskInfoBean;
+import cn.longhaiyan.task.domain.TaskFinish;
 import cn.longhaiyan.task.domain.TaskInfo;
 import cn.longhaiyan.task.domain.TaskLog;
 import cn.longhaiyan.task.domain.TaskTag;
 import cn.longhaiyan.task.enums.TaskInfoUrgentEnum;
 import cn.longhaiyan.task.enums.TaskStatusEnum;
+import cn.longhaiyan.task.service.TaskFinishService;
 import cn.longhaiyan.task.service.TaskTagService;
 import cn.longhaiyan.task.service.TaskInfoService;
 import cn.longhaiyan.task.service.TaskLogService;
@@ -54,7 +56,16 @@ public class TaskPublishController extends CommonController {
     private MessageService messageService;
     @Autowired
     private TagInfoService tagInfoService;
+    @Autowired
+    private TaskFinishService taskFinishService;
 
+
+    /**
+     * 用户发布需求接口
+     * @param request
+     * @param task
+     * @return
+     */
 
     @RequestMapping(value = "/task/publish/data", method = RequestMethod.POST)
     public ResponseEntity publisTask(HttpServletRequest request, TaskInfoBean task) {
@@ -92,17 +103,22 @@ public class TaskPublishController extends CommonController {
             }
 
         }
-        TaskInfo taskInfo = new TaskInfo(task);
-        taskInfo.setUserId(userId);
-        taskInfo.setCreateTime(new Date());
+        TaskInfo taskInfo = new TaskInfo(task, userId);
         taskInfo.setModifyTime(taskInfo.getCreateTime());
         taskInfoService.save(taskInfo);
 
+        TaskFinish taskFinish = new TaskFinish(taskInfo, TaskStatusEnum.PUBLISH.getCode());
+        taskFinish.setModifyTime(taskFinish.getCreateTime());
+        taskFinishService.save(taskFinish);
+
+        taskInfo.setFinishId(taskFinish.getId());
+        taskInfo.setModifyTime(new Date());
+        taskInfoService.save(taskInfo);
+
         String title = taskInfo.getTitle();
-        TaskLog taskLog = new TaskLog(TaskStatusEnum.PUBLISH.getCode(), userId, taskInfo);
+        TaskLog taskLog = new TaskLog(taskFinish.getId(), taskInfo.getId(), userId, TaskStatusEnum.PUBLISH.getCode());
         taskLog.setModifyTime(taskLog.getCreateTime());
         taskLogService.save(taskLog);
-        taskInfo.addTaskLog(taskLog);
 
         Message message = new Message
                 (MessageTypeEnum.TASK_PUBLISH.getCode(), BankConsts.USER_IS_SYSTEM, userId, taskLog.getId(), title);

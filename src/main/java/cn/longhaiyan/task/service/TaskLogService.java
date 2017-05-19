@@ -1,5 +1,6 @@
 package cn.longhaiyan.task.service;
 
+
 import cn.longhaiyan.task.domain.TaskLog;
 
 /**

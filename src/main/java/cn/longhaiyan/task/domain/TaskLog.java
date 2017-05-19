@@ -5,42 +5,38 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by chenxb on 17-5-16.
+ * Created by chenxb on 17-5-19.
  */
 @Entity
 @Table(name = "tb_task_log")
 public class TaskLog implements Serializable {
 
-    private static final long serialVersionUID = 2369851337518014911L;
+    private static final long serialVersionUID = -5311299118944207610L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column(name = "createTime", updatable = false)
     private Date createTime;
     @Column(name = "modifyTime")
     private Date modifyTime;
-    private int status;
+
+    private int finishId;
+    private int taskId;
     private int userId;
+    private int takerId;
+    private int status;     //true  false
     private String remark = "";
-    // optional=true：可选，表示此对象可以没有，可以为null；false表示必须存在
-    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, optional = true)
-    @JoinColumn(name = "taskId")
-    private TaskInfo taskInfo;
-    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, optional = true)
-    @JoinColumn(name = "completeId")
-    private TaskComplete taskComplete;
-
-    public TaskLog(int status, int userId, TaskInfo taskInfo) {
-
-        this.status = status;
-        this.userId = userId;
-        this.taskInfo = taskInfo;
-        this.createTime = new Date();
-
-    }
 
     public TaskLog() {
 
+    }
+
+    public TaskLog(int finishId, int taskId, int userId, int status) {
+        this.finishId = finishId;
+        this.taskId = taskId;
+        this.userId = userId;
+        this.status = status;
+        this.createTime = new Date();
     }
 
     public int getId() {
@@ -67,6 +63,38 @@ public class TaskLog implements Serializable {
         this.modifyTime = modifyTime;
     }
 
+    public int getFinishId() {
+        return finishId;
+    }
+
+    public void setFinishId(int finishId) {
+        this.finishId = finishId;
+    }
+
+    public int getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getTakerId() {
+        return takerId;
+    }
+
+    public void setTakerId(int takerId) {
+        this.takerId = takerId;
+    }
+
     public int getStatus() {
         return status;
     }
@@ -81,29 +109,5 @@ public class TaskLog implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    public TaskInfo getTaskInfo() {
-        return taskInfo;
-    }
-
-    public void setTaskInfo(TaskInfo taskInfo) {
-        this.taskInfo = taskInfo;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public TaskComplete getTaskComplete() {
-        return taskComplete;
-    }
-
-    public void setTaskComplete(TaskComplete taskComplete) {
-        this.taskComplete = taskComplete;
     }
 }

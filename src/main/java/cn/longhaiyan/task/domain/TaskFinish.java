@@ -1,38 +1,42 @@
 package cn.longhaiyan.task.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by chenxb on 17-5-16.
  */
 @Entity
-@Table(name = "tb_task_complete")
-public class TaskComplete implements Serializable {
+@Table(name = "tb_task_finish")
+public class TaskFinish implements Serializable {
 
     private static final long serialVersionUID = -6995236560063518009L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column(name = "createTime", updatable = false)
     private Date createTime;
     @Column(name = "modifyTime")
     private Date modifyTime;
+
     private int taskId;
-    private int sender;
-    private int receiver;
+    private int userId;
+    private int takerId;
     private int status;
     private String remark = "";
-    private Date completeTime;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "taskComplete")
-    List<TaskLog> taskLogs = new ArrayList<>();
+    private Date finishTime;
 
+    public TaskFinish() {
+
+    }
+
+    public TaskFinish(TaskInfo taskInfo, int status) {
+        this.status = status;
+        this.setTaskId(taskInfo.getId());
+        this.setUserId(taskInfo.getUserId());
+        this.setCreateTime(new Date());
+    }
 
     public int getId() {
         return id;
@@ -58,20 +62,28 @@ public class TaskComplete implements Serializable {
         this.modifyTime = modifyTime;
     }
 
-    public int getSender() {
-        return sender;
+    public int getTaskId() {
+        return taskId;
     }
 
-    public void setSender(int sender) {
-        this.sender = sender;
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
     }
 
-    public int getReceiver() {
-        return receiver;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setReceiver(int receiver) {
-        this.receiver = receiver;
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getTakerId() {
+        return takerId;
+    }
+
+    public void setTakerId(int takerId) {
+        this.takerId = takerId;
     }
 
     public int getStatus() {
@@ -90,27 +102,11 @@ public class TaskComplete implements Serializable {
         this.remark = remark;
     }
 
-    public Date getCompleteTime() {
-        return completeTime;
+    public Date getFinishTime() {
+        return finishTime;
     }
 
-    public void setCompleteTime(Date completeTime) {
-        this.completeTime = completeTime;
-    }
-
-    public List<TaskLog> getTaskLogs() {
-        return taskLogs;
-    }
-
-    public void setTaskLogs(List<TaskLog> taskLogs) {
-        this.taskLogs = taskLogs;
-    }
-
-    public int getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(int taskId) {
-        this.taskId = taskId;
+    public void setFinishTime(Date finishTime) {
+        this.finishTime = finishTime;
     }
 }

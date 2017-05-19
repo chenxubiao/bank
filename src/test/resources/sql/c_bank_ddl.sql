@@ -145,6 +145,7 @@ DROP TABLE IF EXISTS `tb_task_log`;
 CREATE TABLE `tb_task_log`(
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `userId` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
+  `takerId` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '任务完成者',
   `remark` VARCHAR(100) DEFAULT NULL COMMENT '备注',
   `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '同 taskStatus',
   `createTime` DATETIME NOT NULL COMMENT '创建时间',
@@ -152,20 +153,20 @@ CREATE TABLE `tb_task_log`(
   PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务信息日志表';
 
-DROP TABLE IF EXISTS `tb_task_complete`;
-CREATE TABLE `tb_task_complete`(
+DROP TABLE IF EXISTS `tb_task_finish`;
+CREATE TABLE `tb_task_finish`(
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `sender` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '任务创建者',
-  `receiver` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '接单者',
+  `userId` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '任务创建者',
   `taskId` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '任务id',
+  `takerId` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '接单者',
   `remark` VARCHAR(100) DEFAULT NULL COMMENT '备注',
   `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '1:已接单，进行中，2：已接单，对方申请关闭，3：同意对方关闭，4：不同意对方关闭，进行中，5：已关闭，6：申请关闭中，进行中，7：对方同意关闭，已结束，8：对方不同意关闭，进行中，9：完成失败，10完成成功',
-  `completeTime` DATETIME DEFAULT NULL COMMENT '完成时间',
+  `finishTime` DATETIME DEFAULT NULL COMMENT '完成时间',
   `createTime` DATETIME NOT NULL COMMENT '创建时间',
   `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_taskId` (`taskId`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务信息接单表';
+  UNIQUE KEY `uk_takerId_taskId` (`takerId`,`taskId`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务接单信息表';
 
 DROP TABLE IF EXISTS `tb_task_tag`;
 CREATE TABLE `tb_task_tag`(
@@ -194,6 +195,7 @@ CREATE TABLE `tb_task_info`(
   `money` INT(11) NOT NULL DEFAULT 0 COMMENT '变动积分',
   `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '1:已发送，待接单，2：未接单，已关闭,退款中，3：未接单，已退款，4：已接单，5未完成，关闭中，退款中，6：已关闭，已退款，6：已接单，进行中，7：已接单，已完成，8：已接单，未完成',
   `deadTime` DATETIME NOT NULL COMMENT '截止日期',
+  `finishId` INT(11) NOT NULL DEFAULT 0 COMMENT '正在进行中与该task绑定的完成状态',
   `createTime` DATETIME NOT NULL COMMENT '创建时间',
   `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)

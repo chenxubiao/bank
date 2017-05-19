@@ -2,6 +2,7 @@ package cn.longhaiyan.task.bean;
 
 import cn.longhaiyan.tag.domain.TagInfo;
 import cn.longhaiyan.task.domain.TaskInfo;
+import cn.longhaiyan.user.bean.User;
 
 import java.util.Date;
 import java.util.List;
@@ -11,9 +12,8 @@ import java.util.List;
  */
 public class TaskInfoBean {
 
-    private String name;        //taskDetail回显用
-    private int userId;
-
+    private User senderInfo;
+    private User finisherInfo;
     private String title = "";       //主题    不可空
     private String description = ""; //描述    不可空
     private String remark = "";      //要求
@@ -32,9 +32,9 @@ public class TaskInfoBean {
 
     }
 
-    public TaskInfoBean(TaskInfo taskInfo, String name, int userId) {
-        this.userId = userId;
-        this.name = name;
+    public TaskInfoBean(TaskInfo taskInfo, User senderInfo, User finisherInfo) {
+        this.finisherInfo = finisherInfo;
+        this.senderInfo = senderInfo;
         this.title = taskInfo.getTitle();
         this.address = taskInfo.getAddress();
         this.money = taskInfo.getMoney();
@@ -48,6 +48,22 @@ public class TaskInfoBean {
         this.description = taskInfo.getDesctiption();
         this.urgent = taskInfo.getUrgent();
         this.tags = taskInfo.getTags();
+    }
+
+    public User getSenderInfo() {
+        return senderInfo;
+    }
+
+    public void setSenderInfo(User senderInfo) {
+        this.senderInfo = senderInfo;
+    }
+
+    public User getFinisherInfo() {
+        return finisherInfo;
+    }
+
+    public void setFinisherInfo(User finisherInfo) {
+        this.finisherInfo = finisherInfo;
     }
 
     public String getTitle() {
@@ -144,22 +160,6 @@ public class TaskInfoBean {
 
     public void setTagIds(String tagIds) {
         this.tagIds = tagIds;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public List<TagInfo> getTags() {

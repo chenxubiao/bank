@@ -10,14 +10,18 @@ import cn.longhaiyan.common.utils.consts.Errors;
 import cn.longhaiyan.common.web.GuestBaseController;
 import cn.longhaiyan.tag.domain.TagInfo;
 import cn.longhaiyan.tag.service.TagInfoService;
+import cn.longhaiyan.task.bean.TaskFinishBean;
 import cn.longhaiyan.task.bean.TaskIndexBean;
 import cn.longhaiyan.task.bean.TaskInfoBean;
+import cn.longhaiyan.task.domain.TaskFinish;
 import cn.longhaiyan.task.domain.TaskInfo;
 import cn.longhaiyan.task.domain.TaskTag;
 import cn.longhaiyan.task.enums.TaskInfoUrgentEnum;
 import cn.longhaiyan.task.enums.TaskRequestTypeEnum;
 import cn.longhaiyan.task.enums.TaskStatusEnum;
+import cn.longhaiyan.task.service.TaskFinishService;
 import cn.longhaiyan.task.service.TaskInfoService;
+import cn.longhaiyan.user.bean.User;
 import cn.longhaiyan.user.domain.UserInfo;
 import cn.longhaiyan.user.enums.UserTypeEnum;
 import cn.longhaiyan.user.service.UserInfoService;
@@ -44,6 +48,9 @@ public class TaskInfoController extends GuestBaseController {
     private TagInfoService tagInfoService;
     @Autowired
     private UserInfoService userInfoService;
+    @Autowired
+    private TaskFinishService taskFinishService;
+
 
 
     /**
@@ -66,7 +73,7 @@ public class TaskInfoController extends GuestBaseController {
         if (type == TaskRequestTypeEnum.PUBLISHING.getCode()) {
             status = TaskStatusEnum.PUBLISH.getCode();
         } else if (type == TaskRequestTypeEnum.SERVICEING.getCode()) {
-            status = TaskStatusEnum.REVEIVE.getCode();
+            status = TaskStatusEnum.RECEIVE.getCode();
         } else if (type == TaskRequestTypeEnum.DONE_RECEIVE.getCode()) {
             status = TaskStatusEnum.DONE_RECEIVE.getCode();
         } else {
@@ -83,7 +90,11 @@ public class TaskInfoController extends GuestBaseController {
         List<TaskIndexBean> taskIndexBeanList = new ArrayList<>();
         List<TaskInfo> taskInfoList = page.getContent();
         for (TaskInfo taskInfo : taskInfoList) {
-            boolean isEncrypt = isEncrypt(userId, taskInfo);
+            TaskFinish taskFinish = null;
+            if (type != TaskRequestTypeEnum.PUBLISHING.getCode()) {
+                taskFinish = taskFinishService.findById(taskInfo.getFinishId());
+            }
+            boolean isEncrypt = isEncrypt(userId, taskInfo, taskFinish);
             if (isEncrypt) {
                 taskInfo.setAddress(convertAddress(taskInfo.getAddress()));
             }
@@ -122,9 +133,6 @@ public class TaskInfoController extends GuestBaseController {
             return ResponseEntity.failure(Errors.TASK_NOT_FOUNT);
         }
 
-        //是否加密
-        boolean isEncrypt = isEncrypt(userId, taskInfo);
-
         UserInfo senderInfo = userInfoService.findById(taskInfo.getUserId());
         String name;
         int sender = senderInfo.getId();
@@ -141,24 +149,54 @@ public class TaskInfoController extends GuestBaseController {
         } else {
             return ResponseEntity.failure(Errors.TASK_SENDER_ERROR);
         }
+        TaskFinish taskFinish = taskFinishService.findById(taskInfo.getFinishId());
+        User taker = null;
+        UserInfo takerInfo = null;
+        //是否加密
+        boolean isEncrypt = isEncrypt(userId, taskInfo, taskFinish);
 
+        if (taskFinish != null) {
+            takerInfo = userInfoService.findById(taskFinish.getTakerId());;
+            if (isEncrypt) {
+                taskFinish.setUserId(0);
+                taskFinish.setTakerId(0);
+                taskFinish.setRemark(convertString(taskFinish.getRemark()));
+            }
+        }
+        if (takerInfo != null) {
+            taker = new User(takerInfo);
+            if (takerInfo.getUserType() == UserTypeEnum.STUDENT.getCode()) {
+                taker.setName(takerInfo.getStudent().getName());
+            } else if (takerInfo.getUserType() == UserTypeEnum.TEACHER.getCode()) {
+                taker.setName(takerInfo.getTeacher().getName());
+            }
+        }
         //加密
+        User puber = new User();
         if (isEncrypt) {
+            if (taker != null) {
+                taker.setName(convertString(taker.getName()));
+                taker.setId(BankConsts.ZERO);
+                taker.setUserName(convertString(taker.getUserName()));
+            }
+            puber.setName(convertString(name));
             taskInfo.setAddress(convertAddress(taskInfo.getAddress()));
-            name = convertString(name);
             taskInfo.setPersonal(convertString(taskInfo.getPersonal()));
             taskInfo.setUrgent(TaskInfoUrgentEnum.NO_URGENT.getCode());
             taskInfo.setUrgentMoney(BankConsts.ZERO);
-            name = convertString(name);
-            sender = 0;
+        } else {
+            puber.setId(sender);
+            puber.setName(name);
+            puber.setUserName(senderInfo.getUserName());
         }
-        taskInfo.setTaskComplete(null);
         List<TagInfo> tags = getTagInfoList(taskInfo);
         taskInfo.setTags(tags);
-
-        TaskInfoBean taskInfoBean = new TaskInfoBean(taskInfo, name, sender);
-
-        return ResponseEntity.success().set(BankConsts.DATA, taskInfoBean);
+        TaskInfoBean taskInfoBean = new TaskInfoBean(taskInfo, puber, taker);
+        TaskFinishBean taskFinishBean = null;
+        if (taskFinish != null) {
+            taskFinishBean = new TaskFinishBean(taskFinish, puber, taker);
+        }
+        return ResponseEntity.success().set(BankConsts.DATA, taskInfoBean).set("finishInfo", taskFinishBean);
     }
 
 
@@ -192,19 +230,19 @@ public class TaskInfoController extends GuestBaseController {
     }
 
     /**
-     *
      * @param userId
-     * @param taskInfo  非空
+     * @param taskInfo 非空
      * @return
      */
-    private boolean isEncrypt(int userId, TaskInfo taskInfo) {
+    private boolean isEncrypt(int userId, TaskInfo taskInfo, TaskFinish taskFinish) {
         //是否加密
         boolean isEncrypt = true;
         if (userId > 0 && userId == taskInfo.getUserId()) {
             //此时为需求发布方
             isEncrypt = false;
-        } else if (userId > 0 && taskInfo.getTaskComplete() != null
-                && userId == taskInfo.getTaskComplete().getReceiver()) {
+        } else if (userId > 0 && taskInfo.getFinishId() > 0
+                && taskFinish != null && taskFinish.getTakerId() == userId) {
+
             //此时为需求接收方
             isEncrypt = false;
         }

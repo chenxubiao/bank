@@ -5,7 +5,13 @@ package cn.longhaiyan.message.enums;
  */
 public enum MessageTypeEnum {
 
-    REGEISTER(1, "注册"), LOGIN(2, "连续登录"), ACCOUNT_CHANGE(3, "账户变动"), USER_MSG(4, "用户私信"), TASK_PUBLISH(5, "任务通知"),;
+    REGEISTER(1, "注册"),
+    LOGIN(2, "连续登录"),
+    ACCOUNT_CHANGE(3, "账户变动"),
+    USER_MSG(4, "用户私信"),
+    TASK_PUBLISH(5, "任务通知"),
+    TASK_RECEIVED_TO_SENDER(6, "任务通知"),     //任务已被接单
+    TASK_REVEIVED_TO_RECEIVER(7, "任务通知"),;  //任务抢单成功
 
     private int code;
     private String value;

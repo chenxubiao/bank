@@ -1,16 +1,11 @@
 package cn.longhaiyan.task.domain;
 
-import cn.longhaiyan.common.bean.CommonBean;
-import cn.longhaiyan.common.utils.CollectionUtil;
 import cn.longhaiyan.common.utils.DateStringFormatUtil;
 import cn.longhaiyan.tag.domain.TagInfo;
-import cn.longhaiyan.tag.service.TagInfoService;
 import cn.longhaiyan.task.bean.TaskInfoBean;
 import cn.longhaiyan.task.enums.TaskStatusEnum;
 import cn.longhaiyan.task.enums.TaskInfoUrgentEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -32,6 +27,8 @@ public class TaskInfo implements Serializable {
     private Date createTime;
     @Column(name = "modifyTime")
     private Date modifyTime;
+
+
     private int userId;
     private String title = "";          //主题
     private String desctiption = "";    //描述
@@ -45,12 +42,7 @@ public class TaskInfo implements Serializable {
     private String serviceTime = "";    //服务时间
     private int money;
     private int status;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "taskInfo")
-    List<TaskLog> taskLogs = new ArrayList<>();
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "completeId")
-    private TaskComplete taskComplete;
+    private int finishId;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "taskInfo")
     List<TaskTag> taskTags = new ArrayList<>();
@@ -62,7 +54,7 @@ public class TaskInfo implements Serializable {
 
     }
 
-    public TaskInfo(TaskInfoBean taskInfoBean) {
+    public TaskInfo(TaskInfoBean taskInfoBean,int userId) {
         this.title = taskInfoBean.getTitle().trim();
         this.desctiption = taskInfoBean.getDescription().trim();
         this.remark = taskInfoBean.getRemark();
@@ -76,18 +68,6 @@ public class TaskInfo implements Serializable {
         this.serviceTime = taskInfoBean.getServiceTime();
         this.status = TaskStatusEnum.PUBLISH.getCode();
         this.createTime = new Date();
-    }
-
-    public void addTaskLog(TaskLog taskLog) {
-        if (!taskLogs.contains(taskLog)) {
-            taskLogs.add(taskLog);
-        }
-    }
-
-    public void removeTaskLog(TaskLog taskLog) {
-        if (taskLogs.contains(taskLog)) {
-            taskLogs.remove(taskLog);
-        }
     }
 
     public int getId() {
@@ -138,6 +118,14 @@ public class TaskInfo implements Serializable {
         this.desctiption = desctiption;
     }
 
+    public String getDemand() {
+        return demand;
+    }
+
+    public void setDemand(String demand) {
+        this.demand = demand;
+    }
+
     public String getRemark() {
         return remark;
     }
@@ -152,46 +140,6 @@ public class TaskInfo implements Serializable {
 
     public void setPersonal(String personal) {
         this.personal = personal;
-    }
-
-    public int getMoney() {
-        return money;
-    }
-
-    public void setMoney(int money) {
-        this.money = money;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public List<TaskLog> getTaskLogs() {
-        return taskLogs;
-    }
-
-    public void setTaskLogs(List<TaskLog> taskLogs) {
-        this.taskLogs = taskLogs;
-    }
-
-    public TaskComplete getTaskComplete() {
-        return taskComplete;
-    }
-
-    public void setTaskComplete(TaskComplete taskComplete) {
-        this.taskComplete = taskComplete;
-    }
-
-    public String getDemand() {
-        return demand;
-    }
-
-    public void setDemand(String demand) {
-        this.demand = demand;
     }
 
     public Date getDeadTime() {
@@ -226,6 +174,30 @@ public class TaskInfo implements Serializable {
         this.urgentMoney = urgentMoney;
     }
 
+    public String getServiceTime() {
+        return serviceTime;
+    }
+
+    public void setServiceTime(String serviceTime) {
+        this.serviceTime = serviceTime;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public List<TaskTag> getTaskTags() {
         return taskTags;
     }
@@ -234,15 +206,8 @@ public class TaskInfo implements Serializable {
         this.taskTags = taskTags;
     }
 
-    public String getServiceTime() {
-        return serviceTime;
-    }
-
-    public void setServiceTime(String serviceTime) {
-        this.serviceTime = serviceTime;
-    }
     public String getTime() {
-        return DateStringFormatUtil.format(this.createTime);
+        return time;
     }
 
     public void setTime(String time) {
@@ -255,5 +220,13 @@ public class TaskInfo implements Serializable {
 
     public void setTags(List<TagInfo> tags) {
         this.tags = tags;
+    }
+
+    public int getFinishId() {
+        return finishId;
+    }
+
+    public void setFinishId(int finishId) {
+        this.finishId = finishId;
     }
 }
