@@ -150,7 +150,7 @@ public class AccountLog {
         } else if (AccountLogTypeEnum.ADD_REGESTER.getCode() == this.type) {
             message = "恭喜您"
                     + TimeUtil.format(this.createTime, TimeUtil.DATE_FORMAT_CHINESE)
-                    + "加入「时间银行」，系统已为您自动开通账户，注册收入时间币"
+                    + "加入「时间银行」，系统已自为您动开通账户，注册收入时间币"
                     + money
                     + "枚，账户余额"
                     + balance

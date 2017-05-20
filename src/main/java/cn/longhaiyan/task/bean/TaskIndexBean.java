@@ -1,6 +1,7 @@
 package cn.longhaiyan.task.bean;
 
 import cn.longhaiyan.common.utils.DateStringFormatUtil;
+import cn.longhaiyan.common.utils.StringUtil;
 import cn.longhaiyan.tag.domain.TagInfo;
 import cn.longhaiyan.task.domain.TaskInfo;
 
@@ -32,9 +33,9 @@ public class TaskIndexBean {
 
     }
 
-    public TaskIndexBean(TaskInfo taskInfo, List<TagInfo> tagInfos) {
+    public TaskIndexBean(TaskInfo taskInfo, List<TagInfo> tagInfos, boolean isEncrypt) {
         this.title = taskInfo.getTitle();
-        this.address = taskInfo.getAddress();
+        this.address = isEncrypt ? convertString(taskInfo.getAddress()) : taskInfo.getAddress();
         this.createTime = taskInfo.getCreateTime();
         this.money = taskInfo.getMoney();
         this.tags = tagInfos;
@@ -101,4 +102,17 @@ public class TaskIndexBean {
     public void setDeadTime(Date deadTime) {
         this.deadTime = deadTime;
     }
+
+
+    private String convertString(String value) {
+        if (StringUtil.isBlank(value)) {
+            return value;
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < value.length(); i++) {
+            stringBuilder.append("*");
+        }
+        return stringBuilder.toString();
+    }
+
 }

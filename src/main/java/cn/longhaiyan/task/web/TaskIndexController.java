@@ -16,7 +16,6 @@ import cn.longhaiyan.task.bean.TaskInfoBean;
 import cn.longhaiyan.task.domain.TaskFinish;
 import cn.longhaiyan.task.domain.TaskInfo;
 import cn.longhaiyan.task.domain.TaskTag;
-import cn.longhaiyan.task.enums.TaskInfoUrgentEnum;
 import cn.longhaiyan.task.enums.TaskRequestTypeEnum;
 import cn.longhaiyan.task.enums.TaskStatusEnum;
 import cn.longhaiyan.task.service.TaskFinishService;
@@ -98,12 +97,9 @@ public class TaskIndexController extends GuestBaseController {
                 taskFinish = taskFinishService.findById(taskInfo.getFinishId());
             }
             boolean isEncrypt = isEncrypt(userId, taskInfo, taskFinish);
-            if (isEncrypt) {
-                taskInfo.setAddress(convertAddress(taskInfo.getAddress()));
-            }
             List<TagInfo> tagInfos = getTagInfoList(taskInfo);
+            TaskIndexBean taskIndexBean = new TaskIndexBean(taskInfo, tagInfos, isEncrypt);
 
-            TaskIndexBean taskIndexBean = new TaskIndexBean(taskInfo, tagInfos);
             taskIndexBeanList.add(taskIndexBean);
         }
         Pagination pagination = new Pagination(page.getTotalPages()
@@ -163,7 +159,7 @@ public class TaskIndexController extends GuestBaseController {
             if (isEncrypt) {
                 taskFinish.setUserId(0);
                 taskFinish.setTakerId(0);
-                taskFinish.setRemark(convertString(taskFinish.getRemark()));
+                taskFinish.setRemark(StringUtil.convertEncrypt(taskFinish.getRemark()));
             }
         }
         if (takerInfo != null) {
@@ -178,15 +174,11 @@ public class TaskIndexController extends GuestBaseController {
         User puber = new User();
         if (isEncrypt) {
             if (taker != null) {
-                taker.setName(convertString(taker.getName()));
+                taker.setName(StringUtil.convertEncrypt(taker.getName()));
                 taker.setId(BankConsts.ZERO);
-                taker.setUserName(convertString(taker.getUserName()));
+                taker.setUserName(StringUtil.convertEncrypt(taker.getUserName()));
             }
-            puber.setName(convertString(name));
-            taskInfo.setAddress(convertAddress(taskInfo.getAddress()));
-            taskInfo.setPersonal(convertString(taskInfo.getPersonal()));
-            taskInfo.setUrgent(TaskInfoUrgentEnum.NO_URGENT.getCode());
-            taskInfo.setUrgentMoney(BankConsts.ZERO);
+            puber.setName(StringUtil.convertEncrypt(name));
         } else {
             puber.setId(sender);
             puber.setName(name);
@@ -194,42 +186,12 @@ public class TaskIndexController extends GuestBaseController {
         }
         List<TagInfo> tags = getTagInfoList(taskInfo);
         taskInfo.setTags(tags);
-        TaskInfoBean taskInfoBean = new TaskInfoBean(taskInfo, puber, taker);
+        TaskInfoBean taskInfoBean = new TaskInfoBean(taskInfo, puber, taker, isEncrypt);
         TaskFinishBean taskFinishBean = null;
         if (taskFinish != null) {
             taskFinishBean = new TaskFinishBean(taskFinish, puber, taker);
         }
         return ResponseEntity.success().set(BankConsts.DATA, taskInfoBean).set("finishInfo", taskFinishBean);
-    }
-
-
-    private String convertAddress(String address) {
-        if (StringUtil.isBlank(address)) {
-            return address;
-        }
-        if (address.length() >= 2) {
-            int length = address.length();
-            int entry = length / 2;
-            StringBuilder addr = new StringBuilder(address.substring(0, entry));
-            for (int i = 0; i < entry; i++) {
-                addr.append("*");
-            }
-            address = addr.toString();
-        } else {
-            address = "*";
-        }
-        return address;
-    }
-
-    private String convertString(String userName) {
-        if (StringUtil.isBlank(userName)) {
-            return userName;
-        }
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < userName.length(); i++) {
-            stringBuilder.append("*");
-        }
-        return stringBuilder.toString();
     }
 
     /**

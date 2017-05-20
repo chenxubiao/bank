@@ -36,10 +36,10 @@ public class Account implements Serializable {
     private int userId;
     private int totalMoney;
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "account")
+    @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "account")
     Set<AccountLog> logs = new LinkedHashSet<>();
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "account")
+    @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "account")
     Set<AccountPay> payLogs = new LinkedHashSet<>();
 
     public int getId() {

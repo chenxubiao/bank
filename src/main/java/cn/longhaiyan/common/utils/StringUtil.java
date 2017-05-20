@@ -167,5 +167,16 @@ public class StringUtil {
         return pattern.matcher(value).matches();
     }
 
+    public static String convertEncrypt(String value) {
+        if (StringUtil.isBlank(value)) {
+            return value;
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < value.length(); i++) {
+            stringBuilder.append("*");
+        }
+        return stringBuilder.toString();
+    }
+
 }
 

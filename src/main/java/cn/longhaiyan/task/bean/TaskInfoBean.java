@@ -1,5 +1,7 @@
 package cn.longhaiyan.task.bean;
 
+import cn.longhaiyan.common.utils.StringUtil;
+import cn.longhaiyan.common.utils.consts.BankConsts;
 import cn.longhaiyan.tag.domain.TagInfo;
 import cn.longhaiyan.task.domain.TaskInfo;
 import cn.longhaiyan.task.enums.TaskStatusEnum;
@@ -35,22 +37,23 @@ public class TaskInfoBean {
 
     }
 
-    public TaskInfoBean(TaskInfo taskInfo, User senderInfo, User finisherInfo) {
+    public TaskInfoBean(TaskInfo taskInfo, User senderInfo, User finisherInfo, boolean isEncrypt) {
+
         this.finisherInfo = finisherInfo;
         this.senderInfo = senderInfo;
         this.title = taskInfo.getTitle();
-        this.address = taskInfo.getAddress();
+        this.address = isEncrypt ? StringUtil.convertEncrypt(taskInfo.getAddress()) : taskInfo.getAddress();
         this.status = TaskStatusEnum.getValue(taskInfo.getStatus());
         this.money = taskInfo.getMoney();
         this.remark = taskInfo.getRemark();
-        this.personal = taskInfo.getPersonal();
+        this.personal = isEncrypt ? StringUtil.convertEncrypt(taskInfo.getPersonal()) : taskInfo.getPersonal();
         this.demand = taskInfo.getDemand();
         this.serviceTime = taskInfo.getServiceTime();
         this.deadTime = taskInfo.getDeadTime();
-        this.urgentMoney = taskInfo.getUrgentMoney();
+        this.urgentMoney = isEncrypt ? BankConsts.ZERO : taskInfo.getUrgentMoney();
         this.tags = taskInfo.getTags();
         this.description = taskInfo.getDesctiption();
-        this.urgent = taskInfo.getUrgent();
+        this.urgent = isEncrypt ? BankConsts.ZERO : taskInfo.getUrgent();
         this.tags = taskInfo.getTags();
     }
 

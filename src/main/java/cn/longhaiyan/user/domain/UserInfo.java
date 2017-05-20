@@ -38,10 +38,10 @@ public class UserInfo implements Serializable{
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userInfo")
     List<UserRole> userRoleList = new ArrayList<>();
     @JoinColumn(name = "studentId")
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     private Student student;
     @JoinColumn(name = "teacherId")
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     private Teacher teacher;
 
     public int getId() {
