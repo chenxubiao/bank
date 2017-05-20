@@ -172,6 +172,7 @@ DROP TABLE IF EXISTS `tb_task_tag`;
 CREATE TABLE `tb_task_tag`(
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `userId` INT(11) NOT NULL DEFAULT 0 COMMENT '用户id',
+  `taskId` INT(11) NOT NULL DEFAULT 0 COMMENT '任务id',
   `tagId` INT(11) NOT NULL DEFAULT 0 COMMENT '标签id',
   `createTime` DATETIME NOT NULL COMMENT '创建时间',
   `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',

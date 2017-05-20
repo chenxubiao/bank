@@ -29,4 +29,12 @@ public class TaskFinishServiceImpl implements TaskFinishService {
         return taskFinishRepository.findById(id);
     }
 
+    @Override
+    public int countByTakerId(int takerId) {
+        if (takerId <= 0) {
+            return 0;
+        }
+        return taskFinishRepository.countByTakerId(takerId);
+    }
+
 }

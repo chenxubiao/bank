@@ -21,9 +21,7 @@ public class TaskTag implements Serializable {
     private Date modifyTime;
     private int userId;
     private int tagId;
-    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, optional = true)
-    @JoinColumn(name = "taskId")
-    private TaskInfo taskInfo;
+    private int taskId;
 
     public TaskTag() {
 
@@ -32,7 +30,7 @@ public class TaskTag implements Serializable {
     public TaskTag(int tagId, int userId, TaskInfo taskInfo) {
         this.userId = userId;
         this.tagId = tagId;
-        this.taskInfo = taskInfo;
+        this.taskId = taskInfo.getId();
         this.createTime = new Date();
     }
 
@@ -68,19 +66,19 @@ public class TaskTag implements Serializable {
         this.tagId = tagId;
     }
 
-    public TaskInfo getTaskInfo() {
-        return taskInfo;
-    }
-
-    public void setTaskInfo(TaskInfo taskInfo) {
-        this.taskInfo = taskInfo;
-    }
-
     public int getUserId() {
         return userId;
     }
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public int getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
     }
 }

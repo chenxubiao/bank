@@ -9,4 +9,6 @@ public interface TaskFinishService {
     void save(TaskFinish taskFinish);
 
     TaskFinish findById(int id);
+
+    int countByTakerId(int takerId);
 }

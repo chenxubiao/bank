@@ -2,6 +2,7 @@ package cn.longhaiyan.task.bean;
 
 import cn.longhaiyan.tag.domain.TagInfo;
 import cn.longhaiyan.task.domain.TaskInfo;
+import cn.longhaiyan.task.enums.TaskStatusEnum;
 import cn.longhaiyan.user.bean.User;
 
 import java.util.Date;
@@ -27,6 +28,8 @@ public class TaskInfoBean {
     private int money;          //             非空
     private String tagIds;     //标签id         非空
     private List<TagInfo> tags;
+    private String status;
+
 
     public TaskInfoBean() {
 
@@ -37,6 +40,7 @@ public class TaskInfoBean {
         this.senderInfo = senderInfo;
         this.title = taskInfo.getTitle();
         this.address = taskInfo.getAddress();
+        this.status = TaskStatusEnum.getValue(taskInfo.getStatus());
         this.money = taskInfo.getMoney();
         this.remark = taskInfo.getRemark();
         this.personal = taskInfo.getPersonal();
@@ -168,5 +172,13 @@ public class TaskInfoBean {
 
     public void setTags(List<TagInfo> tags) {
         this.tags = tags;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

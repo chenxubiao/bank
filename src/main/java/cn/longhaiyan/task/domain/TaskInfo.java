@@ -5,7 +5,6 @@ import cn.longhaiyan.tag.domain.TagInfo;
 import cn.longhaiyan.task.bean.TaskInfoBean;
 import cn.longhaiyan.task.enums.TaskStatusEnum;
 import cn.longhaiyan.task.enums.TaskInfoUrgentEnum;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -43,9 +42,9 @@ public class TaskInfo implements Serializable {
     private int money;
     private int status;
     private int finishId;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "taskInfo")
-    List<TaskTag> taskTags = new ArrayList<>();
+    @Transient
+    private List<TaskTag> taskTags = new ArrayList<>();
+    @Transient
     private String time;
     @Transient
     private List<TagInfo> tags;
@@ -55,13 +54,14 @@ public class TaskInfo implements Serializable {
     }
 
     public TaskInfo(TaskInfoBean taskInfoBean,int userId) {
+        this.userId = userId;
         this.title = taskInfoBean.getTitle().trim();
         this.desctiption = taskInfoBean.getDescription().trim();
         this.remark = taskInfoBean.getRemark();
         this.demand = taskInfoBean.getDemand();
         this.money = taskInfoBean.getMoney();
         this.urgent = taskInfoBean.getUrgent();
-        this.urgent = taskInfoBean.getUrgent() == TaskInfoUrgentEnum.NO_URGENT.getCode() ? 0 : taskInfoBean.getUrgentMoney();
+        this.urgentMoney = taskInfoBean.getUrgent() == TaskInfoUrgentEnum.NO_URGENT.getCode() ? 0 : taskInfoBean.getUrgentMoney();
         this.personal = taskInfoBean.getPersonal();
         this.deadTime = taskInfoBean.getDeadTime();
         this.address = taskInfoBean.getAddress();
@@ -207,11 +207,7 @@ public class TaskInfo implements Serializable {
     }
 
     public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
+        return DateStringFormatUtil.format(this.createTime);
     }
 
     public List<TagInfo> getTags() {

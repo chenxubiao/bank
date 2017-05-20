@@ -17,4 +17,10 @@ public interface TaskInfoService {
     Page<TaskInfo> findByStatus(int status, Pageable pageable);
 
     TaskInfo findById(int id);
+
+    List<TaskInfo> findByUserId(int useId);
+
+    int countByUserId(int userId);
+
+    List<TaskInfo> findByStatusIn(List<Integer> statusList);
 }

@@ -12,4 +12,6 @@ public interface TaskTagService {
     void save(TaskTag taskTag);
 
     void save(List<TaskTag> taskTags);
+
+    List<TaskTag> findByTaskId(int taskId);
 }

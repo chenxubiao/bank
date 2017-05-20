@@ -18,9 +18,9 @@ import cn.longhaiyan.task.service.TaskFinishService;
 import cn.longhaiyan.task.service.TaskInfoService;
 import cn.longhaiyan.task.service.TaskLogService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -28,8 +28,8 @@ import java.util.Date;
 /**
  * Created by chenxb on 17-5-19.
  */
-@Controller
-public class TaskFinishController extends CommonController {
+@RestController
+public class TaskTakeController extends CommonController {
     @Autowired
     private TaskInfoService taskInfoService;
     @Autowired

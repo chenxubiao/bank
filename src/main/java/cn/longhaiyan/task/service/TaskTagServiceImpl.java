@@ -31,4 +31,12 @@ public class TaskTagServiceImpl implements TaskTagService {
             taskTagRepository.save(taskTags);
         }
     }
+
+    @Override
+    public List<TaskTag> findByTaskId(int taskId) {
+        if (taskId <= 0) {
+            return null;
+        }
+        return taskTagRepository.findAllByTaskId(taskId);
+    }
 }

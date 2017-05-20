@@ -11,7 +11,9 @@ public enum MessageTypeEnum {
     USER_MSG(4, "用户私信"),
     TASK_PUBLISH(5, "任务通知"),
     TASK_RECEIVED_TO_SENDER(6, "任务通知"),     //任务已被接单
-    TASK_REVEIVED_TO_RECEIVER(7, "任务通知"),;  //任务抢单成功
+    TASK_REVEIVED_TO_RECEIVER(7, "任务通知"),  //任务抢单成功
+    TASK_DEADTIME_OVER(8, "任务通知"),;           //任务超期
+
 
     private int code;
     private String value;

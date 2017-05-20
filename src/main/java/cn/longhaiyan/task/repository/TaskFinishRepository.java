@@ -13,4 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface TaskFinishRepository extends PagingAndSortingRepository<TaskFinish, Long> {
 
     TaskFinish findById(int id);
+
+    int countByTakerId(int takerId);
 }

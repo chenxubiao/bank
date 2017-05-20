@@ -5,6 +5,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by chenxb on 17-5-18.
  */
@@ -12,4 +14,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface TaskTagRepository extends PagingAndSortingRepository<TaskTag, Long> {
 
+    List<TaskTag> findAllByTaskId(int taskId);
 }

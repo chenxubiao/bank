@@ -1,5 +1,6 @@
 package cn.longhaiyan.task.service;
 
+import cn.longhaiyan.common.utils.CollectionUtil;
 import cn.longhaiyan.task.domain.TaskInfo;
 import cn.longhaiyan.task.enums.TaskStatusEnum;
 import cn.longhaiyan.task.repository.TaskInfoRepository;
@@ -47,4 +48,29 @@ public class TaskInfoServiceImpl implements TaskInfoService {
         }
         return taskInfoRepository.findById(id);
     }
+
+    @Override
+    public List<TaskInfo> findByUserId(int useId) {
+        if (useId <= 0) {
+            return null;
+        }
+        return taskInfoRepository.findAllByUserIdOrderByIdDesc(useId);
+    }
+
+    @Override
+    public int countByUserId(int userId) {
+        if (userId <= 0) {
+            return 0;
+        }
+        return taskInfoRepository.countByUserId(userId);
+    }
+
+    @Override
+    public List<TaskInfo> findByStatusIn(List<Integer> statusList) {
+        if (CollectionUtil.isEmpty(statusList)) {
+            return null;
+        }
+        return taskInfoRepository.findAllByStatusIn(statusList);
+    }
+
 }

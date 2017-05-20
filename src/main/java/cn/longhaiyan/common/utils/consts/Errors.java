@@ -70,4 +70,6 @@ public class Errors {
     public static final String TASK_SENDER_ERROR = "需求发布者信息不完整";
     public static final String TASK_STATUS_ERROR = "需求状态不允许此操作，状态：";
     public static final String TASK_RECEIVER_ERROR = "不允许自己接单";
+    public static final String TASK_FINISH_NOT_FOUND = "未找到需求完成信息";
+
 }
