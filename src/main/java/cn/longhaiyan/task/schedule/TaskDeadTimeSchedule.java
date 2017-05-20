@@ -34,9 +34,10 @@ public class TaskDeadTimeSchedule {
     @Autowired
     private MessageService messageService;
 
-    @Scheduled(fixedDelayString = "60000")
+    @Scheduled(cron="0/5 * *  * * ? ")  //每5秒执行一次
     public void freashTaskStatus() {
-        //todo 启用多线程，更新task status
+
+        // 启用多线程，更新task status
         Thread thread = new TaskStatusUpdateThread();
         thread.start();
     }
@@ -45,13 +46,13 @@ public class TaskDeadTimeSchedule {
 
         @Override
         public void run() {
-            System.out.println("****** Thread running, start update task status ******");
+//            System.out.println("****** Thread running, start update task status ******");
             List<Integer> statusList = new ArrayList<>();
             statusList.add(TaskStatusEnum.PUBLISH.getCode());
             statusList.add(TaskStatusEnum.RECEIVE.getCode());
             List<TaskInfo> taskInfoList = taskInfoService.findByStatusIn(statusList);
             if (CollectionUtil.isEmpty(taskInfoList)) {
-                System.out.println("****** Thread end, none task list ******");
+//                System.out.println("****** Thread end, none task list ******");
                 return;
             }
             int i = 0;
@@ -90,9 +91,11 @@ public class TaskDeadTimeSchedule {
                 messageToUser.setModifyTime(new Date());
 
                 messageService.save(messageToUser);
-            }
 
-            System.out.println("****** Thread end, done update task num = " + i + " ******");
+            }
+            if (i > 0) {
+                System.out.println("****** Thread end, done update task num = " + i + " ******");
+            }
         }
     }
 }
