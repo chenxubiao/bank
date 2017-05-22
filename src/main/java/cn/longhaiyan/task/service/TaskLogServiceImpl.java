@@ -19,4 +19,12 @@ public class TaskLogServiceImpl implements TaskLogService {
             taskLogRepository.save(taskLog);
         }
     }
+
+    @Override
+    public TaskLog findByFinishIdAndStatus(int finishId, int status) {
+        if (finishId <= 0 || status <= 0) {
+            return null;
+        }
+        return taskLogRepository.findByFinishIdAndStatus(finishId, status);
+    }
 }

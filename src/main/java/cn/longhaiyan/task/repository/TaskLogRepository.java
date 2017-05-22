@@ -12,4 +12,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface TaskLogRepository extends PagingAndSortingRepository<TaskLog, Long> {
 
+    TaskLog findByFinishIdAndStatus(int finishId, int status);
 }

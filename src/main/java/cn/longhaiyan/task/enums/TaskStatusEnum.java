@@ -13,7 +13,7 @@ public enum TaskStatusEnum {
     RECEIVE_CLOSED(6, "需求方同意关闭"),
     DONE_RECEIVE_CLOSE(7, "接单后退款完成，已结束"),
     RECEIVE_COMPLETE(8, "已完成，核对付款中"),
-    DONE_RECEIVE(9, "已完成"),
+    DONE_TASK(9, "已完成"),
     LOKING_RECEIVING(10, "接单锁定中"),
     LOKING_TIME_OVER(11, "完成任务已超期，锁定中"),;
 

@@ -8,4 +8,6 @@ import cn.longhaiyan.task.domain.TaskLog;
  */
 public interface TaskLogService {
     void save(TaskLog taskLog);
+
+    TaskLog findByFinishIdAndStatus(int finishId, int status);
 }

@@ -34,15 +34,15 @@ public class TaskDeadTimeSchedule {
     @Autowired
     private MessageService messageService;
 
-    @Scheduled(cron="0/5 * *  * * ? ")  //每5秒执行一次
+    @Scheduled(cron = "0/5 * * * * ? ")  //每5秒执行一次
     public void freashTaskStatus() {
 
         // 启用多线程，更新task status
-        Thread thread = new TaskStatusUpdateThread();
+        Thread thread = new DeadTimeTaskStatusUpdate();
         thread.start();
     }
 
-    class TaskStatusUpdateThread extends Thread {
+    class DeadTimeTaskStatusUpdate extends Thread {
 
         @Override
         public void run() {
@@ -61,40 +61,60 @@ public class TaskDeadTimeSchedule {
                 if (new Date().compareTo(taskInfo.getDeadTime()) < 0) {
                     continue;
                 }
-                i++;
-                //此时 task 已过期
-                taskInfo.setStatus(TaskStatusEnum.LOKING_TIME_OVER.getCode());
-                taskInfo.setModifyTime(new Date());
-                taskInfoService.save(taskInfo);
-                TaskLog taskLog = new TaskLog(taskInfo.getFinishId(), taskInfo.getId(), taskInfo.getUserId(), TaskStatusEnum.LOKING_TIME_OVER.getCode());
-                taskLog.setModifyTime(taskLog.getCreateTime());
+                if (taskInfo.getStatus() == TaskStatusEnum.PUBLISH.getCode()) {
+                    //此时 task 已过期
+                    taskInfo.setStatus(TaskStatusEnum.LOKING_TIME_OVER.getCode());
+                    taskInfo.setModifyTime(new Date());
+                    taskInfoService.save(taskInfo);
+                    TaskLog taskLog = new TaskLog(taskInfo.getFinishId(), taskInfo.getId(), taskInfo.getUserId(), TaskStatusEnum.LOKING_TIME_OVER.getCode());
+                    taskLog.setModifyTime(taskLog.getCreateTime());
 
-                TaskFinish taskFinish = taskFinishService.findById(taskInfo.getFinishId());
-                if (taskFinish != null) {
-                    taskLog.setTakerId(taskFinish.getTakerId());
-                    taskLogService.save(taskLog);
-                    taskFinish.setStatus(TaskStatusEnum.LOKING_TIME_OVER.getCode());
-                    taskFinish.setModifyTime(new Date());
-                    taskFinishService.save(taskFinish);
+                    TaskFinish taskFinish = taskFinishService.findById(taskInfo.getFinishId());
+                    if (taskFinish != null) {
+                        taskLog.setTakerId(taskFinish.getTakerId());
+                        taskLogService.save(taskLog);
+                        taskFinish.setStatus(TaskStatusEnum.LOKING_TIME_OVER.getCode());
+                        taskFinish.setModifyTime(new Date());
+                        taskFinishService.save(taskFinish);
 
-                    Message messageToTaker = new Message(MessageTypeEnum.TASK_DEADTIME_OVER.getCode()
-                            , BankConsts.USER_IS_SYSTEM, taskFinish.getTakerId(), taskLog.getId(), taskInfo.getTitle());
-                    messageToTaker.setModifyTime(new Date());
+                        if (taskFinish.getTakerId() > 0) {
+                            Message messageToTaker = new Message(MessageTypeEnum.TASK_DEADTIME_OVER.getCode()
+                                    , BankConsts.USER_IS_SYSTEM, taskFinish.getTakerId(), taskLog.getId(), taskInfo.getTitle());
+                            messageToTaker.setModifyTime(new Date());
 
-                    messageService.save(messageToTaker);
+                            messageService.save(messageToTaker);
+                        }
+                    } else {
+                        taskLogService.save(taskLog);
+                    }
+                    Message messageToUser = new Message(MessageTypeEnum.TASK_DEADTIME_OVER.getCode()
+                            , BankConsts.USER_IS_SYSTEM, taskInfo.getUserId(), taskLog.getId(), taskInfo.getTitle());
+                    messageToUser.setModifyTime(new Date());
+
+                    messageService.save(messageToUser);
+                    i++;
+
                 } else {
-                    taskLogService.save(taskLog);
+                    //进行中的任务，提醒用户关注状态
+                    Message messageToUser = new Message(MessageTypeEnum.TASK_DEADTIME_OVER_REMIND.getCode()
+                            , BankConsts.USER_IS_SYSTEM, taskInfo.getUserId(), taskInfo.getId(), taskInfo.getTitle());
+                    messageToUser.setModifyTime(new Date());
+
+                    messageService.save(messageToUser);
+
+                    TaskFinish taskFinish = taskFinishService.findById(taskInfo.getFinishId());
+                    if (taskFinish != null && taskFinish.getTakerId() > 0) {
+                        Message messageToTaker = new Message(MessageTypeEnum.TASK_DEADTIME_OVER_REMIND.getCode()
+                                , BankConsts.USER_IS_SYSTEM, taskFinish.getTakerId(), taskInfo.getId(), taskInfo.getTitle());
+                        messageToTaker.setModifyTime(new Date());
+
+                        messageService.save(messageToTaker);
+                    }
                 }
-
-                Message messageToUser = new Message(MessageTypeEnum.TASK_DEADTIME_OVER.getCode()
-                        , BankConsts.USER_IS_SYSTEM, taskInfo.getUserId(), taskLog.getId(), taskInfo.getTitle());
-                messageToUser.setModifyTime(new Date());
-
-                messageService.save(messageToUser);
 
             }
             if (i > 0) {
-                System.out.println("****** Thread end, done update task num = " + i + " ******");
+                System.out.println("****** DeadTimeTaskStatusUpdate Thread end, done update task num = " + i + " ******");
             }
         }
     }

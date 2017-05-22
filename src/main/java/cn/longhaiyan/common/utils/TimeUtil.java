@@ -110,6 +110,25 @@ public class TimeUtil {
         return c.getTime();
     }
 
+    public static Date disposeMin(Date date, int min, int type) {
+        if (date == null) {
+            date = new Date();
+        }
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+
+        int DATE = c.get(Calendar.MINUTE);
+
+        //几天后
+        if (type == DATE_TYPE_AFTER) {
+            c.set(Calendar.MINUTE, DATE + min);
+        } else {
+            //几天前
+            c.set(Calendar.MINUTE, DATE - min);
+        }
+        return c.getTime();
+    }
+
     public static Date getTodayBegin() {
         Date date = new Date();
         String dateString = format(date, "yyyy-MM-dd 00:00:00");
