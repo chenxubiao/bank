@@ -12,6 +12,7 @@ import cn.longhaiyan.task.domain.TaskFinish;
 import cn.longhaiyan.task.domain.TaskInfo;
 import cn.longhaiyan.task.service.TaskFinishService;
 import cn.longhaiyan.task.service.TaskInfoService;
+import cn.longhaiyan.task.service.TaskTagService;
 import cn.longhaiyan.user.bean.User;
 import cn.longhaiyan.user.domain.UserInfo;
 import cn.longhaiyan.user.enums.UserTypeEnum;
@@ -37,6 +38,8 @@ public class TaskInfoController extends CommonController {
     private TaskFinishService taskFinishService;
     @Autowired
     private UserInfoService userInfoService;
+    @Autowired
+    private TaskTagService taskTagService;
 
 
     /**
@@ -59,6 +62,7 @@ public class TaskInfoController extends CommonController {
         if (CollectionUtil.isNotEmpty(taskInfoList)) {
             taskBeanList = new ArrayList<>();
             for (TaskInfo taskInfo : taskInfoList) {
+                taskInfo.setTaskTags(taskTagService.findByTaskId(taskInfo.getId()));
                 UserInfo senderInfo = userInfoService.findById(taskInfo.getUserId());
                 String senderName;
                 String takerName;
