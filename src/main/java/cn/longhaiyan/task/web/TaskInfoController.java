@@ -65,12 +65,14 @@ public class TaskInfoController extends CommonController {
                 senderName = getName(senderInfo);
                 TaskFinish taskFinish = taskFinishService.findById(taskInfo.getFinishId());
                 TaskBean taskBean;
-                if (taskFinish == null) {
+                if (taskFinish == null || taskFinish.getTakerId() == 0) {
                     taskBean = new TaskBean(new TaskInfoBean(taskInfo, new User(senderInfo, senderName), null, false), null);
                 } else {
                     UserInfo finisherInfo = userInfoService.findById(taskFinish.getTakerId());
+                    if (finisherInfo == null) {
+                        continue;
+                    }
                     takerName = getName(finisherInfo);
-
                     taskBean = new TaskBean(new TaskInfoBean(taskInfo, new User(senderInfo, senderName), new User(finisherInfo, takerName), false)
                             , new TaskFinishBean(taskFinish, new User(senderInfo, senderName), new User(finisherInfo, takerName)));
                 }
