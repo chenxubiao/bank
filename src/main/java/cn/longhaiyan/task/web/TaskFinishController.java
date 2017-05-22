@@ -68,7 +68,7 @@ public class TaskFinishController extends CommonController {
             return ResponseEntity.failure(Errors.TASK_FINISH_NOT_FOUND);
         }
         UserSession userSession = super.getUserSession(request);
-        if (userSession.getUserId() != taskFinish.getTakerId() || userSession.getUserId() != taskInfo.getUserId()) {
+        if (userSession.getUserId() != taskFinish.getTakerId() && userSession.getUserId() != taskInfo.getUserId()) {
             return ResponseEntity.failure(Errors.TASK_NOT_FOUNT);
         }
         if (taskInfo.getStatus() == TaskStatusEnum.RECEIVE_COMPLETE.getCode() && userSession.getUserId() != taskInfo.getUserId()) {
