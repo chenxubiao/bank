@@ -82,6 +82,7 @@ public class TaskFinishVerifySchedule {
                     taskInfoService.save(taskInfo);
 
                     taskFinish.setStatus(TaskStatusEnum.DONE_TASK.getCode());
+                    taskFinish.setFinishTime(taskFinish.getModifyTime());
                     taskFinish.setModifyTime(new Date());
                     taskFinishService.save(taskFinish);
 
