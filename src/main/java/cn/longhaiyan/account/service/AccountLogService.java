@@ -14,6 +14,8 @@ public interface AccountLogService {
 
     AccountLog findByPicAuth(int userId, int type, int projectId, Account account);
 
+    List<AccountLog> findByAccount(Account account);
+
     void saveAll(List<AccountLog> accountLogList);
 
 }
