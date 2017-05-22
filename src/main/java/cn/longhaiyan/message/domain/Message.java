@@ -89,6 +89,10 @@ public class Message implements Serializable {
             this.message = "「" + this.message + "」任务已完成，欢迎下次使用。";
         }else if (this.type == MessageTypeEnum.TASK_DONE_VERIFY.getCode()) {
             this.message = "「" + this.message + "」任务已被完成，请确认。";
+        } else if (this.type == MessageTypeEnum.USER_AUTH_SUCCESS.getCode()) {
+            this.message = "您的" + message + "认证，认证成功。";
+        } else if (this.type == MessageTypeEnum.USER_AUTH_FAILED.getCode()) {
+            this.message = "您的" + message + "认证，认证失败。";
         }
         return message;
     }

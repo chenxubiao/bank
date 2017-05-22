@@ -6,6 +6,7 @@ import cn.longhaiyan.user.domain.Teacher;
 import cn.longhaiyan.user.domain.UserInfo;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by chenxb on 17-5-11.
@@ -23,7 +24,7 @@ public class UserInfoBean {
     private Date birthday;
     private Student student;
     private Teacher teacher;
-
+    private List<Integer> pics;
     public UserInfoBean() {
     }
 
@@ -141,5 +142,13 @@ public class UserInfoBean {
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+    }
+
+    public List<Integer> getPics() {
+        return pics;
+    }
+
+    public void setPics(List<Integer> pics) {
+        this.pics = pics;
     }
 }

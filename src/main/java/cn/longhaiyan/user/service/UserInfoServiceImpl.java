@@ -1,5 +1,6 @@
 package cn.longhaiyan.user.service;
 
+import cn.longhaiyan.common.utils.CollectionUtil;
 import cn.longhaiyan.common.utils.StringUtil;
 import cn.longhaiyan.common.utils.consts.BankConsts;
 import cn.longhaiyan.user.domain.Student;
@@ -116,6 +117,14 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public int countAll() {
         return userInfoRepository.countAllByIdGreaterThan(0);
+    }
+
+    @Override
+    public List<UserInfo> findByUserTypeIn(List<Integer> userTypeList) {
+        if (CollectionUtil.isEmpty(userTypeList)) {
+            return null;
+        }
+        return userInfoRepository.findAllByUserTypeInOrderByModifyTimeDesc(userTypeList);
     }
 //
 //    private UserInfo setUserProfile(UserInfo userInfo) {

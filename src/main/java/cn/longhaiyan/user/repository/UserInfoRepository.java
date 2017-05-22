@@ -7,6 +7,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by chenxb on 17-4-1.
  */
@@ -34,4 +36,6 @@ public interface UserInfoRepository extends PagingAndSortingRepository<UserInfo,
     UserInfo findByIdAndStatus(int id, int status);
 
     int countAllByIdGreaterThan(int id);
+
+    List<UserInfo> findAllByUserTypeInOrderByModifyTimeDesc(List<Integer> userTypeList);
 }

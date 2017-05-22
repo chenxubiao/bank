@@ -10,4 +10,7 @@ import java.util.List;
 public interface AuthAttachmentService {
     void save(List<AuthAttachment> authAttachmentList);
 
+
+    List<AuthAttachment> findByUserId(int userId);
+
 }

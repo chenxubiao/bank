@@ -23,4 +23,13 @@ public class AuthAttachmentServiceImpl implements AuthAttachmentService {
         }
         authAttachmentRepository.save(authAttachmentList);
     }
+
+    @Override
+    public List<AuthAttachment> findByUserId(int userId) {
+        if (userId <= 0) {
+            return null;
+        }
+        return authAttachmentRepository.findAllByUserId(userId);
+    }
+
 }

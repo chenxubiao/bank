@@ -1,5 +1,6 @@
 package cn.longhaiyan.task.web;
 
+import cn.longhaiyan.common.annotation.Authority;
 import cn.longhaiyan.common.bean.PojoBean;
 import cn.longhaiyan.common.bean.ResponseEntity;
 import cn.longhaiyan.common.bean.UserSession;
@@ -49,6 +50,7 @@ public class TaskTakeController extends CommonController {
      * @param info
      * @return
      */
+    @Authority(privilege = BankConsts.UserRole.USER_IS_STUDENT + "," + BankConsts.UserRole.USER_IS_TEACHER)
     @RequestMapping(value = "/task/finish/take/order/data", method = RequestMethod.POST)
     public ResponseEntity orderReceiving(HttpServletRequest request, PojoBean info) {
 

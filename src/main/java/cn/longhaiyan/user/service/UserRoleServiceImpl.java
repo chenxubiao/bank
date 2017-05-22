@@ -19,4 +19,12 @@ public class UserRoleServiceImpl implements UserRoleService {
             userRoleRepository.save(userRole);
         }
     }
+
+    @Override
+    public int countByRoleId(int roleId) {
+        if (roleId <= 0) {
+            return 0;
+        }
+        return userRoleRepository.countByRoleId(roleId);
+    }
 }

@@ -36,6 +36,7 @@ public class Errors {
     public static final String USER_USERNAME_HAS_SPACE = "用户名不允许出现空格";
     public static final String NONE_FOLLOWS = "无粉丝信息";
     public static final String NONE_FOLLOWING = "无用户关注信息";
+    public static final String USER_AUTH_NONE = "暂无用户认证信息";
 
     public static final String USER_USERNAME_IS_EXISTS = "用户名已被占用";
     public static final String EMAIL_IS_EXISTS = "邮箱已被注册";

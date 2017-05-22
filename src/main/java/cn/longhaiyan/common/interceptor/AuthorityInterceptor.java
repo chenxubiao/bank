@@ -36,7 +36,7 @@ public class AuthorityInterceptor extends HandlerInterceptorAdapter {
             }
 
             if (privilegeSet != null && privilegeSet.size() >0 && annotation.checkAuth()) {
-                UserSession session =  (UserSession)request.getAttribute(BankConsts.USER_SESSION_KEY);
+                UserSession session =  (UserSession)request.getSession().getAttribute(BankConsts.USER_SESSION_KEY);
                 if(session.isAdmin()){
                     return true;
                 }

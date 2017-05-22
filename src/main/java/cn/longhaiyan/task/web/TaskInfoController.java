@@ -1,5 +1,6 @@
 package cn.longhaiyan.task.web;
 
+import cn.longhaiyan.common.annotation.Authority;
 import cn.longhaiyan.common.bean.ResponseEntity;
 import cn.longhaiyan.common.bean.UserSession;
 import cn.longhaiyan.common.utils.CollectionUtil;
@@ -45,6 +46,7 @@ public class TaskInfoController extends CommonController {
      *
      * @return
      */
+    @Authority(privilege = BankConsts.UserRole.USER_IS_STUDENT + "," + BankConsts.UserRole.USER_IS_TEACHER)
     @RequestMapping(value = "/task/user/list/data", method = RequestMethod.GET)
     public ResponseEntity findTaskLog(HttpServletRequest request) {
 

@@ -5,6 +5,7 @@ import cn.longhaiyan.account.domain.AccountLog;
 import cn.longhaiyan.account.enums.AccountLogTypeEnum;
 import cn.longhaiyan.account.service.AccountLogService;
 import cn.longhaiyan.account.service.AccountService;
+import cn.longhaiyan.common.annotation.Authority;
 import cn.longhaiyan.common.bean.ResponseEntity;
 import cn.longhaiyan.common.bean.UserSession;
 import cn.longhaiyan.common.utils.NumberUtil;
@@ -67,6 +68,7 @@ public class TaskPublishController extends CommonController {
      * @return
      */
 
+    @Authority(privilege = BankConsts.UserRole.USER_IS_STUDENT + "," + BankConsts.UserRole.USER_IS_TEACHER)
     @RequestMapping(value = "/task/publish/data", method = RequestMethod.POST)
     public ResponseEntity publisTask(HttpServletRequest request, TaskInfoBean task) {
         if (StringUtil.isBlank(task.getTitle())

@@ -15,7 +15,9 @@ public enum MessageTypeEnum {
     TASK_DEADTIME_OVER(8, "任务通知"),
     TASK_DEADTIME_OVER_REMIND(9, "任务通知"),
     TASK_DONE(10, "任务通知"),           //任务超期
-    TASK_DONE_VERIFY(11, "任务通知"),;
+    TASK_DONE_VERIFY(11, "任务通知"),
+    USER_AUTH_SUCCESS(12, "认证通知"),  //认证成功
+    USER_AUTH_FAILED(13, "认证通知"),;  //认证失败
 
 
     private int code;

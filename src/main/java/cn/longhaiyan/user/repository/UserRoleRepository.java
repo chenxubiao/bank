@@ -15,4 +15,5 @@ import java.util.List;
 @Transactional
 public interface UserRoleRepository extends PagingAndSortingRepository<UserRole, Long> {
 
+    int countByRoleId(int roleId);
 }

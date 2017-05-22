@@ -9,4 +9,6 @@ import cn.longhaiyan.user.domain.UserRole;
 public interface UserRoleService {
 
     void save(UserRole userRole);
+
+    int countByRoleId(int roleId);
 }

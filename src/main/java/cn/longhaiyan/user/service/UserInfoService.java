@@ -2,6 +2,8 @@ package cn.longhaiyan.user.service;
 
 import cn.longhaiyan.user.domain.UserInfo;
 
+import java.util.List;
+
 /**
  * Created by chenxb on 17-4-1.
  */
@@ -25,4 +27,6 @@ public interface UserInfoService {
     UserInfo findByIdAndNormal(int id);
 
     int countAll();
+
+    List<UserInfo> findByUserTypeIn(List<Integer> userTypeList);
 }

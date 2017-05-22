@@ -5,6 +5,7 @@ import cn.longhaiyan.account.domain.AccountLog;
 import cn.longhaiyan.account.enums.AccountLogTypeEnum;
 import cn.longhaiyan.account.service.AccountLogService;
 import cn.longhaiyan.account.service.AccountService;
+import cn.longhaiyan.common.annotation.Authority;
 import cn.longhaiyan.common.bean.ResponseEntity;
 import cn.longhaiyan.common.bean.UserSession;
 import cn.longhaiyan.common.utils.consts.BankConsts;
@@ -46,9 +47,11 @@ public class TaskTakerFinishController extends CommonController {
     @Autowired
     private MessageService messageService;
 
+    @Authority(privilege = BankConsts.UserRole.USER_IS_STUDENT + "," + BankConsts.UserRole.USER_IS_TEACHER)
     @RequestMapping(value = "/task/finish/done/update/data", method = RequestMethod.POST)
     public ResponseEntity takerFinish(HttpServletRequest request,
                                       @RequestParam(value = "taskId", defaultValue = "0") int taskId) {
+
         if (taskId <= 0) {
             return ResponseEntity.failure(Errors.PARAMETER_ILLEGAL);
         }
