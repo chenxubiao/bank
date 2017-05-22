@@ -131,7 +131,6 @@ public class TaskIndexController extends GuestBaseController {
         if (taskInfo == null) {
             return ResponseEntity.failure(Errors.TASK_NOT_FOUNT);
         }
-        taskInfo.setTaskTags(taskTagService.findByTaskId(taskInfo.getId()));
         UserInfo senderInfo = userInfoService.findById(taskInfo.getUserId());
         String name;
         int sender = senderInfo.getId();
@@ -179,8 +178,6 @@ public class TaskIndexController extends GuestBaseController {
             puber.setName(name);
             puber.setUserName(senderInfo.getUserName());
         }
-        List<TagInfo> tags = getTagInfoList(taskInfo);
-        taskInfo.setTags(tags);
         TaskInfoBean taskInfoBean = new TaskInfoBean(taskInfo, puber, taker, isEncrypt);
         TaskFinishBean taskFinishBean = null;
         if (taskFinish != null) {

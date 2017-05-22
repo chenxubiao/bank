@@ -15,12 +15,10 @@ import cn.longhaiyan.task.service.TaskInfoService;
 import cn.longhaiyan.task.service.TaskTagService;
 import cn.longhaiyan.user.bean.User;
 import cn.longhaiyan.user.domain.UserInfo;
-import cn.longhaiyan.user.enums.UserTypeEnum;
 import cn.longhaiyan.user.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -62,7 +60,6 @@ public class TaskInfoController extends CommonController {
         if (CollectionUtil.isNotEmpty(taskInfoList)) {
             taskBeanList = new ArrayList<>();
             for (TaskInfo taskInfo : taskInfoList) {
-                taskInfo.setTaskTags(taskTagService.findByTaskId(taskInfo.getId()));
                 UserInfo senderInfo = userInfoService.findById(taskInfo.getUserId());
                 String senderName;
                 String takerName;

@@ -1,7 +1,10 @@
 package cn.longhaiyan.task.service;
 
 import cn.longhaiyan.common.utils.CollectionUtil;
+import cn.longhaiyan.tag.domain.TagInfo;
+import cn.longhaiyan.tag.service.TagInfoService;
 import cn.longhaiyan.task.domain.TaskInfo;
+import cn.longhaiyan.task.domain.TaskTag;
 import cn.longhaiyan.task.enums.TaskStatusEnum;
 import cn.longhaiyan.task.repository.TaskInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +22,10 @@ import java.util.List;
 public class TaskInfoServiceImpl implements TaskInfoService {
     @Autowired
     private TaskInfoRepository taskInfoRepository;
+    @Autowired
+    private TaskTagService taskTagService;
+    @Autowired
+    private TagInfoService tagInfoService;
 
 
     @Override
@@ -46,7 +54,9 @@ public class TaskInfoServiceImpl implements TaskInfoService {
         if (id <= 0) {
             return null;
         }
-        return taskInfoRepository.findById(id);
+        TaskInfo taskInfo = taskInfoRepository.findById(id);
+        setTaskTags(taskInfo);
+        return taskInfo;
     }
 
     @Override
@@ -54,7 +64,14 @@ public class TaskInfoServiceImpl implements TaskInfoService {
         if (useId <= 0) {
             return null;
         }
-        return taskInfoRepository.findAllByUserIdOrderByIdDesc(useId);
+        List<TaskInfo> taskInfoList = taskInfoRepository.findAllByUserIdOrderByIdDesc(useId);
+        if (CollectionUtil.isEmpty(taskInfoList)) {
+            return taskInfoList;
+        }
+        for (TaskInfo taskInfo : taskInfoList) {
+            setTaskTags(taskInfo);
+        }
+        return taskInfoList;
     }
 
     @Override
@@ -70,7 +87,30 @@ public class TaskInfoServiceImpl implements TaskInfoService {
         if (CollectionUtil.isEmpty(statusList)) {
             return null;
         }
-        return taskInfoRepository.findAllByStatusIn(statusList);
+        List<TaskInfo> taskInfoList = taskInfoRepository.findAllByStatusIn(statusList);
+        if (CollectionUtil.isEmpty(taskInfoList)) {
+            return taskInfoList;
+        }
+        for (TaskInfo taskInfo : taskInfoList) {
+            setTaskTags(taskInfo);
+        }
+        return taskInfoList;
+    }
+
+    private void setTaskTags(TaskInfo taskInfo) {
+        if (taskInfo == null) {
+            return;
+        }
+        List<TaskTag> taskTags = taskTagService.findByTaskId(taskInfo.getId());
+        if (CollectionUtil.isEmpty(taskTags)) {
+            return;
+        }
+        List<TagInfo> tagInfoList = new ArrayList<>();
+        for (TaskTag taskTag : taskTags) {
+            TagInfo tagInfo = tagInfoService.findById(taskTag.getTagId());
+            tagInfoList.add(tagInfo);
+        }
+        taskInfo.setTags(tagInfoList);
     }
 
 }

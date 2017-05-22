@@ -35,7 +35,7 @@ public class PictureShowController extends GuestBaseController {
         if (attachment == null) {
             return null;
         }
-        String relativePath = BankConsts.PROTECTED_PIC_DISPOSE_PTTH + attachment.getRelativePath();
+        String relativePath = BankConsts.PROTECTED_BASE_PATH + attachment.getRelativePath();
         response.setContentType(ConstStrings.CONTENT_TYPE_IMAGE);
         response.setCharacterEncoding(ConstStrings.CHARACTER_ENCOING_UTF8);
         DownloadUtil.downloadPicture(response, relativePath);
