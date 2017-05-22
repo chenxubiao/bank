@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface StudentRepository extends PagingAndSortingRepository<Student, Long> {
 
-    int countBySno(int sno);
+    int countBySno(String sno);
 }

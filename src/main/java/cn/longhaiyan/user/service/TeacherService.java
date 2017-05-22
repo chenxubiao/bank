@@ -7,7 +7,7 @@ import cn.longhaiyan.user.domain.Teacher;
  */
 public interface TeacherService {
 
-    boolean isExist(int no);
+    boolean isExist(String no);
 
     void save(Teacher teacher);
 }

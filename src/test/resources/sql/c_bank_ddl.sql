@@ -32,7 +32,7 @@ CREATE TABLE `tb_user_role` (
 DROP TABLE IF EXISTS `tb_user_student`;
 CREATE TABLE `tb_user_student` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `sno` INT(11) UNSIGNED NOT NULL COMMENT '学号',
+  `sno` VARCHAR(128) NOT NULL DEFAULT '' COMMENT '学号',
 #   `userId` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
   `name` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '姓名',
   `dept` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '学院',
@@ -48,7 +48,7 @@ DROP TABLE IF EXISTS `tb_user_teacher`;
 CREATE TABLE `tb_user_teacher` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
 #   `userId` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
-  `tno` INT(11) UNSIGNED NOT NULL COMMENT '教师号',
+  `tno` VARCHAR(128) NOT NULL DEFAULT '' COMMENT '教师号',
   `name` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '姓名',
   `dept` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '学院或部门',
   `remark` VARCHAR(32) DEFAULT NULL COMMENT '备注',
@@ -85,11 +85,11 @@ DROP TABLE IF EXISTS `tb_user_auth_attachment`;
 CREATE TABLE `tb_user_auth_attachment` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `userId` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
-  `attchmentId` INT(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '附件id',
+  `attachmentId` INT(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '附件id',
   `createTime` DATETIME NOT NULL COMMENT '创建时间',
   `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='教师信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='认证附件信息表';
 
 DROP TABLE IF EXISTS `tb_account_log`;
 CREATE TABLE `tb_account_log`(
@@ -216,6 +216,21 @@ CREATE TABLE `tb_message`(
   `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='消息信息表';
+
+DROP TABLE IF EXISTS `tb_picture_attachment`;
+CREATE TABLE `tb_picture_attachment`(
+  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `userId` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户ID',
+  `filePath` VARCHAR(128) NOT  NULL DEFAULT '' COMMENT '文件路径',
+  `fileName` VARCHAR(128) NOT NULL DEFAULT '' COMMENT '附件原始名称',
+  `ext` VARCHAR(8) NOT NULL DEFAULT '' COMMENT '文件后缀',
+  `length` VARCHAR(28) NOT NULL DEFAULT '' COMMENT '文件大小',
+  `uid` CHAR(8) NOT NULL DEFAULT '' COMMENT 'uid，文件名',
+  `createTime` DATETIME NOT NULL COMMENT '创建时间',
+  `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='图片上传附件表';
+
 
 
 SET FOREIGN_KEY_CHECKS = 1;

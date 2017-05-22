@@ -1,5 +1,6 @@
 package cn.longhaiyan.user.service;
 
+import cn.longhaiyan.common.utils.StringUtil;
 import cn.longhaiyan.user.domain.Teacher;
 import cn.longhaiyan.user.repository.TeacherRepositoy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,8 @@ public class TeacherServiceImpl implements TeacherService {
     private TeacherRepositoy teacherRepositoy;
 
     @Override
-    public boolean isExist(int no) {
-        if (no <= 0) {
+    public boolean isExist(String no) {
+        if (StringUtil.isBlank(no)) {
             return false;
         }
         return teacherRepositoy.countByTno(no) > 0;

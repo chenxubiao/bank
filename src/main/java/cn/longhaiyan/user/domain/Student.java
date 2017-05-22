@@ -19,7 +19,7 @@ public class Student implements Serializable{
     private Date createTime;
     @Column(name = "modifyTime")
     private Date modifyTime;
-    private int sno;
+    private String sno;
     private String name;
     private String dept;
     private String major;
@@ -29,7 +29,7 @@ public class Student implements Serializable{
 
     }
 
-    public Student(int sno, String name, String dept, String major) {
+    public Student(String sno, String name, String dept, String major) {
         this.sno = sno;
         this.name = name;
         this.dept = dept;
@@ -62,11 +62,11 @@ public class Student implements Serializable{
         this.modifyTime = modifyTime;
     }
 
-    public int getSno() {
+    public String getSno() {
         return sno;
     }
 
-    public void setSno(int sno) {
+    public void setSno(String sno) {
         this.sno = sno;
     }
 

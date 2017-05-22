@@ -55,7 +55,7 @@ public class TimeBankIndexController extends GuestBaseController {
             teacher.setRemark("名师出高徒");
             teacher.setCreateTime(new Date());
             teacher.setModifyTime(teacher.getCreateTime());
-            teacher.setTno(110);
+            teacher.setTno("110");
             teacherService.save(teacher);
 
             RegisterBean registerBean = new RegisterBean();
@@ -162,7 +162,7 @@ public class TimeBankIndexController extends GuestBaseController {
             s.setMajor("政法系");
             s.setCreateTime(new Date());
             s.setModifyTime(s.getCreateTime());
-            s.setSno(110);
+            s.setSno("666666");
             studentService.save(s);
 
             RegisterBean registerBean = new RegisterBean();

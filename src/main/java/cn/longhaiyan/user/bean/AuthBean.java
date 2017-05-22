@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class AuthBean {
 
-    private int no;         //学号或教师号
+    private String no;      //学号或教师号
     private String name;    //真实姓名
     private String dept;    //学院或部门
     private String major;   //专业
@@ -15,12 +15,11 @@ public class AuthBean {
     private String attachment;//附件，以逗号隔开
     private List<Integer> pics;
 
-
-    public int getNo() {
+    public String getNo() {
         return no;
     }
 
-    public void setNo(int no) {
+    public void setNo(String no) {
         this.no = no;
     }
 

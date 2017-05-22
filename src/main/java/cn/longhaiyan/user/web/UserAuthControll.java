@@ -56,7 +56,7 @@ public class UserAuthControll extends CommonController {
                 || StringUtil.isBlank(authBean.getName())
                 || StringUtil.isBlank(authBean.getDept())
                 || UserTypeEnum.isNotContain(authBean.getType())
-                || authBean.getNo() <= 0) {
+                || StringUtil.isBlank(authBean.getNo())) {
 
             return ResponseEntity.failure(Errors.PARAMETER_ILLEGAL);
         }
@@ -92,7 +92,7 @@ public class UserAuthControll extends CommonController {
         int userId = userSession.getUserId();
         String name = authBean.getName().trim();
         String dept = authBean.getDept().trim();
-        int no = authBean.getNo();
+        String no = authBean.getNo();
 
         boolean isNoExist;
         boolean isAuthed = false;
