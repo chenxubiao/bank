@@ -5,6 +5,8 @@ import cn.longhaiyan.common.bean.UserSession;
 import cn.longhaiyan.common.utils.StringUtil;
 import cn.longhaiyan.common.utils.consts.BankMapping;
 import cn.longhaiyan.common.utils.consts.Errors;
+import cn.longhaiyan.user.domain.UserInfo;
+import cn.longhaiyan.user.enums.UserTypeEnum;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -109,5 +111,16 @@ public class BankBaseController extends RootController {
 //TODO           return false;
         }
         return true;
+    }
+
+
+    public String getName(UserInfo userInfo) {
+        String name = "未知";
+        if (userInfo.getUserType() == UserTypeEnum.TEACHER.getCode()) {
+            name = userInfo.getTeacher().getName();
+        } else if (userInfo.getUserType() == UserTypeEnum.STUDENT.getCode()) {
+            name = userInfo.getStudent().getName();
+        }
+        return name;
     }
 }

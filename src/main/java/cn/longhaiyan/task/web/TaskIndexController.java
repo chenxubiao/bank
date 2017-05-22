@@ -163,12 +163,7 @@ public class TaskIndexController extends GuestBaseController {
             }
         }
         if (takerInfo != null) {
-            taker = new User(takerInfo);
-            if (takerInfo.getUserType() == UserTypeEnum.STUDENT.getCode()) {
-                taker.setName(takerInfo.getStudent().getName());
-            } else if (takerInfo.getUserType() == UserTypeEnum.TEACHER.getCode()) {
-                taker.setName(takerInfo.getTeacher().getName());
-            }
+            taker = new User(takerInfo, getName(takerInfo));
         }
         //加密
         User puber = new User();

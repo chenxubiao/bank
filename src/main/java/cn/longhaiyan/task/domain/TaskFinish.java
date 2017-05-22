@@ -33,8 +33,8 @@ public class TaskFinish implements Serializable {
 
     public TaskFinish(TaskInfo taskInfo, int status) {
         this.status = status;
-        this.setTaskId(taskInfo.getId());
-        this.setUserId(taskInfo.getUserId());
+        this.taskId = taskInfo.getId();
+        this.userId = taskInfo.getUserId();
         this.setCreateTime(new Date());
     }
 

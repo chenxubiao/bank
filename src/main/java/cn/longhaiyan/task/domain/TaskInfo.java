@@ -225,4 +225,5 @@ public class TaskInfo implements Serializable {
     public void setFinishId(int finishId) {
         this.finishId = finishId;
     }
+
 }

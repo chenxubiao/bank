@@ -15,7 +15,8 @@ public class User {
 
     }
 
-    public User(UserInfo userInfo) {
+    public User(UserInfo userInfo, String name) {
+        this.name = name;
         this.id = userInfo.getId();
         this.avatarId = userInfo.getAvatarId();
         this.userName = userInfo.getUserName();

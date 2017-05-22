@@ -14,6 +14,7 @@ import cn.longhaiyan.task.service.TaskFinishService;
 import cn.longhaiyan.task.service.TaskInfoService;
 import cn.longhaiyan.user.bean.User;
 import cn.longhaiyan.user.domain.UserInfo;
+import cn.longhaiyan.user.enums.UserTypeEnum;
 import cn.longhaiyan.user.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,14 +60,19 @@ public class TaskInfoController extends CommonController {
             taskBeanList = new ArrayList<>();
             for (TaskInfo taskInfo : taskInfoList) {
                 UserInfo senderInfo = userInfoService.findById(taskInfo.getUserId());
+                String senderName;
+                String takerName;
+                senderName = getName(senderInfo);
                 TaskFinish taskFinish = taskFinishService.findById(taskInfo.getFinishId());
                 TaskBean taskBean;
                 if (taskFinish == null) {
-                    taskBean = new TaskBean(new TaskInfoBean(taskInfo, new User(senderInfo), null, false), null);
+                    taskBean = new TaskBean(new TaskInfoBean(taskInfo, new User(senderInfo, senderName), null, false), null);
                 } else {
                     UserInfo finisherInfo = userInfoService.findById(taskFinish.getTakerId());
-                    taskBean = new TaskBean(new TaskInfoBean(taskInfo, new User(senderInfo), new User(finisherInfo), false)
-                            , new TaskFinishBean(taskFinish, new User(senderInfo), new User(finisherInfo)));
+                    takerName = getName(finisherInfo);
+
+                    taskBean = new TaskBean(new TaskInfoBean(taskInfo, new User(senderInfo, senderName), new User(finisherInfo, takerName), false)
+                            , new TaskFinishBean(taskFinish, new User(senderInfo, senderName), new User(finisherInfo, takerName)));
                 }
                 taskBeanList.add(taskBean);
             }
