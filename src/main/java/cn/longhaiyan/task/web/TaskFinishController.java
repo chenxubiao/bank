@@ -33,7 +33,7 @@ import java.util.Date;
  * Created by chenxb on 17-5-20.
  */
 @RestController
-public class TaskTakerFinishController extends CommonController {
+public class TaskFinishController extends CommonController {
     @Autowired
     private TaskInfoService taskInfoService;
     @Autowired
@@ -60,7 +60,7 @@ public class TaskTakerFinishController extends CommonController {
             return ResponseEntity.failure(Errors.TASK_NOT_FOUNT);
         }
 
-        if (taskInfo.getStatus() != TaskStatusEnum.RECEIVE.getCode() || taskInfo.getStatus() != TaskStatusEnum.RECEIVE_COMPLETE.getCode()) {
+        if (taskInfo.getStatus() != TaskStatusEnum.RECEIVE.getCode() && taskInfo.getStatus() != TaskStatusEnum.RECEIVE_COMPLETE.getCode()) {
             return ResponseEntity.failure(Errors.TASK_STATUS_ERROR + TaskStatusEnum.getValue(taskInfo.getStatus()));
         }
         TaskFinish taskFinish = taskFinishService.findById(taskInfo.getFinishId());
