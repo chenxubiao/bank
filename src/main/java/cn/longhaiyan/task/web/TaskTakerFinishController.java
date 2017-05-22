@@ -77,8 +77,8 @@ public class TaskTakerFinishController extends CommonController {
             taskInfoService.save(taskInfo);
 
             taskFinish.setStatus(TaskStatusEnum.DONE_TASK.getCode());
-            taskFinish.setFinishTime(new Date());
-            taskFinish.setModifyTime(taskFinish.getFinishTime());
+            taskFinish.setFinishTime(taskFinish.getStatus() == TaskStatusEnum.RECEIVE_COMPLETE.getCode() ? taskFinish.getModifyTime() : new Date());
+            taskFinish.setModifyTime(new Date());
             taskFinishService.save(taskFinish);
 
             TaskLog taskLog = new TaskLog(taskFinish.getId()
