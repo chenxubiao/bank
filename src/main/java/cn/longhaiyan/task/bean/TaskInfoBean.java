@@ -1,5 +1,6 @@
 package cn.longhaiyan.task.bean;
 
+import cn.longhaiyan.common.utils.DateStringFormatUtil;
 import cn.longhaiyan.common.utils.StringUtil;
 import cn.longhaiyan.common.utils.consts.BankConsts;
 import cn.longhaiyan.tag.domain.TagInfo;
@@ -15,6 +16,7 @@ import java.util.List;
  */
 public class TaskInfoBean {
 
+    private int taskId;
     private User senderInfo;
     private User finisherInfo;
     private String title = "";       //主题    不可空
@@ -32,6 +34,9 @@ public class TaskInfoBean {
     private List<TagInfo> tags;
     private String status;      //状态 string 值
     private int stu;            //状态 int 值
+    private Date createTime;
+    private Date modifyTime;
+    private String time;
 
 
     public TaskInfoBean() {
@@ -39,7 +44,7 @@ public class TaskInfoBean {
     }
 
     public TaskInfoBean(TaskInfo taskInfo, User senderInfo, User finisherInfo, boolean isEncrypt) {
-
+        this.taskId = taskInfo.getId();
         this.finisherInfo = finisherInfo;
         this.senderInfo = senderInfo;
         this.stu = taskInfo.getStatus();
@@ -57,6 +62,8 @@ public class TaskInfoBean {
         this.description = taskInfo.getDesctiption();
         this.urgent = isEncrypt ? BankConsts.ZERO : taskInfo.getUrgent();
         this.tags = taskInfo.getTags();
+        this.createTime = taskInfo.getCreateTime();
+        this.modifyTime = taskInfo.getModifyTime();
     }
 
     public User getSenderInfo() {
@@ -193,5 +200,33 @@ public class TaskInfoBean {
 
     public void setStu(int stu) {
         this.stu = stu;
+    }
+
+    public String getTime() {
+        return DateStringFormatUtil.format(this.createTime);
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
+    }
+
+    public int getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
     }
 }

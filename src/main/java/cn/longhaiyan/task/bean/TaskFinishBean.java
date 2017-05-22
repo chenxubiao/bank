@@ -1,5 +1,6 @@
 package cn.longhaiyan.task.bean;
 
+import cn.longhaiyan.common.utils.DateStringFormatUtil;
 import cn.longhaiyan.task.domain.TaskFinish;
 import cn.longhaiyan.task.enums.TaskStatusEnum;
 import cn.longhaiyan.user.bean.User;
@@ -15,6 +16,8 @@ public class TaskFinishBean {
     private Date finishTime;
     private String remark;
     private Date createTime;
+    private Date modifyTime;
+    private String time;
     private int stu;
     private String status;
     private int taskId;
@@ -32,6 +35,7 @@ public class TaskFinishBean {
         this.finishId = taskFinish.getId();
         this.createTime = taskFinish.getCreateTime();
         this.finishTime = taskFinish.getFinishTime();
+        this.modifyTime = taskFinish.getModifyTime();
         this.remark = taskFinish.getRemark();
         this.status = TaskStatusEnum.getValue(taskFinish.getStatus());
     }
@@ -106,5 +110,17 @@ public class TaskFinishBean {
 
     public void setStu(int stu) {
         this.stu = stu;
+    }
+
+    public String getTime() {
+        return DateStringFormatUtil.format(this.createTime);
+    }
+
+    public Date getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
     }
 }
