@@ -8,19 +8,15 @@ import cn.longhaiyan.common.utils.StringUtil;
 import cn.longhaiyan.common.utils.consts.BankConsts;
 import cn.longhaiyan.common.utils.consts.Errors;
 import cn.longhaiyan.common.web.GuestBaseController;
-import cn.longhaiyan.tag.domain.TagInfo;
-import cn.longhaiyan.tag.service.TagInfoService;
 import cn.longhaiyan.task.bean.TaskFinishBean;
 import cn.longhaiyan.task.bean.TaskIndexBean;
 import cn.longhaiyan.task.bean.TaskInfoBean;
 import cn.longhaiyan.task.domain.TaskFinish;
 import cn.longhaiyan.task.domain.TaskInfo;
-import cn.longhaiyan.task.domain.TaskTag;
 import cn.longhaiyan.task.enums.TaskRequestTypeEnum;
 import cn.longhaiyan.task.enums.TaskStatusEnum;
 import cn.longhaiyan.task.service.TaskFinishService;
 import cn.longhaiyan.task.service.TaskInfoService;
-import cn.longhaiyan.task.service.TaskTagService;
 import cn.longhaiyan.user.bean.User;
 import cn.longhaiyan.user.domain.UserInfo;
 import cn.longhaiyan.user.enums.UserTypeEnum;
@@ -45,13 +41,9 @@ public class TaskIndexController extends GuestBaseController {
     @Autowired
     private TaskInfoService taskInfoService;
     @Autowired
-    private TagInfoService tagInfoService;
-    @Autowired
     private UserInfoService userInfoService;
     @Autowired
     private TaskFinishService taskFinishService;
-    @Autowired
-    private TaskTagService taskTagService;
 
 
     /**
@@ -91,14 +83,13 @@ public class TaskIndexController extends GuestBaseController {
         List<TaskIndexBean> taskIndexBeanList = new ArrayList<>();
         List<TaskInfo> taskInfoList = page.getContent();
         for (TaskInfo taskInfo : taskInfoList) {
-            taskInfo.setTaskTags(taskTagService.findByTaskId(taskInfo.getId()));
+
             TaskFinish taskFinish = null;
             if (type != TaskRequestTypeEnum.PUBLISHING.getCode()) {
                 taskFinish = taskFinishService.findById(taskInfo.getFinishId());
             }
             boolean isEncrypt = isEncrypt(userId, taskInfo, taskFinish);
-            List<TagInfo> tagInfos = getTagInfoList(taskInfo);
-            TaskIndexBean taskIndexBean = new TaskIndexBean(taskInfo, tagInfos, isEncrypt);
+            TaskIndexBean taskIndexBean = new TaskIndexBean(taskInfo, isEncrypt);
 
             taskIndexBeanList.add(taskIndexBean);
         }
@@ -206,17 +197,4 @@ public class TaskIndexController extends GuestBaseController {
         return isEncrypt;
     }
 
-    private List<TagInfo> getTagInfoList(TaskInfo taskInfo) {
-        List<TagInfo> tagInfos = null;
-        if (taskInfo != null && CollectionUtil.isNotEmpty(taskInfo.getTaskTags())) {
-            tagInfos = new ArrayList<>();
-            for (TaskTag taskTag : taskInfo.getTaskTags()) {
-                TagInfo tagInfo = tagInfoService.findById(taskTag.getTagId());
-                if (tagInfo != null) {
-                    tagInfos.add(tagInfo);
-                }
-            }
-        }
-        return tagInfos;
-    }
 }

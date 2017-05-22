@@ -33,12 +33,12 @@ public class TaskIndexBean {
 
     }
 
-    public TaskIndexBean(TaskInfo taskInfo, List<TagInfo> tagInfos, boolean isEncrypt) {
+    public TaskIndexBean(TaskInfo taskInfo, boolean isEncrypt) {
         this.title = taskInfo.getTitle();
         this.address = isEncrypt ? convertString(taskInfo.getAddress()) : taskInfo.getAddress();
         this.createTime = taskInfo.getCreateTime();
         this.money = taskInfo.getMoney();
-        this.tags = tagInfos;
+        this.tags = taskInfo.getTags();
         this.taskId = taskInfo.getId();
         this.deadTime = taskInfo.getDeadTime();
     }

@@ -38,7 +38,7 @@ public class PictureUploadController extends CommonController {
     @RequestMapping(value = "/picture/upload/project", method = RequestMethod.POST)
     public ResponseEntity uploadPicture(HttpServletRequest request) {
 
-        Map<String, Object> map = UploadUtil.uploadPicture(request, BankMapping.PICTURE_PROJECT_LIST);
+        Map<String, Object> map = UploadUtil.uploadPicture(request, BankMapping.VALID_EXTENSIONS_LIST);
         if (CollectionUtil.isEmpty(map)) {
             return ResponseEntity.failure(Errors.UNKNOWN_ERROR);
         }
