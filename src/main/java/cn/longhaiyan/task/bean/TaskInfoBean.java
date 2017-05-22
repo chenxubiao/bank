@@ -30,7 +30,8 @@ public class TaskInfoBean {
     private int money;          //             非空
     private String tagIds;     //标签id         非空
     private List<TagInfo> tags;
-    private String status;
+    private String status;      //状态 string 值
+    private int stu;            //状态 int 值
 
 
     public TaskInfoBean() {
@@ -41,6 +42,7 @@ public class TaskInfoBean {
 
         this.finisherInfo = finisherInfo;
         this.senderInfo = senderInfo;
+        this.stu = taskInfo.getStatus();
         this.title = taskInfo.getTitle();
         this.address = isEncrypt ? StringUtil.convertEncrypt(taskInfo.getAddress()) : taskInfo.getAddress();
         this.status = TaskStatusEnum.getValue(taskInfo.getStatus());
@@ -183,5 +185,13 @@ public class TaskInfoBean {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public int getStu() {
+        return stu;
+    }
+
+    public void setStu(int stu) {
+        this.stu = stu;
     }
 }

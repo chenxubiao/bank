@@ -56,7 +56,7 @@ public class TaskTakeController extends CommonController {
             return ResponseEntity.failure(Errors.PARAMETER_ILLEGAL);
         }
         UserSession userSession = super.getUserSession(request);
-        int receiverId = userSession.getUserId();
+        int takerId = userSession.getUserId();
         int taskId = info.getId();
         TaskInfo taskInfo = taskInfoService.findById(taskId);
         if (taskInfo == null) {
@@ -65,7 +65,7 @@ public class TaskTakeController extends CommonController {
         if (taskInfo.getStatus() != TaskStatusEnum.PUBLISH.getCode()) {
             return ResponseEntity.failure(Errors.TASK_STATUS_ERROR + TaskStatusEnum.getValue(taskInfo.getStatus()));
         }
-        if (receiverId == taskInfo.getUserId()) {
+        if (takerId == taskInfo.getUserId()) {
             return ResponseEntity.failure(Errors.TASK_RECEIVER_ERROR);
         }
         if (userSession.getUserType() != UserTypeEnum.STUDENT.getCode()
@@ -78,6 +78,11 @@ public class TaskTakeController extends CommonController {
 
         String value = info.getValue().trim();
         TaskFinish taskFinish = taskFinishService.findById(taskInfo.getFinishId());
+        taskFinish.setTakerId(takerId);
+        taskFinish.setStatus(TaskStatusEnum.RECEIVE.getCode());
+        taskFinish.setModifyTime(new Date());
+        taskFinishService.save(taskFinish);
+
         taskInfo.setStatus(TaskStatusEnum.RECEIVE.getCode());
         taskInfo.setModifyTime(new Date());
         taskInfoService.save(taskInfo);

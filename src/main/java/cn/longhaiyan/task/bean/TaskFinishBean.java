@@ -15,6 +15,7 @@ public class TaskFinishBean {
     private Date finishTime;
     private String remark;
     private Date createTime;
+    private int stu;
     private String status;
     private int taskId;
     private User sender;
@@ -26,6 +27,7 @@ public class TaskFinishBean {
     public TaskFinishBean(TaskFinish taskFinish, User senderInfo, User taker) {
         this.sender = senderInfo;
         this.taker = taker;
+        this.stu = taskFinish.getStatus();
         this.taskId = taskFinish.getTaskId();
         this.finishId = taskFinish.getId();
         this.createTime = taskFinish.getCreateTime();
@@ -96,5 +98,13 @@ public class TaskFinishBean {
 
     public void setTaker(User taker) {
         this.taker = taker;
+    }
+
+    public int getStu() {
+        return stu;
+    }
+
+    public void setStu(int stu) {
+        this.stu = stu;
     }
 }
