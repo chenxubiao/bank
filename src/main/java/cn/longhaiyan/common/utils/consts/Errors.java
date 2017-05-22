@@ -40,6 +40,7 @@ public class Errors {
     public static final String USER_USERNAME_IS_EXISTS = "用户名已被占用";
     public static final String EMAIL_IS_EXISTS = "邮箱已被注册";
     public static final String CELLPHONE_IS_EXISTS = "手机号已被注册";
+    public static final String PERMISION_DENIED = "Permission Denied";
 
     public static final String FILE_NAME_ERROR = "文件名为空";
     public static final String FILE_EXT_TYPE_ERROR="不支持文件扩展名: ";

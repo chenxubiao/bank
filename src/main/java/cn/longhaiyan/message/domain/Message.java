@@ -80,11 +80,15 @@ public class Message implements Serializable {
         if (this.type == MessageTypeEnum.TASK_PUBLISH.getCode()) {
             this.message = "「" + this.message + "」发布成功，请及时关注任务状态。";
         } else if (this.type == MessageTypeEnum.TASK_DEADTIME_OVER.getCode()) {
-            this.message = "「" + this.message + "」已超期，请及时关注任务状态。";
+            this.message = "「" + this.message + "」任务已超期，请及时关注任务状态。";
         } else if (this.type == MessageTypeEnum.TASK_RECEIVED_TO_SENDER.getCode()) {
             this.message = "「" + this.message + "」已被接单，请及时关注任务状态。";
-        } else if (this.type == MessageTypeEnum.TASK_REVEIVED_TO_RECEIVER.getCode()) {
+        } else if (this.type == MessageTypeEnum.TASK_RECEIVED_TO_RECEIVER.getCode()) {
             this.message = "「" + this.message + "」接单成功，请及时完成任务。";
+        } else if (this.type == MessageTypeEnum.TASK_DONE.getCode()) {
+            this.message = "「" + this.message + "」任务已完成，欢迎下次使用。";
+        }else if (this.type == MessageTypeEnum.TASK_DONE_VERIFY.getCode()) {
+            this.message = "「" + this.message + "」任务已被完成，请确认。";
         }
         return message;
     }

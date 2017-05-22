@@ -76,7 +76,7 @@ public class TaskIndexController extends GuestBaseController {
         } else if (type == TaskRequestTypeEnum.SERVICEING.getCode()) {
             status = TaskStatusEnum.RECEIVE.getCode();
         } else if (type == TaskRequestTypeEnum.DONE_RECEIVE.getCode()) {
-            status = TaskStatusEnum.DONE_RECEIVE.getCode();
+            status = TaskStatusEnum.DONE_TASK.getCode();
         } else {
             return ResponseEntity.failure(Errors.PARAMETER_ILLEGAL);
         }

@@ -150,7 +150,7 @@ public class AccountLog {
         } else if (AccountLogTypeEnum.ADD_REGESTER.getCode() == this.type) {
             message = "恭喜您"
                     + TimeUtil.format(this.createTime, TimeUtil.DATE_FORMAT_CHINESE)
-                    + "加入「时间银行」，系统已自为您动开通账户，注册收入时间币"
+                    + "加入「时间银行」，系统已自动为您开通账户，注册收入时间币"
                     + money
                     + "枚，账户余额"
                     + balance
@@ -170,6 +170,15 @@ public class AccountLog {
                     + TimeUtil.format(this.createTime, TimeUtil.DATE_FORMAT_CHINESE)
                     + "发布需求" + this.remark
                     + "，公益资助时间币"
+                    + this.money
+                    + "枚，账户余额"
+                    + this.balance
+                    + "枚。「时间银行」";
+        } else if (AccountLogTypeEnum.ADD_TASK_DONE.getCode() == this.type) {
+            message = "您的账户"
+                    + TimeUtil.format(this.createTime, TimeUtil.DATE_FORMAT_CHINESE)
+                    + "完成需求" + this.remark
+                    + "，收入时间币"
                     + this.money
                     + "枚，账户余额"
                     + this.balance

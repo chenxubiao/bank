@@ -17,6 +17,7 @@ import cn.longhaiyan.task.enums.TaskStatusEnum;
 import cn.longhaiyan.task.service.TaskFinishService;
 import cn.longhaiyan.task.service.TaskInfoService;
 import cn.longhaiyan.task.service.TaskLogService;
+import cn.longhaiyan.user.enums.UserTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -67,6 +68,11 @@ public class TaskTakeController extends CommonController {
         if (receiverId == taskInfo.getUserId()) {
             return ResponseEntity.failure(Errors.TASK_RECEIVER_ERROR);
         }
+        if (userSession.getUserType() != UserTypeEnum.STUDENT.getCode()
+                || userSession.getUserType() != UserTypeEnum.TEACHER.getCode()) {
+            return ResponseEntity.failure(Errors.USER_NOT_AUTH);
+        }
+
         taskInfo.setStatus(TaskStatusEnum.LOKING_RECEIVING.getCode());
         taskInfoService.save(taskInfo);
 
@@ -90,7 +96,7 @@ public class TaskTakeController extends CommonController {
         toSenderMsg.setModifyTime(new Date());
         messageService.save(toSenderMsg);
 
-        Message toReceiverMsg = new Message(MessageTypeEnum.TASK_REVEIVED_TO_RECEIVER.getCode(),
+        Message toReceiverMsg = new Message(MessageTypeEnum.TASK_RECEIVED_TO_RECEIVER.getCode(),
                 BankConsts.USER_IS_SYSTEM,
                 userSession.getUserId(),
                 taskLog.getId(),
@@ -100,5 +106,4 @@ public class TaskTakeController extends CommonController {
         messageService.save(toReceiverMsg);
         return ResponseEntity.success();
     }
-
 }
