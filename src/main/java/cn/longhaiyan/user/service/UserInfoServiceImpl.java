@@ -9,6 +9,9 @@ import cn.longhaiyan.user.domain.UserInfo;
 import cn.longhaiyan.user.domain.UserRole;
 import cn.longhaiyan.user.repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -125,6 +128,13 @@ public class UserInfoServiceImpl implements UserInfoService {
             return null;
         }
         return userInfoRepository.findAllByUserTypeInOrderByModifyTimeDesc(userTypeList);
+    }
+
+    @Override
+    public List<UserInfo> findRecommondUserList() {
+        Pageable pageable = new PageRequest(0, 5);
+        Page<UserInfo> userInfoPage = userInfoRepository.findAllByIdGreaterThanOrderByIdDesc(BankConsts.USER_IS_SYSTEM, pageable);
+        return userInfoPage.getContent();
     }
 //
 //    private UserInfo setUserProfile(UserInfo userInfo) {

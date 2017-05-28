@@ -10,6 +10,7 @@ import cn.longhaiyan.task.bean.TaskFinishBean;
 import cn.longhaiyan.task.bean.TaskInfoBean;
 import cn.longhaiyan.task.domain.TaskFinish;
 import cn.longhaiyan.task.domain.TaskInfo;
+import cn.longhaiyan.task.enums.TaskStatusEnum;
 import cn.longhaiyan.task.service.TaskFinishService;
 import cn.longhaiyan.task.service.TaskInfoService;
 import cn.longhaiyan.user.bean.User;
@@ -56,7 +57,7 @@ public class TaskDetailController extends GuestBaseController {
             userId = userSession.getUserId();
         }
         TaskInfo taskInfo = taskInfoService.findById(taskId);
-        if (taskInfo == null) {
+        if (taskInfo == null || taskInfo.getStatus() == TaskStatusEnum.DELETE.getCode()) {
             return ResponseEntity.failure(Errors.TASK_NOT_FOUNT);
         }
         UserInfo senderInfo = userInfoService.findById(taskInfo.getUserId());

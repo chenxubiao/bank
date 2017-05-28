@@ -1,6 +1,7 @@
 package cn.longhaiyan.task.service;
 
 import cn.longhaiyan.task.domain.TaskFinish;
+import cn.longhaiyan.task.enums.TaskStatusEnum;
 import cn.longhaiyan.task.repository.TaskFinishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,8 @@ public class TaskFinishServiceImpl implements TaskFinishService {
         if (takerId <= 0) {
             return 0;
         }
-        return taskFinishRepository.countByTakerId(takerId);
+//        return taskFinishRepository.countByTakerId(takerId);
+        return taskFinishRepository.countByTakerIdAndStatusIsNot(takerId, TaskStatusEnum.DELETE.getCode());
     }
 
 }

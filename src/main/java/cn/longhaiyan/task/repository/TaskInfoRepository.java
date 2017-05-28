@@ -22,7 +22,11 @@ public interface TaskInfoRepository extends PagingAndSortingRepository<TaskInfo,
 
     List<TaskInfo> findAllByUserIdOrderByIdDesc(int useId);
 
+    List<TaskInfo> findAllByUserIdAndStatusIsNotOrderByIdDesc(int userId, int status);
+
     int countByUserId(int userId);
+
+    int countByUserIdAndStatusIsNot(int userId, int status);
 
     List<TaskInfo> findAllByStatusIn(List<Integer> status);
 }

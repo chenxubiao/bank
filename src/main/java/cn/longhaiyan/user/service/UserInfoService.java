@@ -29,4 +29,6 @@ public interface UserInfoService {
     int countAll();
 
     List<UserInfo> findByUserTypeIn(List<Integer> userTypeList);
+
+    List<UserInfo> findRecommondUserList();
 }

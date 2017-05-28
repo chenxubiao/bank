@@ -56,7 +56,7 @@ public class TaskFinishController extends CommonController {
             return ResponseEntity.failure(Errors.PARAMETER_ILLEGAL);
         }
         TaskInfo taskInfo = taskInfoService.findById(taskId);
-        if (taskInfo == null) {
+        if (taskInfo == null || taskInfo.getStatus() == TaskStatusEnum.DELETE.getCode()) {
             return ResponseEntity.failure(Errors.TASK_NOT_FOUNT);
         }
 

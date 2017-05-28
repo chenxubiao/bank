@@ -61,7 +61,7 @@ public class TaskTakeController extends CommonController {
         int takerId = userSession.getUserId();
         int taskId = info.getId();
         TaskInfo taskInfo = taskInfoService.findById(taskId);
-        if (taskInfo == null) {
+        if (taskInfo == null|| taskInfo.getStatus() == TaskStatusEnum.DELETE.getCode()) {
             return ResponseEntity.failure(Errors.TASK_NOT_FOUNT);
         }
         if (taskInfo.getStatus() != TaskStatusEnum.PUBLISH.getCode()) {

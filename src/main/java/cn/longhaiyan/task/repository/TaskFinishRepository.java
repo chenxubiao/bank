@@ -15,4 +15,6 @@ public interface TaskFinishRepository extends PagingAndSortingRepository<TaskFin
     TaskFinish findById(int id);
 
     int countByTakerId(int takerId);
+
+    int countByTakerIdAndStatusIsNot(int userId, int status);
 }

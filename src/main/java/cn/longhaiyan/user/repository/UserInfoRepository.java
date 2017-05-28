@@ -2,6 +2,8 @@ package cn.longhaiyan.user.repository;
 
 
 import cn.longhaiyan.user.domain.UserInfo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
@@ -38,4 +40,7 @@ public interface UserInfoRepository extends PagingAndSortingRepository<UserInfo,
     int countAllByIdGreaterThan(int id);
 
     List<UserInfo> findAllByUserTypeInOrderByModifyTimeDesc(List<Integer> userTypeList);
+
+    Page<UserInfo> findAllByIdGreaterThanOrderByIdDesc(int id, Pageable pageable);
+
 }

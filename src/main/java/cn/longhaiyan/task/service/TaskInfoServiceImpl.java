@@ -64,7 +64,9 @@ public class TaskInfoServiceImpl implements TaskInfoService {
         if (useId <= 0) {
             return null;
         }
-        List<TaskInfo> taskInfoList = taskInfoRepository.findAllByUserIdOrderByIdDesc(useId);
+//        List<TaskInfo> taskInfoList = taskInfoRepository.findAllByUserIdOrderByIdDesc(useId);
+        List<TaskInfo> taskInfoList = taskInfoRepository.findAllByUserIdAndStatusIsNotOrderByIdDesc
+                (useId, TaskStatusEnum.DELETE.getCode());
         if (CollectionUtil.isEmpty(taskInfoList)) {
             return taskInfoList;
         }
@@ -79,7 +81,8 @@ public class TaskInfoServiceImpl implements TaskInfoService {
         if (userId <= 0) {
             return 0;
         }
-        return taskInfoRepository.countByUserId(userId);
+//        return taskInfoRepository.countByUserId(userId);
+        return taskInfoRepository.countByUserIdAndStatusIsNot(userId, TaskStatusEnum.DELETE.getCode());
     }
 
     @Override
