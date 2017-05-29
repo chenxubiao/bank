@@ -41,7 +41,7 @@ public class Errors {
     public static final String USER_USERNAME_IS_EXISTS = "用户名已被占用";
     public static final String EMAIL_IS_EXISTS = "邮箱已被注册";
     public static final String CELLPHONE_IS_EXISTS = "手机号已被注册";
-    public static final String PERMISION_DENIED = "Permission Denied";
+    public static final String PERMISION_DENIED = "No permission to operate !";
 
     public static final String FILE_NAME_ERROR = "文件名为空";
     public static final String FILE_EXT_TYPE_ERROR="不支持文件扩展名: ";
@@ -65,7 +65,7 @@ public class Errors {
 
     public static final String MESSAGE_SEND_MYSELF = "不允许自己给自己发消息";
 
-    public static final String TASK_MONEY_URGENT_ERROR = "加急时间币不应大于此需求时间币";
+    public static final String TASK_MONEY_URGENT_ERROR = "公益资助时间币不应大于任务时间币哦";
     public static final String TASK_DEADTIME_ERROR = "需求截止日期不合法";
     public static final String TASK_PUBLISHING_NONE = "暂无需求信息";
     public static final String TASK_NOT_FOUNT = "数据库中未找到记录";
@@ -73,5 +73,4 @@ public class Errors {
     public static final String TASK_STATUS_ERROR = "需求状态不允许此操作，状态：";
     public static final String TASK_RECEIVER_ERROR = "不允许自己接单";
     public static final String TASK_FINISH_NOT_FOUND = "未找到需求完成信息";
-
 }
