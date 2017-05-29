@@ -208,7 +208,9 @@ public class TaskUpdateController extends CommonController {
                     toSenderAccountMsg.setModifyTime(toSenderAccountMsg.getCreateTime());
                     messageService.save(toSenderAccountMsg);
 
-                } else if (taskInfo.getStatus() == TaskStatusEnum.RECEIVE.getCode()) {
+                } else if (taskInfo.getStatus() == TaskStatusEnum.RECEIVE.getCode()
+                        || taskInfo.getStatus() == TaskStatusEnum.LOKING_TIME_OVER_RECEIVE.getCode()) {
+
                     /**
                      * 任务发布者在接单后申请提前结束  type == 2
                      */

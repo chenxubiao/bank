@@ -19,7 +19,7 @@ public enum TaskStatusEnum {
     DONE_TASK(9, "已完成"),
     LOKING_PRESENT(10, "状态锁定中锁定中"),
     LOKING_TIME_OVER_PUBLISHING(11, "已超期，锁定中"), //未接单，任务超期
-    LOKING_TIME_OVER_RECEIVE(12, "已超期，锁定中"),
+    LOKING_TIME_OVER_RECEIVE(12, "已超期，锁定中"),    //已接单，超期
     LOKING_TIME_DONE_PUB(16, "已完成（被重新发布）"),
     DELETE(20, "已删除"),;  //完成任务已超期(已接单)
 

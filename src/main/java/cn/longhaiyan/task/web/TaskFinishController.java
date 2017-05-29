@@ -60,7 +60,10 @@ public class TaskFinishController extends CommonController {
             return ResponseEntity.failure(Errors.TASK_NOT_FOUNT);
         }
 
-        if (taskInfo.getStatus() != TaskStatusEnum.RECEIVE.getCode() && taskInfo.getStatus() != TaskStatusEnum.RECEIVE_COMPLETE.getCode()) {
+        if (taskInfo.getStatus() != TaskStatusEnum.RECEIVE.getCode()
+                && taskInfo.getStatus() != TaskStatusEnum.RECEIVE_COMPLETE.getCode()
+                && taskInfo.getStatus() == TaskStatusEnum.LOKING_TIME_OVER_RECEIVE.getCode()) {
+
             return ResponseEntity.failure(Errors.TASK_STATUS_ERROR + TaskStatusEnum.getValue(taskInfo.getStatus()));
         }
         TaskFinish taskFinish = taskFinishService.findById(taskInfo.getFinishId());
@@ -71,7 +74,9 @@ public class TaskFinishController extends CommonController {
         if (userSession.getUserId() != taskFinish.getTakerId() && userSession.getUserId() != taskInfo.getUserId()) {
             return ResponseEntity.failure(Errors.TASK_NOT_FOUNT);
         }
-        if (taskInfo.getStatus() == TaskStatusEnum.RECEIVE_COMPLETE.getCode() && userSession.getUserId() != taskInfo.getUserId()) {
+        if (taskInfo.getStatus() == TaskStatusEnum.RECEIVE_COMPLETE.getCode()
+                && userSession.getUserId() != taskInfo.getUserId()) {
+
             return ResponseEntity.failure(Errors.PERMISION_DENIED);
         }
         if (userSession.getUserId() == taskInfo.getUserId()) {
