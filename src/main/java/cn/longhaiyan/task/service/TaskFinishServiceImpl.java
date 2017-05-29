@@ -6,6 +6,8 @@ import cn.longhaiyan.task.repository.TaskFinishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by chenxb on 17-5-17.
  */
@@ -37,6 +39,14 @@ public class TaskFinishServiceImpl implements TaskFinishService {
         }
 //        return taskFinishRepository.countByTakerId(takerId);
         return taskFinishRepository.countByTakerIdAndStatusIsNot(takerId, TaskStatusEnum.DELETE.getCode());
+    }
+
+    @Override
+    public List<TaskFinish> findByTakerId(int takerId) {
+        if (takerId <= 0) {
+            return null;
+        }
+        return taskFinishRepository.findAllByUserIdAndStatusIsNot(takerId, TaskStatusEnum.DELETE.getCode());
     }
 
 }

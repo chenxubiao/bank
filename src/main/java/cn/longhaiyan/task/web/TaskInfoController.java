@@ -24,7 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by chenxb on 17-5-20.
@@ -37,8 +39,6 @@ public class TaskInfoController extends CommonController {
     private TaskFinishService taskFinishService;
     @Autowired
     private UserInfoService userInfoService;
-    @Autowired
-    private TaskTagService taskTagService;
 
 
     /**
@@ -55,9 +55,34 @@ public class TaskInfoController extends CommonController {
         int taskCount = taskInfoService.countByUserId(userId);
         int takeCount = taskFinishService.countByTakerId(userId);
         List<TaskInfo> taskInfoList = null;
+        List<TaskInfo> taskTakeList = null;
         if (taskCount > 0) {
             taskInfoList = taskInfoService.findByUserId(userId);
         }
+        if (takeCount > 0) {
+            List<TaskFinish> taskFinishList = taskFinishService.findByTakerId(userId);
+            Set<Integer> taskIds = null;
+            if (CollectionUtil.isNotEmpty(taskFinishList)) {
+                taskIds = new HashSet<>();
+                for (TaskFinish taskFinish : taskFinishList) {
+                    taskIds.add(taskFinish.getTaskId());
+                }
+            }
+            if (CollectionUtil.isNotEmpty(taskIds)) {
+                taskTakeList = taskInfoService.findByIdIn(new ArrayList<>(taskIds));
+            }
+        }
+        List<TaskBean> taskBeanList = getTaskBeanList(taskInfoList);
+        List<TaskBean> taskBeanTakeList = getTaskBeanList(taskTakeList);
+
+        return ResponseEntity.success()
+                .set(BankConsts.DATA, taskBeanList)
+                .set("taskNum", taskCount)
+                .set("takeNum", takeCount)
+                .set("takeTask", taskBeanTakeList);
+    }
+
+    private List<TaskBean> getTaskBeanList(List<TaskInfo> taskInfoList) {
         List<TaskBean> taskBeanList = null;
         if (CollectionUtil.isNotEmpty(taskInfoList)) {
             taskBeanList = new ArrayList<>();
@@ -82,6 +107,6 @@ public class TaskInfoController extends CommonController {
                 taskBeanList.add(taskBean);
             }
         }
-        return ResponseEntity.success().set(BankConsts.DATA, taskBeanList).set("taskNum", taskCount).set("takeNum", takeCount);
+        return taskBeanList;
     }
 }

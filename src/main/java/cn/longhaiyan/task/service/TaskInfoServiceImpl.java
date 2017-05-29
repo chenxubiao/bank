@@ -100,6 +100,21 @@ public class TaskInfoServiceImpl implements TaskInfoService {
         return taskInfoList;
     }
 
+    @Override
+    public List<TaskInfo> findByIdIn(List<Integer> ids) {
+        if (CollectionUtil.isEmpty(ids)) {
+            return null;
+        }
+        List<TaskInfo> taskInfoList = taskInfoRepository.findAllByIdInOrderByIdDesc(ids);
+        if (CollectionUtil.isEmpty(taskInfoList)) {
+            return taskInfoList;
+        }
+        for (TaskInfo taskInfo : taskInfoList) {
+            setTaskTags(taskInfo);
+        }
+        return taskInfoList;
+    }
+
     private void setTaskTags(TaskInfo taskInfo) {
         if (taskInfo == null) {
             return;

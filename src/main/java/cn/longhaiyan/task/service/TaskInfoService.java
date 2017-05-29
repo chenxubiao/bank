@@ -23,4 +23,6 @@ public interface TaskInfoService {
     int countByUserId(int userId);
 
     List<TaskInfo> findByStatusIn(List<Integer> statusList);
+
+    List<TaskInfo> findByIdIn(List<Integer> ids);
 }

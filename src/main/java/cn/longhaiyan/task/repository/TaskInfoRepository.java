@@ -29,4 +29,6 @@ public interface TaskInfoRepository extends PagingAndSortingRepository<TaskInfo,
     int countByUserIdAndStatusIsNot(int userId, int status);
 
     List<TaskInfo> findAllByStatusIn(List<Integer> status);
+
+    List<TaskInfo> findAllByIdInOrderByIdDesc(List<Integer> ids);
 }

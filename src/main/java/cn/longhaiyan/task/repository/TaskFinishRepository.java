@@ -5,6 +5,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by chenxb on 17-5-17.
  */
@@ -17,4 +19,6 @@ public interface TaskFinishRepository extends PagingAndSortingRepository<TaskFin
     int countByTakerId(int takerId);
 
     int countByTakerIdAndStatusIsNot(int userId, int status);
+
+    List<TaskFinish> findAllByUserIdAndStatusIsNot(int takerId, int status);
 }
