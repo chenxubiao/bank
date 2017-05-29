@@ -20,6 +20,8 @@ public interface UserLoginLogRepository extends PagingAndSortingRepository<UserL
     @Query(value = "select a from UserLoginLog a where a.userId = ?1")
     Page<UserLoginLog> findByUserId(int userId, Pageable pageable);
 
+    UserLoginLog findFirstByUserIdOrderByIdDesc(int userId);
+
 
     UserLoginLog findFirstByUserIdAndAndCreateTimeBetweenOrderByIdAsc(int userId, Date startDate, Date endDate);
 }

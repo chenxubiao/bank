@@ -33,12 +33,10 @@ public class UserLoginLogServiceImpl implements UserLoginLogService {
         if (userId <= 0) {
             return;
         }
-        Pageable pageable = new PageRequest(1, 1, Sort.Direction.DESC, "id");
-        Page<UserLoginLog> userLoginLogPage = userLoginLogRepository.findByUserId(userId, pageable);
-        if (userLoginLogPage.getContent() == null) {
+        UserLoginLog userLoginLog = userLoginLogRepository.findFirstByUserIdOrderByIdDesc(userId);
+        if (userLoginLog == null) {
             return;
         }
-        UserLoginLog userLoginLog = userLoginLogPage.getContent().get(0);
         userLoginLog.setLogoutTime(new Date());
         userLoginLog.setModifyTime(userLoginLog.getLogoutTime());
         userLoginLogRepository.save(userLoginLog);
