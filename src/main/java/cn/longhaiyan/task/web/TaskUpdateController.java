@@ -163,12 +163,11 @@ public class TaskUpdateController extends CommonController {
              * 用户为需求发布者    userId == taskInfo.getUserId
              * stu
              * 1
-             * 4
-             *
              *
              */
             if (userId == taskInfo.getUserId()) {
                 if (taskInfo.getStatus() == TaskStatusEnum.PUBLISH.getCode()) {
+
                     taskInfo.setStatus(TaskStatusEnum.LOKING_PRESENT.getCode());
                     taskInfo.setModifyTime(new Date());
                     taskInfoService.save(taskInfo);
@@ -213,6 +212,10 @@ public class TaskUpdateController extends CommonController {
 
                     /**
                      * 任务发布者在接单后申请提前结束  type == 2
+                     *
+                     * stu
+                     * 4
+                     * 12
                      */
                     taskInfo.setStatus(TaskStatusEnum.LOKING_PRESENT.getCode());
                     taskInfo.setModifyTime(new Date());

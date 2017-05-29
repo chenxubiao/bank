@@ -2,14 +2,18 @@ package cn.longhaiyan.common.interceptor;
 
 import cn.longhaiyan.common.annotation.Authority;
 import cn.longhaiyan.common.bean.UserSession;
+import cn.longhaiyan.common.utils.ConstStrings;
 import cn.longhaiyan.common.utils.NumberUtil;
 import cn.longhaiyan.common.utils.consts.BankConsts;
+import cn.longhaiyan.common.utils.consts.Errors;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Set;
 
 /**
@@ -48,10 +52,26 @@ public class AuthorityInterceptor extends HandlerInterceptorAdapter {
                         }
                     }
                 }
-                response.sendRedirect("/error/403");
+                sendMessage(response, Errors.JSON_NOT_HAVE_ROLES);
                 return false;
             }
         }
         return true;
+    }
+    private void sendMessage(HttpServletResponse response, String message) {
+
+        response.setContentType(ConstStrings.CONTENT_TYPE_JSON);
+        response.setCharacterEncoding(ConstStrings.CHARACTER_ENCOING_UTF8);
+        PrintWriter out = null;
+        try {
+            out = response.getWriter();
+            out.append(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null) {
+                out.close();
+            }
+        }
     }
 }

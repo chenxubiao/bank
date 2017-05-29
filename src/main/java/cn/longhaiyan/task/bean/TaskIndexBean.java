@@ -108,11 +108,7 @@ public class TaskIndexBean {
         if (StringUtil.isBlank(value)) {
             return value;
         }
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < value.length(); i++) {
-            stringBuilder.append("*");
-        }
-        return stringBuilder.toString();
+        return StringUtil.convertEncrypt(value);
     }
 
 }
