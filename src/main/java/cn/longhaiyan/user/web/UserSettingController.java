@@ -64,12 +64,15 @@ public class UserSettingController extends CommonController {
 
         String userName = userProfile.getUserName().trim();
         if (!userInfo.getUserName().equals(userName)) {
-            isUserInfoModify = true;
+            if (StringUtil.isContainSpace(userName)) {
+                return ResponseEntity.failure(Errors.USER_USERNAME_HAS_SPACE);
+            }
             boolean isUserNameExist = userInfoService.isUserNameExist(userName);
             if (isUserNameExist) {
                 return ResponseEntity.failure(Errors.USER_USERNAME_IS_EXISTS);
             }
             userInfo.setUserName(userProfile.getUserName().trim());
+            isUserInfoModify = true;
         }
         if (StringUtil.isNotBlank(userProfile.getDescription())
                 && !userProfile.getDescription().trim().equals(userInfo.getDescription())) {

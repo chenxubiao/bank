@@ -72,8 +72,8 @@ public class UserRegisterController extends GuestBaseController {
             return ResponseEntity.failure(Errors.PARAMETER_ILLEGAL);
         }
         String userName = registerBean.getUserName().trim();
-        if (StringUtil.isContainChinese(userName)) {
-            return ResponseEntity.failure(Errors.USER_USERNAME_IS_CHINESE);
+        if (StringUtil.isContainSpace(userName)) {
+            return ResponseEntity.failure(Errors.USER_USERNAME_HAS_SPACE);
         }
         String code = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
         code = StringUtil.isEmpty(code) ? "" : code;
