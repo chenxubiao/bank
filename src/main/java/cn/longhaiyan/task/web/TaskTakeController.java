@@ -70,10 +70,10 @@ public class TaskTakeController extends CommonController {
         if (takerId == taskInfo.getUserId()) {
             return ResponseEntity.failure(Errors.TASK_RECEIVER_ERROR);
         }
-        if (userSession.getUserType() != UserTypeEnum.STUDENT.getCode()
-                || userSession.getUserType() != UserTypeEnum.TEACHER.getCode()) {
-            return ResponseEntity.failure(Errors.USER_NOT_AUTH);
-        }
+//        if (userSession.getUserType() != UserTypeEnum.STUDENT.getCode()
+//                && userSession.getUserType() != UserTypeEnum.TEACHER.getCode()) {
+//            return ResponseEntity.failure(Errors.USER_NOT_AUTH);
+//        }
 
         taskInfo.setStatus(TaskStatusEnum.LOKING_PRESENT.getCode());
         taskInfoService.save(taskInfo);
