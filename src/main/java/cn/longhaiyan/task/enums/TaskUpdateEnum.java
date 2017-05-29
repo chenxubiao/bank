@@ -7,8 +7,11 @@ public enum TaskUpdateEnum {
 
 
     DELETE(1, "删除"),
-    DONE(2, "完成"),      //发布者
-    CLOSE(3, "结束"),;
+    //    DONE(2, "完成"),      //发布者
+    CLOSING(2, "申请关闭"),
+    CLOSED(3, "确认关闭"),
+    REPUBLISH(4, "重新发布"),;
+
 
     private int code;
     private String value;

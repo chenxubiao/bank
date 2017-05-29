@@ -75,7 +75,7 @@ public class TaskTakeController extends CommonController {
             return ResponseEntity.failure(Errors.USER_NOT_AUTH);
         }
 
-        taskInfo.setStatus(TaskStatusEnum.LOKING_RECEIVING.getCode());
+        taskInfo.setStatus(TaskStatusEnum.LOKING_PRESENT.getCode());
         taskInfoService.save(taskInfo);
 
         String value = info.getValue().trim();

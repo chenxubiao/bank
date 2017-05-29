@@ -93,6 +93,20 @@ public class Message implements Serializable {
             this.message = "您的" + message + "认证，认证成功。";
         } else if (this.type == MessageTypeEnum.USER_AUTH_FAILED.getCode()) {
             this.message = "您的" + message + "认证，认证失败。";
+        } else if (this.type == MessageTypeEnum.TASK_DELETE.getCode()) {
+            this.message = "「" + this.message + "」任务已删除。";
+        }else if (this.type == MessageTypeEnum.TASK_CLOSING_BY_SENDER_TO_SENDER.getCode()) {
+            this.message = "「" + this.message + "」任务关闭申请已发送任务接单者，请关注任务状态。";
+        }else if (this.type == MessageTypeEnum.TASK_CLOSING_BY_SENDER_TO_TAKER.getCode()) {
+            this.message = "「" + this.message + "」任务已被任务发送者申请取消，请及时处理。";
+        }else if (this.type == MessageTypeEnum.TASK_CLOSING_BY_TAKER_TO_SENDER.getCode()) {
+            this.message = "「" + this.message + "」任务已被任务接收者申请取消，请及时处理。";
+        }else if (this.type == MessageTypeEnum.TASK_CLOSING_BY_TAKER_TO_TAKER.getCode()) {
+            this.message = "「" + this.message + "」任务关闭申请已发送任务发布者，请关注任务状态。";
+        } else if (this.type == MessageTypeEnum.TASK_CLOSED.getCode()) {
+            this.message = "「" + this.message + "」任务已结束，欢迎下次使用。";
+        }else if (this.type == MessageTypeEnum.TASK_PAUSE.getCode()) {
+            this.message = "「" + this.message + "」任务已结束，欢迎下次使用。";
         }
         return message;
     }

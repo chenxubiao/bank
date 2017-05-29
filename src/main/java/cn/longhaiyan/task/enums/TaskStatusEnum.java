@@ -6,17 +6,21 @@ package cn.longhaiyan.task.enums;
 public enum TaskStatusEnum {
 
     PUBLISH(1, "发布中"),
-    CLOSE_OWNER(2, "已取消,退款中"),      //发布者
-    DONE_NOT_RECEIVE(3, "已结束"),     //未接单，已退款，已结束
+    CLOSE_OWNER(2, "已取消,退款中"),        //发布者
+    DONE_NOT_RECEIVE(3, "已关闭"),         //未接单，退款完成
     RECEIVE(4, "已接单,进行中"),
-    RECEIVE_CLONING(5, "关闭中"),      //已接单用户关闭,等待需求方确认
-    RECEIVE_CLOSED(6, "已同意关闭"),   //需求方同意关闭，退款中
-    DONE_RECEIVE_CLOSE(7, "已结束"),   //接单后退款完成
+    SENDER_CLONING(13, "关闭中"),
+    SENDER_AGREE_CLOSED(14, "接收方同意关闭，退款中"),
+//    DONE_SENDER_CLOSING(15, "已结束"),
+    TAKER_CLONING(5, "关闭中"),            //已接单用户关闭,等待需求方确认
+    TAKER_AGREE_CLOSED(6, "已同意关闭"),    //需求方同意关闭，退款中
+    DONE_RECEIVE_CLOSE(7, "已结束"),       //接单后退款完成
     RECEIVE_COMPLETE(8, "已完成，核对付款中"),
     DONE_TASK(9, "已完成"),
-    LOKING_RECEIVING(10, "接单锁定中"),
+    LOKING_PRESENT(10, "状态锁定中锁定中"),
     LOKING_TIME_OVER_PUBLISHING(11, "已超期，锁定中"), //未接单，任务超期
     LOKING_TIME_OVER_RECEIVE(12, "已超期，锁定中"),
+    LOKING_TIME_DONE_PUB(16, "已完成（被重新发布）"),
     DELETE(20, "已删除"),;  //完成任务已超期(已接单)
 
 

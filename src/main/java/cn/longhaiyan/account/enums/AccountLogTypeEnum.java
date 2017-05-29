@@ -9,7 +9,8 @@ public enum AccountLogTypeEnum {
     , ADD_LOGIN(2, "登录奖励")
     , DEL_TASK_PUB(3, "需求发布")
     , DEL_TASK_URGENT(4, "公益资助")
-    , ADD_TASK_DONE(5, "需求完成"),;
+    , ADD_TASK_DONE(5, "需求完成"),
+    ADD_TASK_CLOSE(6, "取消任务收入"),;
 
     private int code;
     private String value;

@@ -16,6 +16,13 @@ public enum MessageTypeEnum {
     TASK_DEADTIME_OVER_REMIND(9, "任务通知"),
     TASK_DONE(10, "任务通知"),           //任务超期
     TASK_DONE_VERIFY(11, "任务通知"),
+    TASK_DELETE(20, "任务通知"),
+    TASK_PAUSE(14, "任务通知"),         //任务未接单就结束
+    TASK_CLOSING_BY_SENDER_TO_SENDER(15, "任务通知"),
+    TASK_CLOSING_BY_SENDER_TO_TAKER(16, "任务通知"),
+    TASK_CLOSING_BY_TAKER_TO_SENDER(17, "任务通知"),
+    TASK_CLOSING_BY_TAKER_TO_TAKER(18, "任务通知"),
+    TASK_CLOSED(19, "任务通知"),        //申请关闭流程结束，已关闭，已退款
     USER_AUTH_SUCCESS(12, "认证通知"),  //认证成功
     USER_AUTH_FAILED(13, "认证通知"),;  //认证失败
 

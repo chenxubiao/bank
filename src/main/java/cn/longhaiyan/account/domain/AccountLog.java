@@ -159,7 +159,7 @@ public class AccountLog {
         } else if (AccountLogTypeEnum.DEL_TASK_PUB.getCode() == this.type) {
             message = "您的账户"
                     + TimeUtil.format(this.createTime, TimeUtil.DATE_FORMAT_CHINESE)
-                    + "发布需求" + this.remark
+                    + "发布需求：" + this.remark
                     + "，托管时间币"
                     + this.money
                     + "枚，账户余额"
@@ -168,7 +168,7 @@ public class AccountLog {
         } else if (AccountLogTypeEnum.DEL_TASK_URGENT.getCode() == this.type) {
             message = "您的账户"
                     + TimeUtil.format(this.createTime, TimeUtil.DATE_FORMAT_CHINESE)
-                    + "发布需求" + this.remark
+                    + "发布需求：" + this.remark
                     + "，公益资助时间币"
                     + this.money
                     + "枚，账户余额"
@@ -177,13 +177,23 @@ public class AccountLog {
         } else if (AccountLogTypeEnum.ADD_TASK_DONE.getCode() == this.type) {
             message = "您的账户"
                     + TimeUtil.format(this.createTime, TimeUtil.DATE_FORMAT_CHINESE)
-                    + "完成需求" + this.remark
+                    + "完成需求：" + this.remark
                     + "，收入时间币"
                     + this.money
                     + "枚，账户余额"
                     + this.balance
                     + "枚。「时间银行」";
+        }else if (AccountLogTypeEnum.ADD_TASK_CLOSE.getCode() == this.type) {
+            message = "您的账户"
+                    + TimeUtil.format(this.createTime, TimeUtil.DATE_FORMAT_CHINESE)
+                    + "结束需求：" + this.remark
+                    + "，退款收入时间币"
+                    + this.money
+                    + "枚，账户余额"
+                    + this.balance
+                    + "枚。「时间银行」";
         }
+
         return message;
     }
 }
