@@ -4,8 +4,8 @@ package cn.longhaiyan.common.utils.consts;
  * Created by chenxb on 17-3-6.
  */
 public class Errors {
-    public static final String JSON_NOT_LOGIN = "{ \"success\": false, \"message\": \"404 Not Found !\", \"errorCode\": 1, \"vars\": null }";
-    public static final String JSON_NOT_HAVE_ROLES = "{ \"success\": false, \"message\": \"403 Permission Denied !\", \"errorCode\": 2, \"vars\": null }";
+    public static final String JSON_NOT_LOGIN = "{ \"success\": false, \"message\": \"Please sign in first !\", \"errorCode\": 1, \"vars\": null }";
+    public static final String JSON_NOT_HAVE_ROLES = "{ \"success\": false, \"message\": \"No permission to operate !\", \"errorCode\": 2, \"vars\": null }";
     public static final String JSON_ACCOUNT_CLOSE = "{ \"success\": false, \"message\": \"403 Account Is Closed !\", \"errorCode\": 3, \"vars\": null }";
     public static final String JSON_NOT_ADMIN = "{ \"success\": false, \"message\": \"403 Permission Denied !\", \"errorCode\": 4, \"vars\": null }";
 
