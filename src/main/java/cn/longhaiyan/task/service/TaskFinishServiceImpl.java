@@ -46,7 +46,7 @@ public class TaskFinishServiceImpl implements TaskFinishService {
         if (takerId <= 0) {
             return null;
         }
-        return taskFinishRepository.findAllByTaskIdAndStatusIsNot(takerId, TaskStatusEnum.DELETE.getCode());
+        return taskFinishRepository.findAllByTakerIdAndStatusIsNot(takerId, TaskStatusEnum.DELETE.getCode());
     }
 
 }
