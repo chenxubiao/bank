@@ -73,7 +73,7 @@ public class TaskIndexController extends GuestBaseController {
         List<TaskIndexBean> taskIndexBeanList = new ArrayList<>();
         List<TaskInfo> taskInfoList = page.getContent();
         for (TaskInfo taskInfo : taskInfoList) {
-
+            taskInfoService.setTaskTags(taskInfo);
             TaskFinish taskFinish = null;
             if (type != TaskRequestTypeEnum.PUBLISHING.getCode()) {
                 taskFinish = taskFinishService.findById(taskInfo.getFinishId());

@@ -15,4 +15,5 @@ public interface TaskFinishService {
     int countByTakerId(int takerId);
 
     List<TaskFinish> findByTakerId(int takerId);
+
 }

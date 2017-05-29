@@ -115,7 +115,7 @@ public class TaskInfoServiceImpl implements TaskInfoService {
         return taskInfoList;
     }
 
-    private void setTaskTags(TaskInfo taskInfo) {
+    public void setTaskTags(TaskInfo taskInfo) {
         if (taskInfo == null) {
             return;
         }

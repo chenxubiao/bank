@@ -25,4 +25,6 @@ public interface TaskInfoService {
     List<TaskInfo> findByStatusIn(List<Integer> statusList);
 
     List<TaskInfo> findByIdIn(List<Integer> ids);
+
+    void setTaskTags(TaskInfo taskInfo);
 }
