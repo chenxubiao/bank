@@ -20,5 +20,5 @@ public interface TaskFinishRepository extends PagingAndSortingRepository<TaskFin
 
     int countByTakerIdAndStatusIsNot(int userId, int status);
 
-    List<TaskFinish> findAllByUserIdAndStatusIsNot(int takerId, int status);
+    List<TaskFinish> findAllByTaskIdAndStatusIsNot(int takerId, int status);
 }
