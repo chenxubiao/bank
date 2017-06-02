@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         , "cn.longhaiyan.account.domain"
         , "cn.longhaiyan.task.domain"
         , "cn.longhaiyan.tag.domain"
+        , "cn.longhaiyan.illegal.domain"
         , "cn.longhaiyan.message.domain"})
 @ServletComponentScan
 @ComponentScan(basePackages = "cn.longhaiyan")
