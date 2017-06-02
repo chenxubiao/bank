@@ -25,7 +25,8 @@ public enum MessageTypeEnum {
     TASK_CLOSED(19, "任务通知"),        //申请关闭流程结束，已关闭，已退款
     USER_AUTH_SUCCESS(12, "认证通知"),  //认证成功
     USER_AUTH_FAILED(13, "认证通知"),
-    ADMIN_PAY_ACCOUNT(14, "账户充值"),;  //认证失败
+    ADMIN_PAY_ACCOUNT(14, "账户充值"),
+    ADMIN_PAY_ACCOUNT_DEL(15, "账户扣除"),;
 
 
     private int code;

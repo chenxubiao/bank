@@ -111,12 +111,13 @@ CREATE TABLE `tb_account_pay`(
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `payer` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
   `money` INT(11) NOT NULL DEFAULT 0 COMMENT '变动积分',
+  `type` TINYINT(2) NOT NULL DEFAULT 0 COMMENT '操作类型，1:充值，2：扣除',
   `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '1:已支付，待充值，2：充值成功，3：充值失败，退款中，4：已退款',
   `remark` VARCHAR(32) DEFAULT NULL COMMENT '备注',
   `createTime` DATETIME NOT NULL COMMENT '创建时间',
   `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户充值记录表';
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='管理员操作账户记录表';
 
 DROP TABLE IF EXISTS `tb_account`;
 CREATE TABLE `tb_account`(

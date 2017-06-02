@@ -1,6 +1,9 @@
 package cn.longhaiyan.account.domain;
 
 import cn.longhaiyan.account.enums.AccountPayStatusEnum;
+import cn.longhaiyan.admin.enums.PayTypeEnum;
+import cn.longhaiyan.user.bean.UserInfoBean;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -20,17 +23,27 @@ public class AccountPay {
     private Date modifyTime;
     private int payer;
     private int money;
+    private int type;
+    @Transient
+    private String typeStr;
     private int status;
     private String remark = "";
+    @JsonIgnore
     @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, optional = true)
     @JoinColumn(name = "accountId")
     private Account account;
+
+    @Transient
+    private UserInfoBean payerInfo;
+    @Transient
+    private UserInfoBean userInfo;
 
     public AccountPay() {
 
     }
 
-    public AccountPay(Account account, int payer, int money) {
+    public AccountPay(Account account, int payer, int money, int type) {
+        this.type = type;
         this.account = account;
         this.payer = payer;
         this.money = money;
@@ -100,5 +113,33 @@ public class AccountPay {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getTypeStr() {
+        return PayTypeEnum.getValue(this.type);
+    }
+
+    public UserInfoBean getPayerInfo() {
+        return payerInfo;
+    }
+
+    public void setPayerInfo(UserInfoBean payerInfo) {
+        this.payerInfo = payerInfo;
+    }
+
+    public UserInfoBean getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfoBean userInfo) {
+        this.userInfo = userInfo;
     }
 }

@@ -5,6 +5,8 @@ import cn.longhaiyan.account.repository.AccountPayRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by chenxb on 17-5-15.
  */
@@ -19,5 +21,10 @@ public class AccountPayServiceImpl implements AccountPayService {
             return;
         }
         accountPayRepository.save(accountPay);
+    }
+
+    @Override
+    public List<AccountPay> findAll() {
+        return accountPayRepository.findAll();
     }
 }
