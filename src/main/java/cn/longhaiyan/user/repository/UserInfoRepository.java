@@ -43,4 +43,7 @@ public interface UserInfoRepository extends PagingAndSortingRepository<UserInfo,
 
     Page<UserInfo> findAllByIdGreaterThanOrderByIdDesc(int id, Pageable pageable);
 
+    @Query("select a from UserInfo a ORDER BY a.id desc ")
+    List<UserInfo> findAll();
+
 }

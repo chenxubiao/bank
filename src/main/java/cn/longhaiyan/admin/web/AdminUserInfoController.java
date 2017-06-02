@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by chenxb on 17-6-1.
@@ -35,7 +37,7 @@ public class AdminUserInfoController extends CommonController {
      */
     @RequestMapping(value = "/admin/pay/user/info/data")
     @Authority(privilege = BankConsts.UserRole.USER_IS_PAYER + "")
-    public ResponseEntity getUserList(HttpServletRequest request, String name) {
+    public ResponseEntity getUserInfo(HttpServletRequest request, String name) {
         if (StringUtil.isBlank(name)) {
             return ResponseEntity.failure(Errors.PARAMETER_ILLEGAL);
         }
@@ -63,5 +65,20 @@ public class AdminUserInfoController extends CommonController {
         }
         UserInfoBean userInfoBean = new UserInfoBean(userInfo);
         return ResponseEntity.success().set(BankConsts.DATA, userInfoBean);
+    }
+
+    @RequestMapping(value = "/admin/user/info/list/data")
+    @Authority(privilege = BankConsts.UserRole.USER_IS_PAYER + "")
+    public ResponseEntity getUserList(HttpServletRequest request) {
+        List<UserInfo> userInfoList = userInfoService.findAll();
+        List<UserInfoBean> userInfoBeanList = new ArrayList<>();
+        for (UserInfo userInfo : userInfoList) {
+            if (userInfo.getId() == 1) {
+                continue;
+            }
+            UserInfoBean userInfoBean = new UserInfoBean(userInfo);
+            userInfoBeanList.add(userInfoBean);
+        }
+        return ResponseEntity.success().set(BankConsts.DATA, userInfoBeanList);
     }
 }

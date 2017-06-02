@@ -136,6 +136,12 @@ public class UserInfoServiceImpl implements UserInfoService {
         Page<UserInfo> userInfoPage = userInfoRepository.findAllByIdGreaterThanOrderByIdDesc(BankConsts.USER_IS_SYSTEM, pageable);
         return userInfoPage.getContent();
     }
+
+    @Override
+    public List<UserInfo> findAll() {
+        List<UserInfo> userInfoList = userInfoRepository.findAll();
+        return userInfoList;
+    }
 //
 //    private UserInfo setUserProfile(UserInfo userInfo) {
 //        if (userInfo == null) {
