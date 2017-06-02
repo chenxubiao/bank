@@ -143,7 +143,7 @@ public class AdminAccountPayController extends CommonController {
     }
 
 
-    @RequestMapping(value = "/admin/account/pay/user/list")
+    @RequestMapping(value = "/admin/account/pay/log/list")
     @Authority(privilege = "" + BankConsts.UserRole.USER_IS_PAYER)
     public ResponseEntity getAdminAccountLog(HttpServletRequest request) {
 
