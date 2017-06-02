@@ -232,5 +232,34 @@ CREATE TABLE `tb_picture_attachment`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='图片上传附件表';
 
 
+DROP TABLE IF EXISTS `tb_illegal_info`;
+CREATE TABLE `tb_illegal_info`(
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `userId` INT(11) NOT NULL DEFAULT 0 COMMENT '任务拥有者id',
+  `type` TINYINT(3) NOT NULL DEFAULT 0 COMMENT '举报类型，1：任务,2：用户',
+  `projectId` INT(11) NOT NULL DEFAULT 0 COMMENT '任务id',
+  `reportId` INT(11) NOT NULL DEFAULT 0 COMMENT '举报者id',
+  `reasonId` TINYINT(3) NOT NULL DEFAULT 0 COMMENT '举报原因',
+  `remark` VARCHAR(128) DEFAULT NULL COMMENT '备注',
+  `status` INT(11) NOT NULL DEFAULT 0 COMMENT '标签id',
+  `createTime` DATETIME NOT NULL COMMENT '创建时间',
+  `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务标签信息表';
+
+DROP TABLE IF EXISTS `tb_illegal_log`;
+CREATE TABLE `tb_illegal_log`(
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `userId` INT(11) NOT NULL DEFAULT 0 COMMENT '处理者id',
+  `reportId` INT(11) NOT NULL DEFAULT 0 COMMENT '举报者id',
+  `illegalId` TINYINT(3) NOT NULL DEFAULT 0 COMMENT '非法任务id',
+  `remark` VARCHAR(128) DEFAULT NULL COMMENT '备注',
+  `status` INT(11) NOT NULL DEFAULT 0 COMMENT '标签id',
+  `createTime` DATETIME NOT NULL COMMENT '创建时间',
+  `modifyTime` DATETIME DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务标签信息表';
+
+
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -5,6 +5,7 @@ import cn.longhaiyan.common.bean.ResponseEntity;
 import cn.longhaiyan.common.bean.UserSession;
 import cn.longhaiyan.common.utils.CollectionUtil;
 import cn.longhaiyan.common.utils.consts.BankConsts;
+import cn.longhaiyan.common.utils.consts.Errors;
 import cn.longhaiyan.common.web.CommonController;
 import cn.longhaiyan.task.bean.TaskBean;
 import cn.longhaiyan.task.bean.TaskFinishBean;
@@ -13,13 +14,13 @@ import cn.longhaiyan.task.domain.TaskFinish;
 import cn.longhaiyan.task.domain.TaskInfo;
 import cn.longhaiyan.task.service.TaskFinishService;
 import cn.longhaiyan.task.service.TaskInfoService;
-import cn.longhaiyan.task.service.TaskTagService;
 import cn.longhaiyan.user.bean.User;
 import cn.longhaiyan.user.domain.UserInfo;
 import cn.longhaiyan.user.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,10 +49,16 @@ public class TaskInfoController extends CommonController {
      */
     @Authority(privilege = BankConsts.UserRole.USER_IS_STUDENT + "," + BankConsts.UserRole.USER_IS_TEACHER)
     @RequestMapping(value = "/task/user/list/data", method = RequestMethod.GET)
-    public ResponseEntity findTaskLog(HttpServletRequest request) {
-
+    public ResponseEntity findTaskLog(HttpServletRequest request,
+                                      @RequestParam(value = "userId", defaultValue = "0") int userId) {
         UserSession userSession = super.getUserSession(request);
-        int userId = userSession.getUserId();
+        if (userSession == null && userId <= 1) {
+            return ResponseEntity.failure(Errors.PARAMETER_ILLEGAL);
+        }
+        int userSessionId = userSession == null ? 0 : userSession.getUserId();
+        if (userId <= 1) {
+            userId = userSession.getUserId();
+        }
         int taskCount = taskInfoService.countByUserId(userId);
         int takeCount = taskFinishService.countByTakerId(userId);
         List<TaskInfo> taskInfoList = null;

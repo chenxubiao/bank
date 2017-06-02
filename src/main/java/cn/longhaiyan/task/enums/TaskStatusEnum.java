@@ -11,7 +11,7 @@ public enum TaskStatusEnum {
     RECEIVE(4, "已接单,进行中"),
     SENDER_CLONING(13, "关闭中"),
     SENDER_AGREE_CLOSED(14, "接收方同意关闭，退款中"),
-//    DONE_SENDER_CLOSING(15, "已结束"),
+    //    DONE_SENDER_CLOSING(15, "已结束"),
     TAKER_CLONING(5, "关闭中"),            //已接单用户关闭,等待需求方确认
     TAKER_AGREE_CLOSED(6, "已同意关闭"),    //需求方同意关闭，退款中
     DONE_RECEIVE_CLOSE(7, "已结束"),       //接单后退款完成
@@ -21,7 +21,8 @@ public enum TaskStatusEnum {
     LOKING_TIME_OVER_PUBLISHING(11, "已超期，锁定中"), //未接单，任务超期
     LOKING_TIME_OVER_RECEIVE(12, "已超期，锁定中"),    //已接单，超期
     LOKING_TIME_DONE_PUB(16, "已完成（被重新发布）"),
-    DELETE(20, "已删除"),;  //完成任务已超期(已接单)
+    DELETE(20, "已删除"),  //完成任务已超期(已接单)
+    LOKING(21, "举报次数过多，已屏蔽"),;
 
 
     private int code;
@@ -69,4 +70,4 @@ public enum TaskStatusEnum {
     public void setValue(String value) {
         this.value = value;
     }
-}
+    }

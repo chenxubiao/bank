@@ -31,7 +31,7 @@ import java.util.List;
  * Created by chenxb on 17-5-22.
  */
 @RestController
-public class UserAuthController extends CommonController {
+public class AdminUserAuthController extends CommonController {
     @Autowired
     private UserInfoService userInfoService;
     @Autowired

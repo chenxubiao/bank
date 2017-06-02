@@ -14,6 +14,7 @@ import cn.longhaiyan.task.enums.TaskRequestTypeEnum;
 import cn.longhaiyan.task.enums.TaskStatusEnum;
 import cn.longhaiyan.task.service.TaskFinishService;
 import cn.longhaiyan.task.service.TaskInfoService;
+import cn.longhaiyan.task.util.TaskUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -78,35 +79,11 @@ public class TaskIndexController extends GuestBaseController {
             if (type != TaskRequestTypeEnum.PUBLISHING.getCode()) {
                 taskFinish = taskFinishService.findById(taskInfo.getFinishId());
             }
-            boolean isEncrypt = isEncrypt(userId, taskInfo, taskFinish);
-            TaskIndexBean taskIndexBean = new TaskIndexBean(taskInfo, isEncrypt);
-
-            taskIndexBeanList.add(taskIndexBean);
+            taskIndexBeanList.add(TaskUtil.getTaskIndexBean(taskInfo, taskFinish, userId));
         }
         Pagination pagination = new Pagination(page.getTotalPages()
                 , new Long(page.getTotalElements()).intValue(), pageable.getPageNumber(), pageable.getPageSize());
 
         return ResponseEntity.success().set(BankConsts.DATA, taskIndexBeanList).set(BankConsts.PAGINATION, pagination);
     }
-
-    /**
-     * @param userId
-     * @param taskInfo 非空
-     * @return
-     */
-    private boolean isEncrypt(int userId, TaskInfo taskInfo, TaskFinish taskFinish) {
-        //是否加密
-        boolean isEncrypt = true;
-        if (userId > 0 && userId == taskInfo.getUserId()) {
-            //此时为需求发布方
-            isEncrypt = false;
-        } else if (userId > 0 && taskInfo.getFinishId() > 0
-                && taskFinish != null && taskFinish.getTakerId() == userId) {
-
-            //此时为需求接收方
-            isEncrypt = false;
-        }
-        return isEncrypt;
-    }
-
 }

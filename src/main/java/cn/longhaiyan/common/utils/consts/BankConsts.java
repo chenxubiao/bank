@@ -41,6 +41,7 @@ public class BankConsts {
         public static final int USER_IS_STUDENT = 2;
         public static final int USER_IS_TEACHER = 3;
         public static final int USER_IS_OPERATOR = 4;
+        public static final int USER_IS_PAYER = 5;
     }
 
     public static final class UserStatus{

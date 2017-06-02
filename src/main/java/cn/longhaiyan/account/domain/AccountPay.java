@@ -1,5 +1,7 @@
 package cn.longhaiyan.account.domain;
 
+import cn.longhaiyan.account.enums.AccountPayStatusEnum;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -19,10 +21,22 @@ public class AccountPay {
     private int payer;
     private int money;
     private int status;
-    private String remark;
+    private String remark = "";
     @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, optional = true)
     @JoinColumn(name = "accountId")
     private Account account;
+
+    public AccountPay() {
+
+    }
+
+    public AccountPay(Account account, int payer, int money) {
+        this.account = account;
+        this.payer = payer;
+        this.money = money;
+        this.status = AccountPayStatusEnum.SUCCESS.getCode();
+        this.createTime = new Date();
+    }
 
     public int getId() {
         return id;

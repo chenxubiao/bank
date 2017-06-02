@@ -37,6 +37,7 @@ public class Errors {
     public static final String NONE_FOLLOWS = "无粉丝信息";
     public static final String NONE_FOLLOWING = "无用户关注信息";
     public static final String USER_AUTH_NONE = "暂无用户认证信息";
+    public static final String USER_STATUS_ERROR = "用户已被锁定，请联系管理员";
 
     public static final String USER_USERNAME_IS_EXISTS = "用户名已被占用";
     public static final String EMAIL_IS_EXISTS = "邮箱已被注册";
@@ -62,6 +63,7 @@ public class Errors {
 
     public static final String ACCOUNT_BALANCE = "账户余额不足";
     public static final String PUBLISH_MONEY_ERROR = "设置下载金额不合法";
+    public static final String ACCOUNT_PAY_SELF_ERROR = "不允许给自己充值";
 
     public static final String MESSAGE_SEND_MYSELF = "不允许自己给自己发消息";
 

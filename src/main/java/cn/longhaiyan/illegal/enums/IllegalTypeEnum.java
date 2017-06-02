@@ -1,15 +1,16 @@
-package cn.longhaiyan.user.enums;
+package cn.longhaiyan.illegal.enums;
 
 /**
- * Created by chenxb on 17-5-16.
+ * Created by chenxb on 17-5-31.
  */
-public enum UserRoleEnum {
-    COMMON(1,"普通用户"), STUDENT(2,"学生"), TEACHER(3,"教职工"), OPERATOR(4, "用户管理员"), PAYER(5, "充值管理员"),;
+public enum IllegalTypeEnum {
+
+    TASK(1,"任务"), USER(2,"用户");
 
     private int code;
     private String value;
 
-    UserRoleEnum(int code, String value) {
+    IllegalTypeEnum(int code, String value) {
         this.code = code;
         this.value = value;
     }

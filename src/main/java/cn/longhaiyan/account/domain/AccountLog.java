@@ -192,6 +192,14 @@ public class AccountLog {
                     + "枚，账户余额"
                     + this.balance
                     + "枚。「时间银行」";
+        }else if (AccountLogTypeEnum.ADD_ACCOUNT_PAY.getCode() == this.type) {
+            message = "您的账户"
+                    + TimeUtil.format(this.createTime, TimeUtil.DATE_FORMAT_CHINESE)
+                    + "通过管理员充值时间币"
+                    + this.money
+                    + "枚，账户余额"
+                    + this.balance
+                    + "枚。「时间银行」";
         }
 
         return message;

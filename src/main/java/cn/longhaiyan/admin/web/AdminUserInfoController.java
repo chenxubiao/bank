@@ -1,0 +1,59 @@
+package cn.longhaiyan.admin.web;
+
+import cn.longhaiyan.common.annotation.Authority;
+import cn.longhaiyan.common.bean.ResponseEntity;
+import cn.longhaiyan.common.utils.StringUtil;
+import cn.longhaiyan.common.utils.consts.BankConsts;
+import cn.longhaiyan.common.utils.consts.Errors;
+import cn.longhaiyan.common.web.CommonController;
+import cn.longhaiyan.user.bean.UserInfoBean;
+import cn.longhaiyan.user.domain.UserInfo;
+import cn.longhaiyan.user.enums.UserStatusEnum;
+import cn.longhaiyan.user.service.UserInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ * Created by chenxb on 17-6-1.
+ */
+@RestController
+public class AdminUserInfoController extends CommonController {
+    @Autowired
+    private UserInfoService userInfoService;
+
+    @RequestMapping(value = "/admin/pay/user/info/data", method = RequestMethod.GET)
+    @Authority(privilege = BankConsts.UserRole.USER_IS_PAYER + "")
+    public ResponseEntity getUserList(HttpServletRequest request, String name) {
+        if (StringUtil.isBlank(name)) {
+            return ResponseEntity.failure(Errors.PARAMETER_ILLEGAL);
+        }
+        name = name.trim();
+        UserInfo userInfo = null;
+        if (StringUtil.isPhoneNumber(name)) {
+            userInfo = userInfoService.findByCellphone(name);
+            if (userInfo == null) {
+                return ResponseEntity.failure(Errors.CELLPHONE_NULL_ERROR);
+            }
+        } else if (StringUtil.isEmail(name)) {
+            userInfo = userInfoService.findByEmail(name);
+            if (userInfo == null) {
+                return ResponseEntity.failure(Errors.EMAIL_NOT_FOUNT);
+            }
+        } else {
+            userInfo = userInfoService.findByUserName(name);
+            if (userInfo == null) {
+                return ResponseEntity.failure(Errors.ACCOUNT_NOT_FOUND);
+            }
+        }
+        if (userInfo == null
+                || userInfo.getStatus() != UserStatusEnum.NORMAL.getCode()) {
+            return ResponseEntity.failure(Errors.USER_STATUS_ERROR);
+        }
+        UserInfoBean userInfoBean = new UserInfoBean(userInfo);
+        return ResponseEntity.success().set(BankConsts.DATA, userInfoBean);
+    }
+}
