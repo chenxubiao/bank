@@ -1,6 +1,7 @@
 package cn.longhaiyan.account.domain;
 
 import cn.longhaiyan.account.enums.AccountLogTypeEnum;
+import cn.longhaiyan.common.utils.StringUtil;
 import cn.longhaiyan.common.utils.TimeUtil;
 
 import javax.persistence.*;
@@ -199,7 +200,7 @@ public class AccountLog {
                     + this.money
                     + "枚，账户余额"
                     + this.balance
-                    + "枚。「时间银行」";
+                    + "枚。" + (StringUtil.isBlank(remark) ? "「时间银行」" : "（备注：" + remark + "）「时间银行」");
         }
 
         return message;

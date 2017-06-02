@@ -44,11 +44,20 @@ public class AdminAccountPayController extends CommonController {
     @Autowired
     private MessageService messageService;
 
+    /**
+     * 账户充值接口
+     * @param request
+     * @param userId
+     * @param money
+     * @param remark
+     * @return
+     */
     @RequestMapping(value = "/admin/account/pay/user/data", method = RequestMethod.POST)
     @Authority(privilege = "" + BankConsts.UserRole.USER_IS_PAYER)
     public ResponseEntity pay(HttpServletRequest request,
                               @RequestParam(value = "userId", defaultValue = "0") int userId,
-                              @RequestParam(value = "money", defaultValue = "0") int money) {
+                              @RequestParam(value = "money", defaultValue = "0") int money,
+                              @RequestParam(value = "remark", defaultValue = "") String remark) {
 
         if (userId <= 0 || money <= 0) {
             return ResponseEntity.failure(Errors.PARAMETER_ILLEGAL);
@@ -69,6 +78,7 @@ public class AdminAccountPayController extends CommonController {
             return ResponseEntity.failure(Errors.ACCOUNT_NOT_FOUND);
         }
         AccountPay accountPay = new AccountPay(account, userSession.getUserId(), money);
+        accountPay.setRemark(remark);
         accountPay.setModifyTime(accountPay.getCreateTime());
         accountPayService.save(accountPay);
 
@@ -77,17 +87,15 @@ public class AdminAccountPayController extends CommonController {
         accountService.save(account);
 
         AccountLog accountLog = new AccountLog(userId,
-                AccountLogTypeEnum.ADD_ACCOUNT_PAY.getCode(), money, accountPay.getId(), "", account);
+                AccountLogTypeEnum.ADD_ACCOUNT_PAY.getCode(), money, accountPay.getId(), remark, account);
         accountLog.setBalance(account.getTotalMoney());
         accountLog.setModifyTime(new Date());
         accountLogService.save(accountLog);
-
 
         Message msgToUser = new Message(MessageTypeEnum.ACCOUNT_CHANGE.getCode()
                 , BankConsts.USER_IS_SYSTEM, userId, accountLog.getId(), accountLog.getMessage());
         msgToUser.setModifyTime(msgToUser.getCreateTime());
         messageService.save(msgToUser);
-
 
         Message msgToPayer = new Message(MessageTypeEnum.ADMIN_PAY_ACCOUNT.getCode()
                 , BankConsts.USER_IS_SYSTEM, userSession.getUserId(), accountLog.getId(), accountLog.getMessage());

@@ -25,6 +25,14 @@ public class AdminUserInfoController extends CommonController {
     @Autowired
     private UserInfoService userInfoService;
 
+    /**
+     * 搜索用户接口   精确搜索
+     *
+     * 支持：手机号、邮箱、用户名
+     * @param request
+     * @param name
+     * @return
+     */
     @RequestMapping(value = "/admin/pay/user/info/data", method = RequestMethod.GET)
     @Authority(privilege = BankConsts.UserRole.USER_IS_PAYER + "")
     public ResponseEntity getUserList(HttpServletRequest request, String name) {
