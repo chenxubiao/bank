@@ -33,7 +33,7 @@ public class AdminUserInfoController extends CommonController {
      * @param name
      * @return
      */
-    @RequestMapping(value = "/admin/pay/user/info/data", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/pay/user/info/data")
     @Authority(privilege = BankConsts.UserRole.USER_IS_PAYER + "")
     public ResponseEntity getUserList(HttpServletRequest request, String name) {
         if (StringUtil.isBlank(name)) {
